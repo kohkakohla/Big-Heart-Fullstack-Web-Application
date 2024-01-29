@@ -28,7 +28,7 @@ function NavBar() {
               Dashboard
             </a>
             <a className="nav-link disabled" aria-disabled="true">
-              ivanjkohftw
+              i hate -
             </a>
           </div>
         </div>
