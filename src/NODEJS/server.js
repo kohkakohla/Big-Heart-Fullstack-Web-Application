@@ -76,3 +76,9 @@ app.get('/single-vol', (req, res) => {
         .catch((err) => console.log(err));
 });
 
+
+//Post request handling experimentation
+app.post('/volunteerRegister', (req, res) => {
+    //handle signup logic here
+})
+
