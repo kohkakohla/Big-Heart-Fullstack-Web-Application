@@ -18,17 +18,17 @@ function NavBar() {
         </button>
         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
           <div className="navbar-nav">
-            <a className="nav-link active" aria-current="page" href="#">
+            <a className="nav-link active" aria-current="page" href="/home">
               Home
             </a>
-            <a className="nav-link" href="#">
-              Features
+            <a className="nav-link" href="/login">
+              Login
             </a>
-            <a className="nav-link" href="#">
-              Pricing
+            <a className="nav-link" href="/dashboard">
+              Dashboard
             </a>
             <a className="nav-link disabled" aria-disabled="true">
-              Disabled
+              ivanjkohftw
             </a>
           </div>
         </div>
