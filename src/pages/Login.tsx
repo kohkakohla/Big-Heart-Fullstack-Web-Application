@@ -4,7 +4,7 @@ export default function Login() {
   return (
     <div>
       <NavBar></NavBar>
-      <h1>yo mama</h1>
+      <h1>HAHA</h1>
     </div>
   );
 }
