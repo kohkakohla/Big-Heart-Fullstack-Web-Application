@@ -88,6 +88,7 @@ app.get('/single-vol', (req, res) => {
         .catch((err) => console.log(err));
 });
 
+//key balue pair provide a rest api to talk from front end to back end, we can use a variety of http methods to access and talk to each other
 
 //Post request handling experimentation
 app.post('/volunteerRegister', (req, res) => {
