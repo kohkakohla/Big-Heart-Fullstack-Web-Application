@@ -1,7 +1,19 @@
+global.body_parser = require('body-parser');
 const express = require('express');
 const morgan = require('morgan');
 const mongoose = require('mongoose');
 const volunteer = require('./models/volunteers');
+
+// body-parser implementation 
+app.use(bodyParser.urlencoded({
+  extended: true,
+  limit: '50mb',
+  parameterLimit: 100000
+}))
+app.use(bodyParser.json({
+  limit: '50mb',
+  parameterLimit: 100000
+}))
 
 // express app
 const app = express();
