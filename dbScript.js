@@ -239,4 +239,19 @@ app.post('/addNewEvent', async (req, res) => {
 
 // get all events based on the type of event
 
-app.get
+app.get('/getEvents', (req, res) => {
+    try{
+        cEvents.find() 
+        .then((result) => {
+            res.send(result);
+        })
+        .catch((err) => console.log(err))
+    } catch(error) {
+        console.error("Error when fetching all events: ", error);
+        res.status(500).send('Internal Server Error');
+    }
+)
+
+// get all old events
+
+// get all current events
