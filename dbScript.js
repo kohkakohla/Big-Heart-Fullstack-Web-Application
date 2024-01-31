@@ -236,21 +236,31 @@ app.post('/addNewEvent', async (req, res) => {
 });
 
 // get all events
-
-// get all events based on the type of event
-
 app.get('/getEvents', (req, res) => {
     try{
-        cEvents.find() 
-        .then((result) => {
-            res.send(result);
-        })
-        .catch((err) => console.log(err))
+        cEvents.find() // Redfine 
+            .then((result) => {
+                res.send(result);
+            })
+            .catch((err) => console.log(err))
     } catch(error) {
         console.error("Error when fetching all events: ", error);
         res.status(500).send('Internal Server Error');
     }
 )
+
+// get all events based on the type of event
+app.get('/getEventsByType', async (req, res) => {
+    try {
+        const type = await req.body;
+        cEvents.find({})
+            .then
+    } catch(error) {
+        console.error("Error when fetching all events: ", error);
+        res.status(500).send('Internal Server Error');
+    }
+}
+
 
 // get all old events
 
