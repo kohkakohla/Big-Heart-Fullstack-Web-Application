@@ -1,5 +1,4 @@
 # Full Stack Volunteer management website for BigAtHeart
-***App is in TrainSystem.py***
 
 **Goal of the project:** 
 Produce a web based application which acts as a device to educate and inform all visitors about who BigAtHeart is, what they do and the current ongoing projects that they can join.
@@ -17,6 +16,8 @@ Easily accessible for volunteers to sign up and manageable by admins.
 1. NodeJS
 2. MongoDB
 3. Express.JS
+4. Mongoose
+5. WebSocket.io
    
 **Dependencies:**
   *Add later
