@@ -2,6 +2,7 @@ require('dotenv').config()
 global.bodyParser = require('body-parser');
 const express = require('express');
 const morgan = require('morgan');
+const socket = require('socket.io');
 const mongoose = require('mongoose');
 const rfs = require("rotating-file-stream");
 const volunteer = require('./models/volunteers');
@@ -11,6 +12,15 @@ const { type } = require('os');
 
 // express app
 const app = express();
+
+// Socket setup
+var io = socket(server);
+
+
+// on socket connection, passes thru function with socket
+io.on('connection', function(socket){ 
+    console.log('made socket connection');
+});
 
 // Implementation of body parser
 app.use(bodyParser.urlencoded({
@@ -36,6 +46,10 @@ mongoose.connect(dbURI)
     }))
     .catch((error) => console.log(error))
 
+
+function queryFormatter( param,  reqObj,){
+    return param + " == '" + String(reqObj) + "'";
+}
 
 
 // Morgan setup and creating a log stream
@@ -190,14 +204,137 @@ app.put('/updateVolunteerStatus', async (req,res) => {
 
 // delete request
 
+/**
+ * @Header
+ * Following app methods 
+ * Are all related to 
+ * Community Service Schema and Documents
+ */
 
-// Section below: Functions all related to volunteering events directly
-// Section below: Functions all related to volunteering events directly
-// Section below: Functions all related to volunteering events directly
+/**
+ * Adds a new Community Service Event
+ * @Params {Json} from front end, but takes in all neccessary elements to make a event document
+ * Saves staright to the MongoDB
+ */
 
-// Add a new event
-app.post('/addNewEvent', async (req, res) => {
+
+
+
+//Fetch methods below
+
+/**
+ * Fetches all community service events 
+ * @Contains Methods such as
+ * All Events
+ * Events by service
+ * Events by Type
+ * Events by Status
+ * Events by name
+ * Events by start date
+ * Events by end date
+ * Regular Events by Day
+ * 
+ */
+app.get('/getEvents', (req, res) => {
     try{
+        cEvents.find() // Redfine 
+            .then((result) => {
+                res.send(result);
+            })
+            .catch((err) => console.log(err))
+    } catch(error) {
+        console.error("Error when fetching all events: ", error);
+        res.status(500).send('Internal Server Error');
+    }
+})
+
+/**
+ * Fetches community service events based on Service Type
+ * @Params {String} typeOfService - The indicated service field it is involved in
+ */
+app.get('/getEventsByServiceType',  (req, res) => {
+    try {
+        const typeOfService =  req.query.param1;
+         cEvents.find({$where: queryFormatter("typeOfService", typeOfService) })
+            .then((result) => {
+                res.send(result);
+            })
+            .catch((err) => console.log(err))
+    } catch(error) {
+        console.error("Error when fetching all events: ", error);
+        res.status(500).send('Internal Server Error');
+    }
+})
+
+/**
+ * Fetches community service events based on the type of Event it is
+ * @Params {String} typeOfEvent - This is indicating whether it is a regular or adhoc event
+ */
+app.get('/getEventsByEventType',  (req, res) => {
+    try {
+        const typeOfEvent =  req.query.param1;
+         cEvents.find({$where: queryFormatter("typeOfEvent",typeOfEvent) })
+            .then((result) => {
+                res.send(result);
+            })
+            .catch((err) => console.log(err))
+    } catch(error) {
+        console.error("Error when fetching all events: ", error);
+        res.status(500).send('Internal Server Error');
+    }
+})
+
+/**
+ * Fetches all community service events by status
+ * @Params {String} status - Stauts included [Ongoing, Completed, Cancelled]
+ */
+app.get('/getEventsByStatus',  (req, res) => {
+    try {
+        const status = await req.query.param1;
+        await cEvents.find({$where: queryFormatter("status", status) })
+            .then((result) => {
+                res.send(result);
+            })
+            .catch((err) => console.log(err))
+    } catch(error) {
+        console.error("Error when fetching all events: ", error);
+        res.status(500).send('Internal Server Error');
+    }
+})
+
+/**
+ * Fetches all community service events by contains name
+ * @Params {String} title - Typed in title of the event
+ * @Returns all events with the title which contains a substring of the title
+ */
+app.get('/getEventsByName',  (req, res) =>{
+    try {
+        const title =  req.query.param1;
+        cEvents.find({ title: { $regex: title, $options: 'i' } })
+            .then((result) => {
+                res.send(result);
+            })
+            .catch((err) => console.log(err))
+    } catch(error) {
+        console.error("Error when fetching all events: ", error);
+        res.status(500).send('Internal Server Error');
+    }
+})
+
+/**
+ * @cEvents functions for posting
+ * POST Event data to create new community service event
+ * 
+ */
+
+/**
+ * Post new cEvent data ( by admin ) containing a json file ( req.body )
+ * @Params {Json / http req} req - Http request to the backend server
+ * @Returns A DB.commit() adding a new document via details filled in by admin submitting form
+ */
+app.post('/create_new_cEvent', async (req, res) => {
+    try{
+        // get these constants from the body of the req json
         const {
             title,
             snippet, 
@@ -208,8 +345,10 @@ app.post('/addNewEvent', async (req, res) => {
             dateOfEvent,
             timeOfEvent,
             capacity
-        } = await req.body;
-        const e = new cEvent({
+        } = await req.body; 
+
+        // create new object
+        const e = new cEvent({ 
             title: title,
             snippet: snippet,
             body: body,
@@ -220,7 +359,7 @@ app.post('/addNewEvent', async (req, res) => {
             timeOfEvent: timeOfEvent,
             capacity: capacity
         });
-        e.save()
+        await e.save()
             .then(
                 res.send("Registered Event")
             )
@@ -235,33 +374,9 @@ app.post('/addNewEvent', async (req, res) => {
     }
 });
 
-// get all events
-app.get('/getEvents', (req, res) => {
-    try{
-        cEvents.find() // Redfine 
-            .then((result) => {
-                res.send(result);
-            })
-            .catch((err) => console.log(err))
-    } catch(error) {
-        console.error("Error when fetching all events: ", error);
-        res.status(500).send('Internal Server Error');
-    }
-)
+/**
+ * @cEvents functions for posting
+ * POST Event data to create new community service event
+ * 
+ */
 
-// get all events based on the type of event
-app.get('/getEventsByType', async (req, res) => {
-    try {
-        const type = await req.body;
-        cEvents.find({})
-            .then
-    } catch(error) {
-        console.error("Error when fetching all events: ", error);
-        res.status(500).send('Internal Server Error');
-    }
-}
-
-
-// get all old events
-
-// get all current events
