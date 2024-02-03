@@ -375,8 +375,26 @@ app.post('/create_new_cEvent', async (req, res) => {
 });
 
 /**
- * @cEvents functions for posting
- * POST Event data to create new community service event
- * 
+ * @feedback getting feedback for event
+ * @Post for security to ensure only admins can get it
+ * @Params {String, String} ID of user attempting to acces, title of the cEvent
+ * @Returns If user is admin then return all feedback for X event.
  */
+app.post('/getFeedbackForEvent', async (req, res) => {
+    try{
+        const{_Id, title} = await req.body; //eventID
+        const u = await volunteer.findOne({_Id}, {$where: "userRole == 'admin'"}); // most likely error
+        if (u) {
+            await cEvents.findOne({title})
+                .then((results) => 
+                    res.send(results))
+                .catch((err) => console.log(err))
+        }else {
+            res.send("Invalid User");
+        }
+    } catch {
+        console.error('Error during adding new event: ',  error);
+        res.status(500).send('Internal Server Error');
+    }
+})
 
