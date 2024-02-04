@@ -9,9 +9,8 @@ function Card() {
   return (
     <>
       <CssBaseline />
-
+      <NavBar></NavBar>
       <Container>
-        <NavBar></NavBar>
         <Box sx={{ m: 2 }}>
           <CardSample />
         </Box>

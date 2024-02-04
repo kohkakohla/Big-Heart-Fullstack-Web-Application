@@ -6,7 +6,13 @@ import "./nav_style.css";
 
 export function CollapsibleExample() {
   return (
-    <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
+    <Navbar
+      collapseOnSelect
+      expand="lg"
+      className=""
+      id="custom-pink-navbar"
+      data-bs-theme="light"
+    >
       <Container>
         <Navbar.Brand href="/home">Home</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -39,8 +45,6 @@ export function CollapsibleExample() {
   );
 }
 
-// export default CollapsibleExample;
-
 export function CustomColour() {
   return (
     <>
@@ -54,11 +58,8 @@ export function CustomColour() {
           </Nav>
         </Container>
       </Navbar>
-
-
     </>
   );
 }
 
-
-// export default ContainerOutsideExample; CustomColour; CollapsibleExample;
+export default CollapsibleExample;
