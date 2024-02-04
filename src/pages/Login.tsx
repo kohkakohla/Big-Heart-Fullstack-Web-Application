@@ -1,13 +1,11 @@
 import NavBar from "../components/NavBar";
-
 // Import React and necessary components
-import React, { useState } from 'react';
-
+import React, { useState } from "react";
 // Define the Login component
 const Login: React.FC = () => {
   // State to manage username and password inputs
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   // State to manage login status
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -15,14 +13,13 @@ const Login: React.FC = () => {
   // Function to handle login button click
   const handleLogin = () => {
     // Basic validation
-    if (username === 'demo' && password === 'password') {
+    if (username === "demo" && password === "password") {
       setLoggedIn(true);
-      alert('Login successful!');
+      alert("Login successful!");
     } else {
-      alert('Invalid username or password. Please try again.');
+      alert("Invalid username or password. Please try again.");
     }
   };
-
   return (
     <div>
       <NavBar></NavBar>
