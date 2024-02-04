@@ -431,7 +431,9 @@ app.post('/events/createNew', async (req, res) => {
 
 /**
  * @cEvent functions for updating
+ * @PUT
  * UPDATE X event to add a new / remove a volunteer
+ * Updates status of an event
  * 
  */
 /**
@@ -457,7 +459,65 @@ app.put('/events/addVolunteer', (req, res) => {
 
 })
 
+/**
+ * Update X event to remove a specific volunteer
+ * @Params {String, String} - EventID, volunteerID
+ * @Returns a DB commit to removing said volunteer
+ */
+app.put('/events/removeVolunteer', (req, res) => {
+    try{
+        const {eventID, volID} = req.body;
+        cEvent.updateOne({_id: eventID}, {$pull: {current_volunteers: volID}})
+            .then((result) => {
+                res.send(result)
+            })
+            .catch((err) => console.log(err));
+    } catch(error) {
+        console.error('Error during update volunteer query: ', error);
+        res.status(500).send('Internal Server Error');
+    }
+})
+/**
+ * Updates event status
+ * @Params {String} - status, the new event status to be updated
+ * @Returns a successful PUT request changing status of said event
+ */
+app.put('/events/changeStatus', (req, res) => {
+    try{
+        const {eventID, status} = req.body;
+        cEvent.updateOne({_id: eventID}, {$set: {status: status} })
+            .then((result) =>{
+                res.send(result);
+            })
+            .catch((err) => console.log(err));
+            
+        ;
+    } catch(error) {
+        console.error('Error during update volunteer query: ', error);
+        res.status(500).send('Internal Server Error');
+    }
+})
+/**
+ * post a comment by a user
+ * @Params {User, String, eventID} - custom user schema to encap data and a String of the comment they had and the eventID
+ * @Returns a updated push into the events comment section.
+ */
+app.put('/events/postComment', (req, res) => {
+    try{
+        const {comment, eventID} = req.body;
+        cEvent.updateOne({_id: eventID}, {$push: {comments: comment} })
+            .then((result) => {
+                res.send(result);
+            })
+            .catch((error)=>{
+                res.send(error);
+            })
 
+    } catch(error){
+        console.error("Error: While attempting to post a comment: ", error);
+        res.status(500).send("Internal Server Error");
+    }
+})
 
 /**
  * @feedback getting feedback for event
@@ -483,7 +543,4 @@ app.post('/getFeedbackForEvent', async (req, res) => {
     }
 })
 
-/**
- * 
- */
 
