@@ -4,6 +4,8 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import SignUp from "./pages/Signup";
+import SignIn from "./pages/SignIn";
+import CardTest from "./pages/CardTest";
 function App() {
   return (
     <div>
@@ -12,8 +14,10 @@ function App() {
           <Route index element={<Home />} />
           <Route path="/home" element={<Home />} />
           <Route path="/login" element={<Login />} />
+          <Route path="/signin" element={<SignIn />} />
           <Route path="/signup" element={<SignUp />} />
           <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/cards" element={<CardTest />} />
         </Routes>
       </BrowserRouter>
     </div>
