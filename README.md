@@ -9,8 +9,10 @@ Easily accessible for volunteers to sign up and manageable by admins.
 1. React App Framework
 2. Javascript
 3. Html
-4. Css and Bootstrap
-5. Figma (proof of concept)
+4. Css 
+5. Bootstrap
+6. Typescript
+7. Figma (proof of concept)
 
 **Back End** 
 1. NodeJS
