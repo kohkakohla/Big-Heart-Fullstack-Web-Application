@@ -276,7 +276,7 @@ app.delete('/removeVolunteer', async (res, req) => {
  */
 app.get('/events/getAll', (req, res) => {
     try{
-        cEvents.find() // Redfine 
+        cEvent.find() // Redfine 
             .then((result) => {
                 res.send(result);
             })
@@ -294,7 +294,7 @@ app.get('/events/getAll', (req, res) => {
 app.get('/events/searchByType/service/:typeOfService',  (req, res) => {
     try {
         const typeOfService =  req.query.param1;
-         cEvents.find({$where: queryFormatter("typeOfService", typeOfService) })
+         cEvent.find({$where: queryFormatter("typeOfService", typeOfService) })
             .then((result) => {
                 res.send(result);
             })
@@ -312,7 +312,7 @@ app.get('/events/searchByType/service/:typeOfService',  (req, res) => {
 app.get('/events/searchByType/event/:typeOfEvent',  (req, res) => {
     try {
         const typeOfEvent =  req.query.param1;
-         cEvents.find({$where: queryFormatter("typeOfEvent",typeOfEvent) })
+         cEvent.find({$where: queryFormatter("typeOfEvent",typeOfEvent) })
             .then((result) => {
                 res.send(result);
             })
@@ -330,7 +330,7 @@ app.get('/events/searchByType/event/:typeOfEvent',  (req, res) => {
 app.get('/events/searchByStatus/:status',  (req, res) => {
     try {
         const status = req.query.param1;
-        cEvents.find({$where: queryFormatter("status", status) })
+        cEvent.find({$where: queryFormatter("status", status) })
             .then((result) => {
                 res.send(result);
             })
@@ -349,7 +349,7 @@ app.get('/events/searchByStatus/:status',  (req, res) => {
 app.get('/events/searchByName/:title',  (req, res) =>{
     try {
         const title =  req.query.param1;
-        cEvents.find({ title: { $regex: title, $options: 'i' } })
+        cEvent.find({ title: { $regex: title, $options: 'i' } })
             .then((result) => {
                 res.send(result);
             })
@@ -376,7 +376,7 @@ app.get('/events/:id', (req, res) => {
 })
 
 /**
- * @cEvents functions for posting
+ * @cEvent functions for posting
  * POST Event data to create new community service event
  * 
  */
@@ -419,20 +419,18 @@ app.post('/events/createNew', async (req, res) => {
                 res.send("Registered Event")
             )
             .catch((err) => {
-                console.log('f'),
                 res.send(err)
             }
         );
 
     } catch(error) {
-        console.log('g'),
         console.error('Error during adding new event: ', error);
         res.status(500).send('Internal Server Error');
     }
 });
 
 /**
- * @cEvents functions for updating
+ * @cEvent functions for updating
  * UPDATE X event to add a new / remove a volunteer
  * 
  */
@@ -441,7 +439,23 @@ app.post('/events/createNew', async (req, res) => {
  * @Params {String, String} - EventID, VolunteerID
  * @Returns a DB commit to adding new volunteer to current volunteers in the event
  */
-app.put('/events//')
+app.put('/events/addVolunteer', (req, res) => {
+    try{
+        const {volID, eventID} = req.body;
+        cEvent.updateOne({_id: eventID}, {$push: {current_volunteers: volID} })
+            .then((result) =>{
+                res.send(result);
+            })
+            .catch((err) => console.log(err));
+            
+        ;
+    } catch (error) {
+        console.error('Error during update volunteer query: ', error);
+        res.status(500).send('Internal Server Error');
+    }
+
+
+})
 
 
 
@@ -456,7 +470,7 @@ app.post('/getFeedbackForEvent', async (req, res) => {
         const{_Id, title} = await req.body; //eventID
         const u = await volunteer.findOne({_Id}, {$where: "userRole == 'admin'"}); // most likely error
         if (u) {
-            await cEvents.findOne({title})
+            await cEvent.findOne({title})
                 .then((results) => 
                     res.send(results))
                 .catch((err) => console.log(err))
