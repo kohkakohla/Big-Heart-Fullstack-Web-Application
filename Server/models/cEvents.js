@@ -29,7 +29,7 @@ const cEventSchema = new schema({
         required: true
     },
     current_volunteers: {
-        type: [volunteer],
+        type: [String],
         required: false
     },
     capacity: {
@@ -73,5 +73,5 @@ const cEventSchema = new schema({
 
 
 });
-const volEvent = mongoose.model('volunter_events', cEventSchema);
+const volEvent = mongoose.model('cEvents', cEventSchema);
 module.exports = volEvent;
