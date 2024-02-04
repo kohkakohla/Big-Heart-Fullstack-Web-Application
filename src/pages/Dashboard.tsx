@@ -1,5 +1,5 @@
 import NavBar from "../components/NavBar";
-import Test from "../components/test";
+import Carou from "../components/Carousel";
 
 export default function Dashboard() {
   return (
@@ -8,7 +8,7 @@ export default function Dashboard() {
       <h1>wenjiggler</h1>
       <div>
         <h1>fuck u</h1>
-        <Test></Test>
+        <Carou></Carou>
       </div>
     </div>
   );
