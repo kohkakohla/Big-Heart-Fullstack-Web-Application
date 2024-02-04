@@ -2,8 +2,9 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
+import "./nav_style.css";
 
-function CollapsibleExample() {
+export function CollapsibleExample() {
   return (
     <Navbar collapseOnSelect expand="lg" className="bg-body-tertiary">
       <Container>
@@ -36,4 +37,26 @@ function CollapsibleExample() {
   );
 }
 
-export default CollapsibleExample;
+// export default CollapsibleExample;
+
+export function CustomColour() {
+  return (
+    <>
+      <Navbar className="custom-pink-navbar" data-bs-theme="light">
+        <Container>
+          <Navbar.Brand href="#home">Navbar</Navbar.Brand>
+          <Nav className="me-auto">
+            <Nav.Link href="#home">Home</Nav.Link>
+            <Nav.Link href="#features">Features</Nav.Link>
+            <Nav.Link href="#pricing">Pricing</Nav.Link>
+          </Nav>
+        </Container>
+      </Navbar>
+
+
+    </>
+  );
+}
+
+
+// export default ContainerOutsideExample; CustomColour; CollapsibleExample;
