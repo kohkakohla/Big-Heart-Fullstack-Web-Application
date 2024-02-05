@@ -22,7 +22,7 @@ export function CollapsibleExample() {
             <Nav.Link href="/signin">sign in</Nav.Link>
             <Nav.Link href="/signup">sign up</Nav.Link>
             <Nav.Link href="/dashboard">dashboard</Nav.Link>
-            <Nav.Link href="/cards">fucking koreans</Nav.Link>
+            <Nav.Link href="/cards">opportunities</Nav.Link>
             <NavDropdown title="Dropdown" id="collapsible-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">goonette</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">gooney</NavDropdown.Item>

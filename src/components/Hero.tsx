@@ -12,6 +12,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
+
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 const defaultTheme = createTheme();
 export default function Hero() {
@@ -22,7 +23,7 @@ export default function Hero() {
         {/* Hero unit */}
         <Box
           sx={{
-            bgcolor: "background.paper",
+            bgcolor: "pink",
             pt: 8,
             pb: 6,
           }}

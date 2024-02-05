@@ -6,7 +6,9 @@
   body{
     background: #ff8585;
   }
-  
+  .test {
+    background-color: pink;
+  }
   .slider {
     margin:0 20px;
     overflow:"hidden";
