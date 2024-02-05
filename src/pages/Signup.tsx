@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
+import Checkbox, { CheckboxClassKey } from "@mui/material/Checkbox";
 import Link from "@mui/material/Link";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
@@ -12,6 +12,13 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import NavBar from "../components/NavBar";
+import { DatePicker } from "@mui/x-date-pickers";
+import { LocalizationProvider } from "@mui/x-date-pickers";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 
 function Copyright(props: any) {
   return (
@@ -35,12 +42,28 @@ function Copyright(props: any) {
 const defaultTheme = createTheme();
 
 export default function SignUp() {
+  const [value, setValue] = React.useState<Dayjs | null>(null);
+  const [gender, setGender] = React.useState("");
+
+  const handleGender = (event: SelectChangeEvent) => {
+    setGender(event.target.value as string);
+  };
+
+  const [studying, setStudying] = React.useState("");
+  const handleStudyCheckbox = (event) => {
+    setStudying(event.target.value);
+  };
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
       email: data.get("email"),
       password: data.get("password"),
+      phone: data.get("phone"),
+      birthday: value,
+      gender: gender,
+      occupation: data.get("occupation"),
+      studying: studying,
     });
   };
 
@@ -97,6 +120,62 @@ export default function SignUp() {
                   label="Email Address"
                   name="email"
                   autoComplete="email"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  id="phone"
+                  label="WhatsApp Phone Number"
+                  name="phone"
+                  autoComplete="phone"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DatePicker
+                    label="Date of Birth"
+                    value={value}
+                    onChange={(newValue) => setValue(newValue)}
+                  ></DatePicker>
+                </LocalizationProvider>
+              </Grid>
+              <Grid item xs={12}>
+                <Box sx={{ minWidth: 120 }}>
+                  <FormControl fullWidth>
+                    <InputLabel id="gender">Gender</InputLabel>
+                    <Select
+                      labelId="gender"
+                      id="gender"
+                      value={gender}
+                      label="gender"
+                      onChange={handleGender}
+                    >
+                      <MenuItem value={"Male"}>Male</MenuItem>
+                      <MenuItem value={"Female"}>Female</MenuItem>
+                      <MenuItem value={"Other"}>Other</MenuItem>
+                    </Select>
+                  </FormControl>
+                </Box>
+              </Grid>
+              <Grid item xs={12}>
+                <TextField
+                  fullWidth
+                  name="occupation"
+                  label="Occupation"
+                  type="occupation"
+                  id="occupation"
+                  autoComplete="occupation"
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <FormControlLabel
+                  required
+                  control={<Checkbox />}
+                  label="Currently Studying?"
+                  checked={true}
+                  onChange={handleStudyCheckbox}
                 />
               </Grid>
               <Grid item xs={12}>
