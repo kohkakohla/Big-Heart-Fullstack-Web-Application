@@ -5,7 +5,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import SignUp from "./pages/Signup";
 import SignIn from "./pages/SignIn";
-import CardTest from "./pages/CardTest";
+import CardTest from "./pages/Opportunities";
 function App() {
   return (
     <div>

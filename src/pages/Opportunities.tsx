@@ -2,7 +2,7 @@ import React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import CardSample from "../components/cardycards";
+import CardSample from "../components/CardLayout";
 import NavBar from "../components/NavBar";
 
 function Card() {
@@ -10,7 +10,7 @@ function Card() {
     <>
       <CssBaseline />
       <NavBar></NavBar>
-      <Container>
+      <Container sx={{ mt: 8 }}>
         <Box sx={{ m: 2 }}>
           <CardSample />
         </Box>

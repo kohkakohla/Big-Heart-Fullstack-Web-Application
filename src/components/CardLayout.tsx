@@ -1,0 +1,70 @@
+import React from "react";
+import { styled } from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
+import Grid from "@mui/material/Grid";
+import MediaCard from "./CardContent";
+
+function CardSample() {
+  const Item = styled(Paper)(() => ({
+    backgroundColor: "#98d6a9",
+    padding: 8,
+    textAlign: "center",
+    color: "black",
+  }));
+
+  return (
+    <>
+      <Grid container spacing={1} columnSpacing={8} rowSpacing={8}>
+        <Grid item xs={12} sm={6} md={4}>
+          <MediaCard></MediaCard>
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4}>
+          <MediaCard></MediaCard>
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4}>
+          <MediaCard></MediaCard>
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4}>
+          <MediaCard></MediaCard>
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4}>
+          <MediaCard></MediaCard>
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4}>
+          <MediaCard></MediaCard>
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4}>
+          <MediaCard></MediaCard>
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4}>
+          <MediaCard></MediaCard>
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4}>
+          <MediaCard></MediaCard>
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4}>
+          <MediaCard></MediaCard>
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4}>
+          <MediaCard></MediaCard>
+        </Grid>
+
+        <Grid item xs={12} sm={6} md={4}>
+          <MediaCard></MediaCard>
+        </Grid>
+      </Grid>
+    </>
+  );
+}
+
+export default CardSample;

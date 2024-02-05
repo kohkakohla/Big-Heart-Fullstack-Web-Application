@@ -19,8 +19,7 @@ export default function MediaCard() {
           Annie
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Holy shit! I fucking hate Koreans like you know what I mean? Those
-          kimchi munchers are just so not it with their tteokbokki and whatever
+          i love kimchi!
         </Typography>
       </CardContent>
       <CardActions>
