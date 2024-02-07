@@ -157,6 +157,33 @@ app.get('/volunteer/searchById/:id', (req, res) => {
 });
 
 /**
+ * Fetches volunteers by past Event Ids
+ * @Params {String} - eventId
+ * @Returns all volunteer objs which has participated in X event?
+ */
+app.get('/volunteer/byEvent/:id', (req, res) => {
+    try {
+        const eventId = req.params.id;
+        volunteer.find({
+            pastEnrolledServiceEvents: {$elemMatch: eventId}
+        })
+            .then((result) => {
+                res.send(result);
+            })
+            .catch((error) => 
+                console.log(error),
+                res.send(error)
+            )
+    } catch (error) {
+        console.error('Error: while trying to fetch volunteers by specific event', error);
+        res.status(500).send("Internal Server Error");
+    }
+})
+
+
+
+
+/**
  * @VolunteerPostMethods
  * Add new Volunteer through form submission
  * Login attempt by volunteers 
@@ -246,7 +273,7 @@ app.put('/volunter/updateStatus',  (req,res) => {
     }
 })
 
-/**
+/**w
  * Delete method
  * @Params {String} - userID
  * @Returns either a successful deletion or unsuccessful. Removes document from database
@@ -539,7 +566,7 @@ app.put('/events/postComment', (req, res) => {
     }
 })
 /**
- * post a comment by a user
+ * delete a comment by a user
  * @Params {User, String, eventID} - custom user schema to encap data and a String of the comment they had and the eventID
  * @Returns a updated push into the events comment section.
  */
@@ -571,10 +598,10 @@ app.delete('/events/:eventId/delete/comment/:commentId', (req, res) => {
  * @Params {String, String} ID of user attempting to acces, title of the cEvent
  * @Returns If user is admin then return all feedback for X event.
  */
-app.post('/getFeedbakcForEvent', async (req, res) => {
+app.post('/events/feedback', async (req, res) => {
     try{
-        const{_Id, title} = await req.body; //eventID
-        const u = await volunteer.findOne({_Id}, {$where: "userRole == 'admin'"}); // most likely error
+        const{eventId, userId} = await req.body; //eventID
+        const u = await volunteer.findOne({userId}, {$where: "userRole == 'admin'"}); 
         if (u) {
             await cEvent.findOne({title})
                 .then((results) => 
