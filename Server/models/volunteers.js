@@ -79,7 +79,8 @@ const volunteerSchema =  new schema({
     },
 
     volunteerPreferences: {
-      type: String,
+      type: [String],
+      enum: ["Children", "Social", "Elderly", "Environmental", "Animal"],
       required: true
     },
     userStatus: {
@@ -101,8 +102,12 @@ const volunteerSchema =  new schema({
       required: false
     },
     pastEnrolledServiceEvents: {
-      type: [String],
+      type: [String], // stores event ids
       required: false
+    },
+    hours: {
+      type: Number,
+      default: 0
     }
 
   });
