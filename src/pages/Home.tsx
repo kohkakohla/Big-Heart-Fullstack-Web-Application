@@ -1,6 +1,7 @@
-import NavBar from "../components/NavBar";
-import HomeCarousel from "../components/HomeCarousel";
-import Hero from "../components/Hero";
+import NavBar from "../components/Home/NavBar";
+import HomeCarousel from "../components/Home/HomeCarousel";
+import Hero from "../components/Home/Hero";
+import Who from "../components/Home/Who";
 import "./Home.css";
 export default function Home() {
   return (
@@ -8,6 +9,7 @@ export default function Home() {
       <NavBar></NavBar>
       <Hero></Hero>
       <HomeCarousel></HomeCarousel>
+      <Who></Who>
     </div>
   );
 }

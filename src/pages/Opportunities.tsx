@@ -3,7 +3,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import CardSample from "../components/CardLayout";
-import NavBar from "../components/NavBar";
+import NavBar from "../components/Home/NavBar";
 
 function Card() {
   return (
