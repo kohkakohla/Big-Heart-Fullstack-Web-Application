@@ -1,0 +1,8 @@
+.whomst {
+    display: flex;
+    font-size: xx-large !important;
+    font-weight: bold !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: 30vw
+}
