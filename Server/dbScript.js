@@ -180,7 +180,29 @@ app.get('/volunteer/byPastEvent/:id', (req, res) => {
     }
 })
 
-
+/**
+ * Fetches volunteers by current Event Ids
+ * @Params {String} - eventId
+ * @Returns all volunteer objs which has participating in X event?
+ */
+app.get('/volunteer/byEvent/:id', (req, res) => {
+    try {
+        const eventId = req.params.id;
+        volunteer.find({
+            currentEnrolledServiceEvents: {$elemMatch: eventId}
+        })
+            .then((result) => {
+                res.send(result);
+            })
+            .catch((error) => 
+                console.log(error),
+                res.send(error)
+            )
+    } catch (error) {
+        console.error('Error: while trying to fetch volunteers by specific event', error);
+        res.status(500).send("Internal Server Error");
+    }
+})
 
 
 /**
