@@ -205,6 +205,7 @@ app.get('/volunteer/byEvent/:id', (req, res) => {
 })
 
 
+
 /**
  * @VolunteerPostMethods
  * Add new Volunteer through form submission
@@ -467,7 +468,8 @@ app.post('/events/createNew', async (req, res) => {
             dateOfEvent,
             timeOfEvent,
             capacity,
-            typeOfService
+            typeOfService,
+            hours
         } = await req.body; 
 
         // create new object
@@ -481,7 +483,8 @@ app.post('/events/createNew', async (req, res) => {
             comunityProvider: comunityProvider,
             dateOfEvent: dateOfEvent,
             timeOfEvent: timeOfEvent,
-            capacity: capacity
+            capacity: capacity,
+            hours: hours
         });
         ev.save()
             .then(
