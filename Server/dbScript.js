@@ -128,6 +128,7 @@ app.get('/volunteer/unverified', (req, res) => {
     }
 })
 
+
 app.get('/volunteer/byStatus/:status', (req, res) => {
     try{
         const status = req.params.status;
@@ -203,7 +204,6 @@ app.get('/volunteer/byEvent/:id', (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 })
-
 
 
 /**
@@ -597,8 +597,9 @@ app.put('/events/postComment', (req, res) => {
     }
 })
 /**
- * post a comment by a user
- * @Params {User, String, eventID} - custom user schema to encap data and a String of the comment they had and the eventID
+ * Update a specific event by any X param which is not an array
+ * @Params {eventID, Param} - within the route contains the eventId and the Param
+ * @Body Contains the new update value
  * @Returns a updated push into the events comment section.
  */
 app.put('/events/:id/update/:param' , (req, res) =>{
