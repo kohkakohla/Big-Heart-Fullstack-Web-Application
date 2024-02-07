@@ -621,6 +621,29 @@ app.put('/events/:id/update/:param' , (req, res) =>{
     }
 })
 
+app.put('/events/:id/reset', (req, res) => {
+    try {
+        const id = req.params.id;
+        const newDate = req.body;
+        const event = cEvents.findById(id);
+        event.current_volunteers.forEach((volunteer) => {
+            volunteer.updateOne({_id: volunteer}, {$inc: {hours: event.hours}})
+        })
+        cEvents.updateOne({_id: id}, {$set: {
+            current_volunteers: [],
+            dateOfEvent: newDate,
+        }})
+            .then((result) => res.send(result))
+            .catch((error) => 
+            console.error("Error while resetting a regular service", error),
+            res.send("Internal Server Error")
+            )
+    } catch (error) {
+        console.error("Error: while attempting to reset a regular event")
+        res.status(500).send("Internal Server Error")
+    }
+});
+
 
 /**
  * delete a comment by a user
