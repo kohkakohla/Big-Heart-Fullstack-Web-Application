@@ -104,7 +104,7 @@ app.use(morgan('dev'));
  * Fetches all volunteers 
  * @Returns all volunteer documents
  */
-app.get('/all', (req, res) => {
+app.get('/volunteer/all', (req, res) => {
     volunteer.find() 
         .then((result) => {
             res.send(result);
@@ -114,8 +114,9 @@ app.get('/all', (req, res) => {
 
 /**
  * Get Method which returns unverfied volunteers for admins
+ * @Returns all volunteer documents of those who are not verified yet
  */
-app.get('/getUnverifiedVolunteers', async (req, res) => {
+app.get('/volunteer/unverified', (req, res) => {
     try{
         volunteer.find({$where: "userStatus =='unverified'"})
         .then((result) => {
@@ -129,20 +130,34 @@ app.get('/getUnverifiedVolunteers', async (req, res) => {
     }
 })
 
+app.get('/volunteer/byStatus/:status', (req, res) => {
+    try{
+        const status = req.params.status;
+        volunteer.find({status: status})
+            .then((result) => {
+                res.send(result);
+            })
+            .catch((err) => console.log(err));
+    } catch (error){
+        console.error('Error: while fetching volunteers by status', error);
+        res.status(500).send('Internal Server Error');
+    }
+
+})
+
 /**
  * Fetches volunteer by ID
  * @Params HTTP param {String} - userId
  */
-app.get('/find_vol_byID', (req, res) => {
-    volunteer.findById('65b730a40f9ea119f5d7b1e6')
+app.get('/volunteer/searchById/:id', (req, res) => {
+    const id = req.params.id;
+    volunteer.findById(id)
         .then((result) => {
             res.send(result);
         })
         .catch((err) => console.log(err));
 });
 
-
-    
 /**
  * @VolunteerPostMethods
  * Add new Volunteer through form submission
@@ -217,7 +232,7 @@ app.post('/loginAttempt',  (req, res) => {
  * @Params {String, String} - {uniqueID, status}, the id of the vol and the new status to update through a json file
  * @Returns either a successful update or a unsuccessful update to the database
  */
-app.put('/updateVolunteerStatus',  (req,res) => {
+app.put('/volunter/updateStatus',  (req,res) => {
     try{
         const {userID, newStatus} =  req.body;
         volunteer.updateOne({_id: userID}, {$set: {fieldToUpdate: newStatus} }, (err, result) => {
@@ -238,7 +253,7 @@ app.put('/updateVolunteerStatus',  (req,res) => {
  * @Params {String} - userID
  * @Returns either a successful deletion or unsuccessful. Removes document from database
  */
-app.delete('/removeVolunteer/:id',  (req, res) => {
+app.delete('/volunteer/remove/:id',  (req, res) => {
     try{
         const id = req.params.id;
         volunteer.deleteOne({_id: id})
@@ -267,11 +282,6 @@ app.delete('/removeVolunteer/:id',  (req, res) => {
  * @Params {Json} from front end, but takes in all neccessary elements to make a event document
  * Saves staright to the MongoDB
  */
-
-
-
-
-//Fetch methods below
 
 /**
  * Fetches all community service events 
@@ -373,7 +383,7 @@ app.get('/events/searchByName/:title',  (req, res) =>{
 })
 
 /**
- * Fetch blog page by id
+ * Fetch event page by id
  * @Params {String} - id, unique objectid for each event
  * @Returns the event page when user clicks on event
  */
