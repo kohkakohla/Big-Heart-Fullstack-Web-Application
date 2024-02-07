@@ -30,7 +30,7 @@ function Copyright(props: any) {
     >
       {"Copyright © "}
       <Link color="inherit" href="https://mui.com/">
-        Your Website
+        Hack4Gooners
       </Link>{" "}
       {new Date().getFullYear()}
       {"."}
@@ -44,17 +44,26 @@ const defaultTheme = createTheme();
 export default function SignUp() {
   const [value, setValue] = React.useState<Dayjs | null>(null);
   const [gender, setGender] = React.useState("");
+  const [studying, setStudying] = React.useState({
+    studying: false,
+  });
+  const [canDrive, setDriving] = React.useState({
+    canDrive: false,
+  });
 
   const handleGender = (event: SelectChangeEvent) => {
     setGender(event.target.value as string);
   };
 
-  const [studying, setStudying] = React.useState({
-    studying: false,
-  });
   const handleStudyCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
     setStudying({
       ...studying,
+      [event.target.name]: event.target.checked,
+    });
+  };
+  const handleDriving = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setDriving({
+      ...canDrive,
       [event.target.name]: event.target.checked,
     });
   };
@@ -68,9 +77,11 @@ export default function SignUp() {
       birthday: value,
       gender: gender,
       occupation: data.get("occupation"),
-      studying: studying,
+      studying: studying.studying,
       studyField: data.get("studyingField"),
       educationBackground: data.get("EducationBackground"),
+      canDrive: canDrive.canDrive,
+      ownVehicle: data.get("ownVehicle") == "on" ? true : false,
     });
   };
 
@@ -178,7 +189,6 @@ export default function SignUp() {
               </Grid>
               <Grid item xs={12}>
                 <FormControlLabel
-                  required
                   control={<Checkbox />}
                   label="Currently Studying?"
                   name="studying"
@@ -198,6 +208,23 @@ export default function SignUp() {
                 </Grid>
               )}
               <Grid item xs={12}>
+                <FormControlLabel
+                  control={<Checkbox />}
+                  label="Can you drive?"
+                  name="canDrive"
+                  onChange={handleDriving}
+                />
+              </Grid>
+              {canDrive.canDrive && (
+                <Grid item xs={12}>
+                  <FormControlLabel
+                    control={<Checkbox />}
+                    label="Do you own a vehicle?"
+                    name="ownVehicle"
+                  />
+                </Grid>
+              )}
+              <Grid item xs={12}>
                 <TextField
                   required
                   fullWidth
@@ -207,7 +234,6 @@ export default function SignUp() {
                   id="EducationBackground"
                 />
               </Grid>
-
               <Grid item xs={12}>
                 <TextField
                   required
@@ -238,7 +264,7 @@ export default function SignUp() {
             </Button>
             <Grid container justifyContent="flex-end">
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/signin" variant="body2">
                   Already have an account? Sign in
                 </Link>
               </Grid>
