@@ -161,7 +161,7 @@ app.get('/volunteer/searchById/:id', (req, res) => {
  * @Params {String} - eventId
  * @Returns all volunteer objs which has participated in X event?
  */
-app.get('/volunteer/byEvent/:id', (req, res) => {
+app.get('/volunteer/byPastEvent/:id', (req, res) => {
     try {
         const eventId = req.params.id;
         volunteer.find({
