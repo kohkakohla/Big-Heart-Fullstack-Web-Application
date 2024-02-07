@@ -522,12 +522,18 @@ app.put('/events/addVolunteer', (req, res) => {
             })
             .catch((err) => console.log(err));
             
-        ;
+        
     } catch (error) {
         console.error('Error during update volunteer query: ', error);
         res.status(500).send('Internal Server Error');
     }
-
+ volunteer.updateOne({_id: userID}, {$set: {fieldToUpdate: newStatus} }, (err, result) => {
+            if (err) {
+              console.error(err);
+            } else {
+              console.log('status update to: ', newStatus);
+            } }
+        );
 
 })
 
@@ -590,6 +596,31 @@ app.put('/events/postComment', (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 })
+/**
+ * post a comment by a user
+ * @Params {User, String, eventID} - custom user schema to encap data and a String of the comment they had and the eventID
+ * @Returns a updated push into the events comment section.
+ */
+app.put('/events/:id/update/:param' , (req, res) =>{
+    try{ 
+        const param = req.params.param;
+        const eventId = req.params.id;
+        const updateValue = req.body;
+        cEvents.updateOne({_id: eventId}, {$set: {[param]: updateValue}} , (err, result) => {
+            if (err) {
+              console.error(err);
+            } else {
+              console.log('status update to: ', newStatus);
+            } 
+        });
+        
+    } catch (error) {
+        console.error("Error: While trying to update events by generic param: ", error);
+        res.status(500).send("Internal Server Error");
+    }
+})
+
+
 /**
  * delete a comment by a user
  * @Params {User, String, eventID} - custom user schema to encap data and a String of the comment they had and the eventID
