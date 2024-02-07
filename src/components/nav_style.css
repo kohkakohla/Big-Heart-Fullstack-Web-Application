@@ -1,3 +1,17 @@
 #custom-pink-navbar {
-    background-color: #F5EEE6; 
+    background-color: #C40000;
   }
+
+.nav-text {
+  color: white !important;
+  font-weight: bolder !important;
+}
+
+.nav-text.sign-up {
+  background-color: white;
+  padding: 5px 10px; /* Adjust padding as needed */
+  border-radius: 50px; /* Optional: Add rounded corners */
+  color: black !important;
+  display: inline-block; /* Ensure the link is treated as a block-level element */
+  line-height: 34px; /* Match the height of the Navbar */
+}

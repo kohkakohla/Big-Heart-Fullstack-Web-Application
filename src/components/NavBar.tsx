@@ -3,7 +3,6 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
 import "./nav_style.css";
-
 export function CollapsibleExample() {
   return (
     <Navbar
@@ -14,29 +13,48 @@ export function CollapsibleExample() {
       data-bs-theme="light"
     >
       <Container>
-        <Navbar.Brand href="/home">Home</Navbar.Brand>
+        <Navbar.Brand href="/home">
+          <img
+            src="/src/assets/logo.webp"
+            width="auto"
+            height="30"
+            className="d-inline-block align-top"
+            alt="Big @ Heart Logo"
+            style={{ maxWidth: "100%", maxHeight: "100%" }}
+          />
+        </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
+        <Navbar.Collapse
+          id="responsive-navbar-nav"
+          className="justify-content-center"
+        >
           <Nav className="me-auto">
-            <Nav.Link href="/login">login</Nav.Link>
-            <Nav.Link href="/signin">sign in</Nav.Link>
-            <Nav.Link href="/signup">sign up</Nav.Link>
-            <Nav.Link href="/dashboard">dashboard</Nav.Link>
-            <Nav.Link href="/cards">opportunities</Nav.Link>
-            <NavDropdown title="Dropdown" id="collapsible-nav-dropdown">
+            <Nav.Link href="/login" className="nav-text">
+              ignore
+            </Nav.Link>
+            <Nav.Link href="/dashboard" className="nav-text">
+              about
+            </Nav.Link>
+            <Nav.Link href="/cards" className="nav-text">
+              volunteer
+            </Nav.Link>
+
+            {/* <NavDropdown title="Dropdown" id="collapsible-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">goonette</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">gooney</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.3">Something</NavDropdown.Item>
-              <NavDropdown.Divider />
+              <NavDropdown.Divider />+
               <NavDropdown.Item href="#action/3.4">
                 Separated link
               </NavDropdown.Item>
-            </NavDropdown>
+            </NavDropdown> */}
           </Nav>
           <Nav>
-            <Nav.Link href="#deets">ughh</Nav.Link>
-            <Nav.Link eventKey={2} href="#memes">
-              i hate
+            <Nav.Link href="/login" className="nav-text">
+              log in
+            </Nav.Link>
+            <Nav.Link eventKey={2} href="/signup" className="nav-text sign-up">
+              sign up
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
