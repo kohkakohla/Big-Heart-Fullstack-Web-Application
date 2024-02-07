@@ -98,8 +98,6 @@ app.use(morgan('dev'));
  */
 
 
-
-
 /**
  * Fetches all volunteers 
  * @Returns all volunteer documents
