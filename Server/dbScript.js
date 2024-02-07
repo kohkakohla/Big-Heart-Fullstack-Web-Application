@@ -149,7 +149,8 @@ app.get('/find_vol_byID', (req, res) => {
  * Login attempt by volunteers 
  * Update volunter information
  */
-app.get('/add-vol', (req, res) => {
+
+app.post('/volunteer/signup', (req, res) => {
     const { username, email, password, firstName, lastName, phoneNumber, gender, education, street, city, postalcode, dob, residentialStatus, skills, pastExperiences, volunteerPref, userRole} = req.body;
     const v = new volunteer({
         username: username,
@@ -518,6 +519,32 @@ app.put('/events/postComment', (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 })
+/**
+ * post a comment by a user
+ * @Params {User, String, eventID} - custom user schema to encap data and a String of the comment they had and the eventID
+ * @Returns a updated push into the events comment section.
+ */
+app.delete('/events/:eventId/delete/comment/:commentId', (req, res) => {
+    try{
+        const eventId = req.params.eventId;
+        const commentId = req.params.commentId;
+        
+        cEvents.find({ 
+            _id: eventId,
+            "comments": {$elemMatch: {id: commentId}}
+        })
+        .then((result) => {
+            res.send("Comment has been deleted");
+        })
+        .catch((error) => {
+            res.send(error);
+        })
+    }
+    catch(error){
+        console.error('Error: Trying to delete comment, ', error);
+        res.send(error);
+    }
+});
 
 /**
  * @feedback getting feedback for event
@@ -525,7 +552,7 @@ app.put('/events/postComment', (req, res) => {
  * @Params {String, String} ID of user attempting to acces, title of the cEvent
  * @Returns If user is admin then return all feedback for X event.
  */
-app.post('/getFeedbackForEvent', async (req, res) => {
+app.post('/getFeedbakcForEvent', async (req, res) => {
     try{
         const{_Id, title} = await req.body; //eventID
         const u = await volunteer.findOne({_Id}, {$where: "userRole == 'admin'"}); // most likely error
