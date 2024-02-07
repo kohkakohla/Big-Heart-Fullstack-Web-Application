@@ -189,11 +189,11 @@ app.post('/volunteer/signup', (req, res) => {
  * @Params {String, String} - username and password
  * @Returns either and invalid login, successful login or a successful admin login
  */
-app.post('/loginAttempt', async (req, res) => {
+app.post('/loginAttempt',  (req, res) => {
     try {
-        const { username, password } = await req.body;
+        const { username, password } =  req.body;
         console.log(username);
-        const u = await volunteer.findOne({  username, password });
+        const u =  volunteer.findOne({  username, password });
 
         if (u){
             if (u.userRole == 'admin') {
@@ -217,10 +217,10 @@ app.post('/loginAttempt', async (req, res) => {
  * @Params {String, String} - {uniqueID, status}, the id of the vol and the new status to update through a json file
  * @Returns either a successful update or a unsuccessful update to the database
  */
-app.put('/updateVolunteerStatus', async (req,res) => {
+app.put('/updateVolunteerStatus',  (req,res) => {
     try{
-        const {userID, newStatus} = await req.body;
-        volunteer.updatgeOne({_id: userID}, {$set: {fieldToUpdate: newStatus} }, (err, result) => {
+        const {userID, newStatus} =  req.body;
+        volunteer.updateOne({_id: userID}, {$set: {fieldToUpdate: newStatus} }, (err, result) => {
             if (err) {
               console.error(err);
             } else {
@@ -238,8 +238,19 @@ app.put('/updateVolunteerStatus', async (req,res) => {
  * @Params {String} - userID
  * @Returns either a successful deletion or unsuccessful. Removes document from database
  */
-app.delete('/removeVolunteer', async (res, req) => {
-
+app.delete('/removeVolunteer/:id',  (req, res) => {
+    try{
+        const id = req.params.id;
+        volunteer.deleteOne({_id: id})
+            .then((result) => res.send("Volunteer has been deleted"))
+            .catch((err) =>
+             console.log(err),
+             res.send(err)
+            )
+    } catch(error){
+        console.error("Error: While trying to remove a volunteer: ", error);
+        res.send(error);
+    }
 })
 
 
