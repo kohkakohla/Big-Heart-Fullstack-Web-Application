@@ -87,14 +87,18 @@ const volunteerSchema =  new schema({
         enum: ['unverified', 'active', 'inactive', 'banned', 'deleted'],
         required: true
     },
-    userPersonalityResult: {
+    PersonalityResult: {
       type: String,
-      enum: [],
+      enum: ["Selfless Skid", "Social Siloca", "Natural Aurten", "Hands-on Dhan", "Admirable Lamina"],
       required: false
     },
     userRole: {
       type: String,
       enum: ['admin', 'volunteer']
+    },
+    currentEnrolledServiceEvents: {
+      type: [String],
+      required: false
     }
 
   });
