@@ -69,6 +69,10 @@ const cEventSchema = new schema({
     status: {
         type: String,
         enum: ["Ongoing", "Completed", "Cancelled"],
+    },
+    hours: {
+        type: Number,
+        default: 1
     }
 
 
