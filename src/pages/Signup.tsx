@@ -49,11 +49,16 @@ export default function SignUp() {
     setGender(event.target.value as string);
   };
 
-  const [studying, setStudying] = React.useState("");
-  const handleStudyCheckbox = (event) => {
-    setStudying(event.target.value);
+  const [studying, setStudying] = React.useState({
+    studying: false,
+  });
+  const handleStudyCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setStudying({
+      ...studying,
+      [event.target.name]: event.target.checked,
+    });
   };
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
     console.log({
@@ -64,6 +69,8 @@ export default function SignUp() {
       gender: gender,
       occupation: data.get("occupation"),
       studying: studying,
+      studyField: data.get("studyingField"),
+      educationBackground: data.get("EducationBackground"),
     });
   };
 
@@ -174,10 +181,33 @@ export default function SignUp() {
                   required
                   control={<Checkbox />}
                   label="Currently Studying?"
-                  checked={true}
+                  name="studying"
                   onChange={handleStudyCheckbox}
                 />
               </Grid>
+              {studying.studying && (
+                <Grid item xs={12}>
+                  <TextField
+                    required
+                    fullWidth
+                    id="studyingField"
+                    label="Where are you studying?"
+                    name="studyingField"
+                    autoComplete="off"
+                  />
+                </Grid>
+              )}
+              <Grid item xs={12}>
+                <TextField
+                  required
+                  fullWidth
+                  name="EducationBackground"
+                  label="Educational background"
+                  type="EducationBackground"
+                  id="EducationBackground"
+                />
+              </Grid>
+
               <Grid item xs={12}>
                 <TextField
                   required
