@@ -15,7 +15,7 @@ export function CollapsibleExample() {
       <Container>
         <Navbar.Brand href="/home">
           <img
-            src="/src/assets/logo.webp"
+            src="src/assets/logo.webp"
             width="auto"
             height="30"
             className="d-inline-block align-top"
@@ -50,7 +50,7 @@ export function CollapsibleExample() {
             </NavDropdown> */}
           </Nav>
           <Nav>
-            <Nav.Link href="/login" className="nav-text">
+            <Nav.Link href="/signin" className="nav-text">
               log in
             </Nav.Link>
             <Nav.Link eventKey={2} href="/signup" className="nav-text sign-up">

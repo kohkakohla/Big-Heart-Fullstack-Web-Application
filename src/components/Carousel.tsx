@@ -2,7 +2,14 @@ import { Carousel } from "react-bootstrap";
 
 function Carou() {
   return (
-    <div>
+    <div
+      style={{
+        backgroundImage: `url('https://example.com/background-image.jpg')`, // Replace 'https://example.com/background-image.jpg' with the URL of your background image
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        minHeight: "1000px", // Set a minimum height to ensure the background image covers the entire carousel area
+      }}
+    >
       <Carousel>
         <Carousel.Item>
           <img
