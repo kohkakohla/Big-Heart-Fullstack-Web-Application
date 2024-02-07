@@ -99,6 +99,10 @@ const volunteerSchema =  new schema({
     currentEnrolledServiceEvents: {
       type: [String],
       required: false
+    },
+    pastEnrolledServiceEvents: {
+      type: [String],
+      required: false
     }
 
   });
