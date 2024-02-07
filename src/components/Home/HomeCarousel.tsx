@@ -1,6 +1,6 @@
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import "./Home.css";
+import "./css/Home.css";
 const responsive = {
   superLargeDesktop: {
     // the naming can be any, depends on you.

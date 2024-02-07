@@ -17,20 +17,16 @@ export default function Who() {
         </Grid>
         <Grid item xs={12} sm={6}>
           <Typography variant="body1" sx={{ textAlign: "left" }}>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec
-            viverra, ipsum non malesuada convallis, ante lorem eleifend nisi,
-            quis luctus dui est in nulla. Duis vel suscipit dolor, a malesuada
-            odio. Vivamus nec mi non libero volutpat semper a nec libero. Nullam
-            id ante nec eros tincidunt fermentum.
+            Singaporeans say that we are pah see boh zhao. It is with this
+            never-say-die, can-do spirit that we continue to serve this country,
+            and serve it with pride and humility.
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
           <Typography variant="body1" sx={{ textAlign: "right" }}>
-            Sed ultricies fermentum ultrices. Sed vel nisi vehicula, posuere
-            nulla vel, aliquet eros. Vestibulum dapibus tincidunt elit ut
-            varius. Nulla venenatis tortor eget massa posuere, et tempus metus
-            semper. Integer sollicitudin, urna eu dignissim scelerisque, ex
-            lorem tempus velit, ut hendrerit ante orci vel libero.
+            Singaporeans say that we are pah see boh zhao. It is with this
+            never-say-die, can-do spirit that we continue to serve this country,
+            and serve it with pride and humility.
           </Typography>
         </Grid>
         <Grid item xs={12} sm={6}>
