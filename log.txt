@@ -95,3 +95,11 @@
 [0mGET /events/getAll [36m304[0m 10.028 ms - -[0m
 [0mGET /events/getAll [36m304[0m 10.241 ms - -[0m
 [0mGET /events/getAll [36m304[0m 12.663 ms - -[0m
+[0mGET /events/getAll [36m304[0m 23.251 ms - -[0m
+[0mGET /events/getAll [36m304[0m 14.439 ms - -[0m
+[0mGET /events/getAll [36m304[0m 11.511 ms - -[0m
+[0mGET /events/getAll [36m304[0m 14.288 ms - -[0m
+[0mGET /events/getAll [36m304[0m 11.419 ms - -[0m
+[0mGET /events/getAll [36m304[0m 10.126 ms - -[0m
+[0mGET /events/getAll [36m304[0m 11.455 ms - -[0m
+[0mGET /events/getAll [36m304[0m 12.694 ms - -[0m

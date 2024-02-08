@@ -11,7 +11,7 @@ const cEvent = require('./models/cEvents');
 //var request = require('request');
 const { type } = require('os');
 //read up on axios and cors to connect react app with express app
-const cors = require('cors');
+
 
 // express app
 const app = express();
