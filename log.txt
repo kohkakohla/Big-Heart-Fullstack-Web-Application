@@ -76,3 +76,7 @@
 [0mGET /events/getAll [32m200[0m 80.896 ms - 576[0m
 [0mPUT /events/postComment [32m200[0m 67.606 ms - 92[0m
 [0mGET /events/getAll [32m200[0m 48.069 ms - 915[0m
+[0mGET /volunteers/getAll [33m404[0m 3.006 ms - 156[0m
+[0mGET /volunteers/all [33m404[0m 2.420 ms - 153[0m
+[0mGET /volunteer/all [32m200[0m 62.537 ms - 3512[0m
+[0mGET /favicon.ico [33m404[0m 0.726 ms - 150[0m

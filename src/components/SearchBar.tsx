@@ -11,7 +11,7 @@ const SearchBar: React.FC<SearchBarProps> = ({ setResults }) => {
   const [input, setInput] = useState<string>("");
 
   const fetchData = (value: string) => {
-    fetch("https://jsonplaceholder.typicode.com/users")
+    fetch("localhost:3000/events/getAll")
       .then((response) => response.json())
       .then((json: any[]) => {
         const results = json.filter((user) => {

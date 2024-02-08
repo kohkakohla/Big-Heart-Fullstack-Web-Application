@@ -1,4 +1,4 @@
-require('dotenv').config()
+//require('dotenv').config()
 global.bodyParser = require('body-parser');
 const express = require('express');
 const morgan = require('morgan');
@@ -7,25 +7,25 @@ const mongoose = require('mongoose');
 const rfs = require("rotating-file-stream");
 const volunteer = require('./models/volunteers');
 const cEvent = require('./models/cEvents');
-var request = require('request');
+//var request = require('request');
 const { type } = require('os');
 //read up on axios and cors to connect react app with express app
 
 // express app
 const app = express();
-
+/*
 // Socket setup
-var server = app.listen(4000, function(){
+var server = app.listen(7000, function(){
     console.log('listening to request on port 4000');
 })
 var io = socket(server);
-
+*
 
 // on socket connection, passes thru function with socket
 io.on('connection', function(socket){ 
     console.log('made socket connection');
 });
-
+*/
 // Implementation of body parser
 app.use(bodyParser.urlencoded({
     extended: true,
