@@ -1,7 +1,10 @@
 # BigAtHeart Volunteer Management Website
 
-![BigAtHeart Volunteer Management Website](thumbnail.png)
+![BigAtHeart Volunteer Management Website]
 
+<p align="center">
+  <img width="460" height="300" src="thumbnail.png">
+</p>
 <div align='center'>
   
 <a href='https://github.com/your_username/your_repository/releases'>
@@ -19,20 +22,6 @@
 </div>
 
 <br />
-
----
-
-<div align='center'>
-  
-### Quick Links
-  
-<a href='#'>Home</a>
-  
-<a href='#'>About</a>
-  
-<a href='#'>Projects</a>
-  
-</div>
 
 ---
 
