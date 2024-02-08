@@ -20,7 +20,7 @@ const upload = multer({ storage: storage });
 
 // express app
 const app = express();
-
+app.use(cors());
 // Socket setup
 var server = app.listen(4000, function(){
     console.log('listening to request on port 4000');

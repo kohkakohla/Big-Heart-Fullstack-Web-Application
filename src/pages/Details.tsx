@@ -18,7 +18,7 @@ const Details = () => {
   };
 
   // Dummy data for attendees, replace it with your actual data
-  const attendees = ["Attendee1", "Attendee2", "Attendee3"];
+  const attendees = location.state.data.current_volunteers;
 
   const handleVolunteerNow = () => {
     // Implement your logic for volunteering action here
