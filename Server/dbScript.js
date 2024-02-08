@@ -372,6 +372,17 @@ app.get('/events/getAll', (req, res) => {
     }
 })
 
+app.get('/events/fetchNoImage', (req,res) => {
+    try {
+        cEvent.find({}, '-image')
+            .then((result) => res.send(result))
+            .catch((err) => res.send(err))
+    } catch (error) {
+        console.error("Error: while trying to fetch everything with on image")
+        res.status(500).send("Internal Server Error");
+    }
+})
+
 /**
  * Fetches community service events based on Service Type
  * @Params {String} typeOfService - The indicated service field it is involved in
