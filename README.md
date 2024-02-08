@@ -1,7 +1,5 @@
 # BigAtHeart Volunteer Management Website
 
-![BigAtHeart Volunteer Management Website]
-
 <p align="center">
   <img width="460" height="300" src="thumbnail.png">
 </p>
