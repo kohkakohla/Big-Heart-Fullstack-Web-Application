@@ -2,11 +2,11 @@ import React, { useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import CardSample from "../components/CardLayout";
+import CardSample from "../components/Volunteer/CardLayout";
 import NavBar from "../components/Home/NavBar";
-import SearchBar from "../components/SearchBar";
-import VolunteeringEvents from "../components/VolunteeringEvents";
-import SearchResultsList from "../components/SearchResultsList";
+import SearchBar from "../components/Volunteer/SearchBar";
+import VolunteeringEvents from "../components/Volunteer/VolunteeringEvents";
+import SearchResultsList from "../components/Volunteer/SearchResultsList";
 
 interface CardsProps {}
 
