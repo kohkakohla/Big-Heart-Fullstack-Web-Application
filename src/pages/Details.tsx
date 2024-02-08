@@ -2,14 +2,18 @@ import React from "react";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import NavBar from "../components/Home/NavBar";
+import { useLocation } from "react-router-dom";
+
 const Details = () => {
   // Dummy data for the event details, replace it with your actual data
+  const location = useLocation();
+  console.log(location);
   const eventDetails = {
-    title: "Event Title",
+    title: location.state.data.title,
     tags: ["Tag1", "Tag2"],
     image:
       "https://scontent-xsp1-1.xx.fbcdn.net/v/t39.30808-6/329209784_502472575373034_7479342537708593092_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=3635dc&_nc_ohc=cGkBYjeBeywAX-F_fNx&_nc_ht=scontent-xsp1-1.xx&oh=00_AfCgxUlCVwhIapBFmooz2sJTf4M0hmj29gxZuueVoEFFBA&oe=65C90332",
-    description: "Description of the event goes here.",
+    description: location.state.data.body,
     partner: "Partnering Company Name",
   };
 
