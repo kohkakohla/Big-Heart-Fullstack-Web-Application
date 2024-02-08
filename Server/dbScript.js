@@ -683,9 +683,15 @@ app.put('/events/:id/attendance')
 
 app.delete('/events/delete/:eventId', (req, res) => {
     try {
-
+        const eventId = req.params.eventId;
+        cEvents.deleteOne({_id: eventId})
+            .then((result) => {
+                res.send("delted.")
+            })
+            .catch((err) => res.send(err));
     } catch (error) {
-        
+        console.error('Error: while trying to delete ', error);
+        res.status(500).send('Internal Server Error');
     }
 })
 /**
