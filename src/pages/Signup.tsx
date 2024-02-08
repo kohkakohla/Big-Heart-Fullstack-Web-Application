@@ -37,14 +37,12 @@ function Copyright(props: any) {
     </Typography>
   );
 }
-
-// TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
 export default function SignUp() {
   const [value, setValue] = React.useState<Dayjs | null>(null);
   const [gender, setGender] = React.useState("");
-  const [studying, setStudying] = React.useState({
+  const [studying, setStudy ing] = React.useState({
     studying: false,
   });
   const [canDrive, setDriving] = React.useState({
