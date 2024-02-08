@@ -40,9 +40,6 @@ export function CollapsibleExample() {
             <Nav.Link href="/cards" className="nav-text">
               volunteer
             </Nav.Link>
-            <Nav.Link href="/details" className="nav-text">
-              details
-            </Nav.Link>
             {/* <NavDropdown title="Dropdown" id="collapsible-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">goonette</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">gooney</NavDropdown.Item>
