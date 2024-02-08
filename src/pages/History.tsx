@@ -38,7 +38,7 @@ function History() {
                   <table className="table table-hover earning-box">
                     <thead>
                       <tr>
-                        <th colSpan="2">Event</th>
+                        <th colSpan={2}>Event</th>
                         <th>Status</th>
                         <th>EXP</th>
                       </tr>
