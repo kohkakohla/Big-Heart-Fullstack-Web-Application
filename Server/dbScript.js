@@ -621,7 +621,7 @@ app.put('/events/:id/update/:param' , (req, res) =>{
     }
 })
 
-app.put('/events/:id/reset', (req, res) => {
+app.put('/events/:id/reset', (req, res) => { 
     try {
         const id = req.params.id;
         const newDate = req.body;
@@ -643,6 +643,8 @@ app.put('/events/:id/reset', (req, res) => {
         res.status(500).send("Internal Server Error")
     }
 });
+// do tomo
+app.put('/events/:id/attendance')
 
 
 /**
