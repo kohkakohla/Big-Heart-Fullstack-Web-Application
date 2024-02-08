@@ -1,5 +1,6 @@
 //require('dotenv').config()
 global.bodyParser = require('body-parser');
+const cors = require('cors');
 const express = require('express');
 const morgan = require('morgan');
 const socket = require('socket.io');
@@ -13,6 +14,12 @@ const { type } = require('os');
 
 // express app
 const app = express();
+// added cors to allow cross origin requests
+app.use(cors());
+
+app.listen(3000, function () {
+    console.log('CORS-enabled web server listening on port 3000');
+})
 /*
 // Socket setup
 var server = app.listen(7000, function(){

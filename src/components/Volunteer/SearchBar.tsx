@@ -11,17 +11,18 @@ const SearchBar: React.FC<SearchBarProps> = ({ setResults }) => {
   const [input, setInput] = useState<string>("");
 
   const fetchData = (value: string) => {
-    fetch("localhost:3000/events/getAll")
+    fetch("http://localhost:3000/events/getAll")
       .then((response) => response.json())
       .then((json: any[]) => {
-        const results = json.filter((user) => {
+        const results = json.filter((cEvent) => {
           return (
             value &&
-            user &&
-            user.name &&
-            user.name.toLowerCase().includes(value)
+            cEvent &&
+            cEvent.title &&
+            cEvent.title.toLowerCase().includes(value)
           );
         });
+        console.log(results);
         setResults(results);
       });
   };
