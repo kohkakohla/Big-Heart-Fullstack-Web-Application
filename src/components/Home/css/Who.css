@@ -1,8 +1,19 @@
 .whomst {
     display: flex;
-    font-size: xx-large !important;
+    font-size: x-large !important;
     font-weight: bold !important;
     align-items: center !important;
     justify-content: center !important;
     width: 30vw
+}
+
+.title {
+    font-weight: 800 !important;
+    font-size: 3vw !important;
+
+}
+
+.content {
+    border: 5px solid #FBE3E0;
+    border-radius: 50px;
 }

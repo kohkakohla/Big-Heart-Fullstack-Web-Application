@@ -19,7 +19,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
-
+import { Dayjs } from "dayjs";
 function Copyright(props: any) {
   return (
     <Typography
@@ -42,7 +42,7 @@ const defaultTheme = createTheme();
 export default function SignUp() {
   const [value, setValue] = React.useState<Dayjs | null>(null);
   const [gender, setGender] = React.useState("");
-  const [studying, setStudy ing] = React.useState({
+  const [studying, setStudying] = React.useState({
     studying: false,
   });
   const [canDrive, setDriving] = React.useState({
@@ -53,21 +53,25 @@ export default function SignUp() {
     setGender(event.target.value as string);
   };
 
-  const handleStudyCheckbox = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleStudyCheckbox = (
+    event: React.SyntheticEvent,
+    checked: boolean
+  ) => {
     setStudying({
       ...studying,
-      [event.target.name]: event.target.checked,
+      studying: checked,
     });
   };
-  const handleDriving = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleDriving = (event: React.SyntheticEvent, checked: boolean) => {
     setDriving({
       ...canDrive,
-      [event.target.name]: event.target.checked,
+      canDrive: checked,
     });
   };
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
+    const form = event.currentTarget as HTMLFormElement;
+    const data = new FormData(form);
     console.log({
       email: data.get("email"),
       password: data.get("password"),

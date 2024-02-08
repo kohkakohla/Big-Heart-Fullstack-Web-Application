@@ -11,6 +11,7 @@ export function CollapsibleExample() {
       className=""
       id="custom-pink-navbar"
       data-bs-theme="light"
+      sticky="top"
     >
       <Container>
         <Navbar.Brand href="/home">

@@ -30,7 +30,7 @@
     "react-router-dom": "^6.21.3",
     "rotating-file-stream": "^3.2.1",
     "socket.io": "^4.7.4",
-    "websocket.io": "^0.2.1"
+    "websocket.io": "^0.1.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.27",
