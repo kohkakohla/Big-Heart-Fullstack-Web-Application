@@ -420,6 +420,21 @@ app.get('/events/searchByType/event/:typeOfEvent',  (req, res) => {
 })
 
 /**
+ *  Debugging purposes
+ *  @Returns all event names and nothing else
+ */
+app.get('/debug/events/names', (req, res) => {
+    try {
+        cEvent.find({}, 'name')
+            .then((result) => res.send(result))
+            .catch((err) => res.send(err))
+    } catch (error) {
+        console.error("Error: while trying to fetch event names", error);
+        res.status(500).send('Internal Server Error');
+    }
+})
+
+/**
  * Fetches all community service events by status
  * @Params {String} status - Stauts included [Ongoing, Completed, Cancelled]
  */
