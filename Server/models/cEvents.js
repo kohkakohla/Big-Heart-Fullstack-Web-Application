@@ -73,6 +73,10 @@ const cEventSchema = new schema({
     hours: {
         type: Number,
         default: 1
+    },
+    image: {
+        data: Buffer,
+        contentType: String
     }
 
 
