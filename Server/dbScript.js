@@ -1,6 +1,5 @@
-//require('dotenv').config()
+require('dotenv').config()
 global.bodyParser = require('body-parser');
-const cors = require('cors');
 const express = require('express');
 const morgan = require('morgan');
 const socket = require('socket.io');
@@ -8,27 +7,26 @@ const mongoose = require('mongoose');
 const rfs = require("rotating-file-stream");
 const volunteer = require('./models/volunteers');
 const cEvent = require('./models/cEvents');
-//var request = require('request');
+var request = require('request');
 const { type } = require('os');
 //read up on axios and cors to connect react app with express app
 const cors = require('cors');
 
 // express app
 const app = express();
-app.use(cors());
-/*
+
 // Socket setup
-var server = app.listen(7000, function(){
+var server = app.listen(4000, function(){
     console.log('listening to request on port 4000');
 })
 var io = socket(server);
-*
+
 
 // on socket connection, passes thru function with socket
 io.on('connection', function(socket){ 
     console.log('made socket connection');
 });
-*/
+
 // Implementation of body parser
 app.use(bodyParser.urlencoded({
     extended: true,
@@ -458,7 +456,7 @@ app.get('/events/:id', (req, res) => {
  * @Params {Json / http req} req - Http request to the backend server
  * @Returns A DB.commit() adding a new document via details filled in by admin submitting form
  */
-app.post('/events/createNew', async (req, res) => {
+app.post('/events/createNew', upload.single('image'), async (req, res) => {
     try{
         // get these constants from the body of the req json
         const {
@@ -475,6 +473,8 @@ app.post('/events/createNew', async (req, res) => {
             hours
         } = await req.body; 
 
+        const imageBuffer = req.file.buffer;
+
         // create new object
         const ev = new cEvent({ 
             title: title,
@@ -487,7 +487,8 @@ app.post('/events/createNew', async (req, res) => {
             dateOfEvent: dateOfEvent,
             timeOfEvent: timeOfEvent,
             capacity: capacity,
-            hours: hours
+            hours: hours,
+            image: {data: imageBuffer, contentType: req.file.mimetype }
         });
         ev.save()
             .then(
@@ -646,7 +647,7 @@ app.put('/events/:id/reset', (req, res) => {
         res.status(500).send("Internal Server Error")
     }
 });
-// do tomo
+// do tomo 
 app.put('/events/:id/attendance')
 
 
