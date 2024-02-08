@@ -1,4 +1,5 @@
 require('dotenv').config()
+
 global.bodyParser = require('body-parser');
 const express = require('express');
 const morgan = require('morgan');
@@ -12,7 +13,8 @@ const { type } = require('os');
 const multer = require('multer');
 //read up on axios and cors to connect react app with express app
 const cors = require('cors');
-
+const { validateHeaderValue } = require('http');
+const schema = mongoose.Schema;
 const storage = multer.memoryStorage(); // Store the image in memory as a Buffer
 const upload = multer({ storage: storage });
 
@@ -45,7 +47,6 @@ app.use(bodyParser.json({
 
 
 
-
 // Database side URI connection to MONGO ATLAS
 const dbURI = 'mongodb+srv://hundin231:Tastigers231@cluster0.gjb0xxi.mongodb.net/?retryWrites=true&w=majority';
 mongoose.connect(dbURI)
@@ -59,6 +60,7 @@ mongoose.connect(dbURI)
 function queryFormatter( param,  reqObj,){
     return param + " == '" + String(reqObj) + "'";
 }
+
 
 
 // Morgan setup and creating a log stream
@@ -92,6 +94,14 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true })); //what does this do ?
 app.use(morgan('dev'));
+
+// Setting up an address Schema parser
+const addressSchema = new schema({
+    city: String,
+    street: String,
+    houseNumber: String,
+    postal_code: String
+  });
 
 /**
  * @VolunteerGetMethods
@@ -463,7 +473,7 @@ app.get('/events/:id', (req, res) => {
 app.post('/events/createNew', upload.single('image'), async (req, res) => {
     try{
         // get these constants from the body of the req json
-        const {
+        var {
             title,
             snippet, 
             body,
@@ -490,6 +500,7 @@ app.post('/events/createNew', upload.single('image'), async (req, res) => {
         const imageBuffer = req.file.buffer; // translates this to binary
         console.log(req.body);
         // create new object
+        
         const ev = new cEvent({ 
             title: title,
             snippet: snippet,
@@ -497,7 +508,7 @@ app.post('/events/createNew', upload.single('image'), async (req, res) => {
             address: {
                 street: street,
                 city: city,
-                zipCode: zipCode,
+                postal_code: zipCode,
                 houseNumber: houseNumber
             },
             typeOfEvent: typeOfEvent,
