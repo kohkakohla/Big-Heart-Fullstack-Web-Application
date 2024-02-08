@@ -26,7 +26,7 @@ const cEventSchema = new schema({
     },
     address : {
         type: addressSchema,
-        required: true
+        required: false
     },
     current_volunteers: {
         type: [String],
