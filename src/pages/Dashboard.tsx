@@ -24,6 +24,7 @@ import {
 import Chart from "../components/Dashboard/Chart";
 import Deposits from "../components/Dashboard/Deposits";
 import Orders from "../components/Dashboard/Orders";
+import NavBar from "../components/Home/NavBar";
 
 function Copyright(props: any) {
   return (
@@ -104,9 +105,10 @@ export default function Dashboard() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
+      <NavBar></NavBar>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
-        <AppBar position="absolute" open={open}>
+        <AppBar open={open}>
           <Toolbar
             sx={{
               pr: "24px", // keep right padding when drawer closed
