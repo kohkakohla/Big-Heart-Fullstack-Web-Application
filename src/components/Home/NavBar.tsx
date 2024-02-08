@@ -2,6 +2,7 @@ import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import NavDropdown from "react-bootstrap/NavDropdown";
+
 import "./css/nav_style.css";
 export function CollapsibleExample() {
   return (
@@ -39,7 +40,9 @@ export function CollapsibleExample() {
             <Nav.Link href="/cards" className="nav-text">
               volunteer
             </Nav.Link>
-
+            <Nav.Link href="/details" className="nav-text">
+              details
+            </Nav.Link>
             {/* <NavDropdown title="Dropdown" id="collapsible-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">goonette</NavDropdown.Item>
               <NavDropdown.Item href="#action/3.2">gooney</NavDropdown.Item>

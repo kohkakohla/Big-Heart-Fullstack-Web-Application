@@ -131,6 +131,7 @@ app.get('/volunteer/unverified', (req, res) => {
     }
 })
 
+
 app.get('/volunteer/byStatus/:status', (req, res) => {
     try{
         const status = req.params.status;
@@ -206,7 +207,6 @@ app.get('/volunteer/byEvent/:id', (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 })
-
 
 
 /**
@@ -525,12 +525,18 @@ app.put('/events/addVolunteer', (req, res) => {
             })
             .catch((err) => console.log(err));
             
-        ;
+        
     } catch (error) {
         console.error('Error during update volunteer query: ', error);
         res.status(500).send('Internal Server Error');
     }
-
+ volunteer.updateOne({_id: userID}, {$set: {fieldToUpdate: newStatus} }, (err, result) => {
+            if (err) {
+              console.error(err);
+            } else {
+              console.log('status update to: ', newStatus);
+            } }
+        );
 
 })
 
@@ -593,6 +599,57 @@ app.put('/events/postComment', (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 })
+/**
+ * Update a specific event by any X param which is not an array
+ * @Params {eventID, Param} - within the route contains the eventId and the Param
+ * @Body Contains the new update value
+ * @Returns a updated push into the events comment section.
+ */
+app.put('/events/:id/update/:param' , (req, res) =>{
+    try{ 
+        const param = req.params.param;
+        const eventId = req.params.id;
+        const updateValue = req.body;
+        cEvents.updateOne({_id: eventId}, {$set: {[param]: updateValue}} , (err, result) => {
+            if (err) {
+              console.error(err);
+            } else {
+              console.log('status update to: ', newStatus);
+            } 
+        });
+        
+    } catch (error) {
+        console.error("Error: While trying to update events by generic param: ", error);
+        res.status(500).send("Internal Server Error");
+    }
+})
+
+app.put('/events/:id/reset', (req, res) => { 
+    try {
+        const id = req.params.id;
+        const newDate = req.body;
+        const event = cEvents.findById(id);
+        event.current_volunteers.forEach((volunteer) => {
+            volunteer.updateOne({_id: volunteer}, {$inc: {hours: event.hours}})
+        })
+        cEvents.updateOne({_id: id}, {$set: {
+            current_volunteers: [],
+            dateOfEvent: newDate,
+        }})
+            .then((result) => res.send(result))
+            .catch((error) => 
+            console.error("Error while resetting a regular service", error),
+            res.send("Internal Server Error")
+            )
+    } catch (error) {
+        console.error("Error: while attempting to reset a regular event")
+        res.status(500).send("Internal Server Error")
+    }
+});
+// do tomo
+app.put('/events/:id/attendance')
+
+
 /**
  * delete a comment by a user
  * @Params {User, String, eventID} - custom user schema to encap data and a String of the comment they had and the eventID
