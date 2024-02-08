@@ -4,13 +4,17 @@ import { useNavigate } from "react-router-dom";
 
 interface SearchResultProps {
   result: string;
+  object: any;
 }
 
-const SearchResult: React.FC<SearchResultProps> = ({ result }) => {
+const SearchResult: React.FC<SearchResultProps> = ({ result, object }) => {
   let navigate = useNavigate();
+  const data = object;
+
   const routeChange = () => {
-    let path = "more-info";
-    navigate(path);
+    let path = "details";
+    console.log({ object });
+    navigate("/details", { state: { data } });
   };
   return (
     <div className="search-result" onClick={routeChange}>
