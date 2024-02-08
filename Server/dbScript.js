@@ -642,7 +642,7 @@ app.put('/events/:id/update/:param' , (req, res) =>{
         const param = req.params.param;
         const eventId = req.params.id;
         const updateValue = req.body;
-        cEvents.updateOne({_id: eventId}, {$set: {[param]: updateValue}} , (err, result) => {
+        cEvent.updateOne({_id: eventId}, {$set: {[param]: updateValue}} , (err, result) => {
             if (err) {
               console.error(err);
             } else {
@@ -660,11 +660,11 @@ app.put('/events/:id/reset', (req, res) => {
     try {
         const id = req.params.id;
         const newDate = req.body;
-        const event = cEvents.findById(id);
+        const event = cEvent.findById(id);
         event.current_volunteers.forEach((volunteer) => {
             volunteer.updateOne({_id: volunteer}, {$inc: {hours: event.hours}})
         })
-        cEvents.updateOne({_id: id}, {$set: {
+        cEvent.updateOne({_id: id}, {$set: {
             current_volunteers: [],
             dateOfEvent: newDate,
         }})
@@ -680,13 +680,17 @@ app.put('/events/:id/reset', (req, res) => {
 });
 // do tomo 
 app.put('/events/:id/attendance')
-
+/**
+ * Deletes an event 
+ * @Params {String} - eventId
+ * @Returns either an error or a sucessfull delete respponse
+ */
 app.delete('/events/delete/:eventId', (req, res) => {
     try {
         const eventId = req.params.eventId;
-        cEvents.deleteOne({_id: eventId})
+        cEvent.deleteOne({_id: eventId})
             .then((result) => {
-                res.send("delted.")
+                res.send("Deleted Event.")
             })
             .catch((err) => res.send(err));
     } catch (error) {
@@ -704,7 +708,7 @@ app.delete('/events/:eventId/delete/comment/:commentId', (req, res) => {
         const eventId = req.params.eventId;
         const commentId = req.params.commentId;
         
-        cEvents.find({ 
+        cEvent.find({ 
             _id: eventId,
             "comments": {$elemMatch: {id: commentId}}
         })
