@@ -1,7 +1,7 @@
 .input-wrapper {
     background-color: white;
     width: 90%;
-    border-radius: 10px;
+    border-radius: 20px;
     height: 2.5rem;
     padding: 0 15px;
     box-shadow: 0px 0px 8px #ddd;
@@ -23,5 +23,19 @@ input:focus {
 }
 
 #search-icon {
-    color: royalblue;
+    color: black;
+}
+
+.input-wrapper {
+    display:flex;
+    align-items: center;
+    justify-content: center;
+    margin: auto;
+}
+.parent-wrapper {
+    background-color: #ffe9e5;
+    padding-top: 2rem;
+}
+.input-area {
+    background-color: white;
 }

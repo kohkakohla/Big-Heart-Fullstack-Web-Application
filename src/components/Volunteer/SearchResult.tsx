@@ -1,5 +1,5 @@
 import React from "react";
-import "./SearchResult.css";
+import "./css/SearchResult.css";
 
 interface SearchResultProps {
   result: string;
