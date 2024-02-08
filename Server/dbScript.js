@@ -9,8 +9,12 @@ const volunteer = require('./models/volunteers');
 const cEvent = require('./models/cEvents');
 var request = require('request');
 const { type } = require('os');
+const multer = require('multer');
 //read up on axios and cors to connect react app with express app
 const cors = require('cors');
+
+const storage = multer.memoryStorage(); // Store the image in memory as a Buffer
+const upload = multer({ storage: storage });
 
 // express app
 const app = express();
@@ -463,7 +467,10 @@ app.post('/events/createNew', upload.single('image'), async (req, res) => {
             title,
             snippet, 
             body,
-            address,
+            street,
+            city,
+            houseNumber,
+            zipCode,
             typeOfEvent,
             comunityProvider,
             dateOfEvent,
@@ -471,28 +478,37 @@ app.post('/events/createNew', upload.single('image'), async (req, res) => {
             capacity,
             typeOfService,
             hours
-        } = await req.body; 
-
-        const imageBuffer = req.file.buffer;
-
+        } = req.body;
+        // Parse integer values
+        const parsedCapacity = parseInt(capacity, 10);
+        const parsedHours = parseInt(hours, 10);
+        console.log(req.file);
+        const imageBuffer = req.file.buffer; // translates this to binary
+        console.log(req.body);
         // create new object
         const ev = new cEvent({ 
             title: title,
             snippet: snippet,
             body: body,
-            address: address,
+            address: {
+                street: "ur",
+                city: "ur",
+                zipCode: "10000",
+                houseNumber: "123"
+            },
             typeOfEvent: typeOfEvent,
             typeOfService: typeOfService,
             comunityProvider: comunityProvider,
             dateOfEvent: dateOfEvent,
             timeOfEvent: timeOfEvent,
-            capacity: capacity,
-            hours: hours,
+            capacity: parsedCapacity,
+            hours: parsedHours,
             image: {data: imageBuffer, contentType: req.file.mimetype }
         });
         ev.save()
-            .then(
+            .then( () => {
                 res.send("Registered Event")
+                }
             )
             .catch((err) => {
                 res.send(err)
