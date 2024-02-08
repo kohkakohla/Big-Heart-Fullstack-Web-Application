@@ -1,41 +1,76 @@
-# Full Stack Volunteer management website for BigAtHeart
+# BigAtHeart Volunteer Management Website
 
-**Goal of the project:** 
-Produce a web based application which acts as a device to educate and inform all visitors about who BigAtHeart is, what they do and the current ongoing projects that they can join.
-We want it to inspire and increase the retention of volunteers they currently have or will have as well.
-Easily accessible for volunteers to sign up and manageable by admins.
+<p align="center">
+  <img width="460" height="300" src="thumbnail.png">
+</p>
+<div align='center'>
+  
+<a href='https://github.com/your_username/your_repository/releases'>
+  
+<img src='https://img.shields.io/github/v/release/your_username/your_repository?color=%23FDD835&label=version&style=for-the-badge'>
+  
+</a>
+  
+<a href='https://github.com/your_username/your_repository/blob/main/LICENSE'>
+  
+<img src='https://img.shields.io/github/license/your_username/your_repository?style=for-the-badge'>
+  
+</a>
+  
+</div>
 
-**Front End** 
-1. React App Framework
-2. Javascript
-3. Html
-4. Css 
-5. Bootstrap
-6. Typescript
-7. Figma (proof of concept)
+<br />
 
-**Back End** 
-1. NodeJS
-2. MongoDB
-3. Express.JS
-4. Mongoose
-5. WebSocket.io
-   
-**Dependencies:**
-  *Add later
-    
-**The project should be able to:**
-  * List from NPO
-    
-**Additional features added:**
-  * TBC
+---
 
+## Overview
 
-    
-**Brief Outline of Data:** 
-Structured by user -> vol
-feedback -> blogs
+This project is a full-stack volunteer management website developed for BigAtHeart, aimed at educating and informing visitors about the organization, its initiatives, and how they can get involved. The website aims to inspire and retain volunteers while providing easy sign-up access and administrative management.
 
+## Front End
 
-    
+- React App Framework
+- JavaScript
+- HTML
+- CSS
+- Bootstrap
+- TypeScript
+- Figma (proof of concept)
 
+## Back End
+
+- Node.js
+- MongoDB
+- Express.js
+- Mongoose
+- WebSocket.io
+
+## Features
+
+- List ongoing projects from NPO
+- Comprehensive user feedback system
+- Blogs section for additional engagement
+- Volunteer sign-up portal
+- Admin dashboard for easy management
+
+## Installation
+
+To install and run this project locally, follow these steps:
+
+1. Clone the repository.
+2. Navigate to the project directory.
+3. Install dependencies by running `npm install`.
+4. Start the server by running `npm start`.
+5. Open the website in your browser at `http://localhost:3000`.
+
+## Contribution
+
+Contributions to this project are welcome and appreciated. If you're interested in contributing, please check out the [Contribution Guidelines](CONTRIBUTING.md) for more information.
+
+## License
+
+This project is licensed under the [MIT License](LICENSE).
+
+## Contact
+
+For questions or inquiries, please contact [Your Name](mailto:your@email.com).

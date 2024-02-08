@@ -1,4 +1,5 @@
 require('dotenv').config()
+
 global.bodyParser = require('body-parser');
 const express = require('express');
 const morgan = require('morgan');
@@ -9,12 +10,17 @@ const volunteer = require('./models/volunteers');
 const cEvent = require('./models/cEvents');
 var request = require('request');
 const { type } = require('os');
+const multer = require('multer');
 //read up on axios and cors to connect react app with express app
 const cors = require('cors');
+const { validateHeaderValue } = require('http');
+const schema = mongoose.Schema;
+const storage = multer.memoryStorage(); // Store the image in memory as a Buffer
+const upload = multer({ storage: storage });
 
 // express app
 const app = express();
-
+app.use(cors());
 // Socket setup
 var server = app.listen(4000, function(){
     console.log('listening to request on port 4000');
@@ -41,7 +47,6 @@ app.use(bodyParser.json({
 
 
 
-
 // Database side URI connection to MONGO ATLAS
 const dbURI = 'mongodb+srv://hundin231:Tastigers231@cluster0.gjb0xxi.mongodb.net/?retryWrites=true&w=majority';
 mongoose.connect(dbURI)
@@ -55,6 +60,7 @@ mongoose.connect(dbURI)
 function queryFormatter( param,  reqObj,){
     return param + " == '" + String(reqObj) + "'";
 }
+
 
 
 // Morgan setup and creating a log stream
@@ -88,6 +94,14 @@ app.set('view engine', 'ejs');
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true })); //what does this do ?
 app.use(morgan('dev'));
+
+// Setting up an address Schema parser
+const addressSchema = new schema({
+    city: String,
+    street: String,
+    houseNumber: String,
+    postal_code: String
+  });
 
 /**
  * @VolunteerGetMethods
@@ -358,6 +372,17 @@ app.get('/events/getAll', (req, res) => {
     }
 })
 
+app.get('/events/fetchNoImage', (req,res) => {
+    try {
+        cEvent.find({}, '-image')
+            .then((result) => res.send(result))
+            .catch((err) => res.send(err))
+    } catch (error) {
+        console.error("Error: while trying to fetch everything with on image")
+        res.status(500).send("Internal Server Error");
+    }
+})
+
 /**
  * Fetches community service events based on Service Type
  * @Params {String} typeOfService - The indicated service field it is involved in
@@ -390,6 +415,21 @@ app.get('/events/searchByType/event/:typeOfEvent',  (req, res) => {
             .catch((err) => console.log(err))
     } catch(error) {
         console.error("Error when fetching all events: ", error);
+        res.status(500).send('Internal Server Error');
+    }
+})
+
+/**
+ *  Debugging purposes
+ *  @Returns all event names and nothing else
+ */
+app.get('/debug/events/names', (req, res) => {
+    try {
+        cEvent.find({}, 'name')
+            .then((result) => res.send(result))
+            .catch((err) => res.send(err))
+    } catch (error) {
+        console.error("Error: while trying to fetch event names", error);
         res.status(500).send('Internal Server Error');
     }
 })
@@ -459,11 +499,14 @@ app.get('/events/:id', (req, res) => {
 app.post('/events/createNew', upload.single('image'), async (req, res) => {
     try{
         // get these constants from the body of the req json
-        const {
+        var {
             title,
             snippet, 
             body,
-            address,
+            street,
+            city,
+            houseNumber,
+            zipCode,
             typeOfEvent,
             comunityProvider,
             dateOfEvent,
@@ -471,28 +514,42 @@ app.post('/events/createNew', upload.single('image'), async (req, res) => {
             capacity,
             typeOfService,
             hours
-        } = await req.body; 
-
-        const imageBuffer = req.file.buffer;
-
+        } = req.body;
+        // Parse integer values
+        const parsedCapacity = parseInt(capacity, 10);
+        const parsedHours = parseInt(hours, 10);
+        street = String(street);
+        city = String(city);
+        houseNumber = String(houseNumber);
+        zipCode = String(zipCode);
+        console.log(req.file);
+        const imageBuffer = req.file.buffer; // translates this to binary
+        console.log(req.body);
         // create new object
+        
         const ev = new cEvent({ 
             title: title,
             snippet: snippet,
             body: body,
-            address: address,
+            address: {
+                street: street,
+                city: city,
+                postal_code: zipCode,
+                houseNumber: houseNumber
+            },
             typeOfEvent: typeOfEvent,
             typeOfService: typeOfService,
             comunityProvider: comunityProvider,
             dateOfEvent: dateOfEvent,
             timeOfEvent: timeOfEvent,
-            capacity: capacity,
-            hours: hours,
+            capacity: parsedCapacity,
+            hours: parsedHours,
             image: {data: imageBuffer, contentType: req.file.mimetype }
         });
         ev.save()
-            .then(
+            .then( () => {
                 res.send("Registered Event")
+                }
             )
             .catch((err) => {
                 res.send(err)
@@ -606,34 +663,30 @@ app.put('/events/postComment', (req, res) => {
  * @Body Contains the new update value
  * @Returns a updated push into the events comment section.
  */
-app.put('/events/:id/update/:param' , (req, res) =>{
-    try{ 
+app.put('/events/:id/update/:param', async (req, res) => {
+    try {
         const param = req.params.param;
         const eventId = req.params.id;
-        const updateValue = req.body;
-        cEvents.updateOne({_id: eventId}, {$set: {[param]: updateValue}} , (err, result) => {
-            if (err) {
-              console.error(err);
-            } else {
-              console.log('status update to: ', newStatus);
-            } 
-        });
-        
+        const {updateValue} = req.body;
+        const result = await cEvent.updateOne({ _id: eventId }, { $set: { [param]: updateValue } });
+
+        console.log('Event updated successfully:', result);
+        res.status(200).send("Event updated successfully");
     } catch (error) {
-        console.error("Error: While trying to update events by generic param: ", error);
+        console.error("Error while trying to update events by generic param:", error);
         res.status(500).send("Internal Server Error");
     }
-})
+});
 
 app.put('/events/:id/reset', (req, res) => { 
     try {
         const id = req.params.id;
         const newDate = req.body;
-        const event = cEvents.findById(id);
+        const event = cEvent.findById(id);
         event.current_volunteers.forEach((volunteer) => {
             volunteer.updateOne({_id: volunteer}, {$inc: {hours: event.hours}})
         })
-        cEvents.updateOne({_id: id}, {$set: {
+        cEvent.updateOne({_id: id}, {$set: {
             current_volunteers: [],
             dateOfEvent: newDate,
         }})
@@ -649,8 +702,30 @@ app.put('/events/:id/reset', (req, res) => {
 });
 // do tomo 
 app.put('/events/:id/attendance')
-
-
+/**
+ * Deletes an event 
+ * @Params {String} - eventId
+ * @Returns either an error or a sucessfull delete respponse
+ */
+app.delete('/events/delete/:eventId', (req, res) => {
+    try {
+        const eventId = req.params.eventId;
+        cEvent.deleteOne({_id: eventId})
+            .then((result) => {
+                if (result){
+                    res.send("no event")
+                }
+                else{
+                    res.send("Deleted Event.")
+                }
+                
+            })
+            .catch((err) => res.send(err));
+    } catch (error) {
+        console.error('Error: while trying to delete ', error);
+        res.status(500).send('Internal Server Error');
+    }
+})
 /**
  * delete a comment by a user
  * @Params {User, String, eventID} - custom user schema to encap data and a String of the comment they had and the eventID
@@ -661,7 +736,7 @@ app.delete('/events/:eventId/delete/comment/:commentId', (req, res) => {
         const eventId = req.params.eventId;
         const commentId = req.params.commentId;
         
-        cEvents.find({ 
+        cEvent.find({ 
             _id: eventId,
             "comments": {$elemMatch: {id: commentId}}
         })
