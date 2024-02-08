@@ -681,7 +681,13 @@ app.put('/events/:id/reset', (req, res) => {
 // do tomo 
 app.put('/events/:id/attendance')
 
+app.delete('/events/delete/:eventId', (req, res) => {
+    try {
 
+    } catch (error) {
+        
+    }
+})
 /**
  * delete a comment by a user
  * @Params {User, String, eventID} - custom user schema to encap data and a String of the comment they had and the eventID
