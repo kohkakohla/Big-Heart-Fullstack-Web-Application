@@ -79,7 +79,8 @@ const volunteerSchema =  new schema({
     },
 
     volunteerPreferences: {
-      type: String,
+      type: [String],
+      enum: ["Children", "Social", "Elderly", "Environmental", "Animal"],
       required: true
     },
     userStatus: {
@@ -87,14 +88,26 @@ const volunteerSchema =  new schema({
         enum: ['unverified', 'active', 'inactive', 'banned', 'deleted'],
         required: true
     },
-    userPersonalityResult: {
+    PersonalityResult: {
       type: String,
-      enum: [],
+      enum: ["Selfless Skid", "Social Siloca", "Natural Aurten", "Hands-on Dhan", "Admirable Lamina"],
       required: false
     },
     userRole: {
       type: String,
       enum: ['admin', 'volunteer']
+    },
+    currentEnrolledServiceEvents: {
+      type: [String],
+      required: false
+    },
+    pastEnrolledServiceEvents: {
+      type: [String], // stores event ids
+      required: false
+    },
+    hours: {
+      type: Number,
+      default: 0
     }
 
   });

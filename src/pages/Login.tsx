@@ -1,4 +1,4 @@
-import NavBar from "../components/NavBar";
+import NavBar from "../components/Home/NavBar";
 // Import React and necessary components
 import React, { useState } from "react";
 // Define the Login component

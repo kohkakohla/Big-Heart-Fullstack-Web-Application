@@ -1,4 +1,4 @@
-import NavBar from "../components/NavBar";
+import NavBar from "../components/Home/NavBar";
 import Carou from "../components/Carousel";
 
 export default function Dashboard() {

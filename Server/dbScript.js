@@ -98,13 +98,11 @@ app.use(morgan('dev'));
  */
 
 
-
-
 /**
  * Fetches all volunteers 
  * @Returns all volunteer documents
  */
-app.get('/all', (req, res) => {
+app.get('/volunteer/all', (req, res) => {
     volunteer.find() 
         .then((result) => {
             res.send(result);
@@ -114,8 +112,9 @@ app.get('/all', (req, res) => {
 
 /**
  * Get Method which returns unverfied volunteers for admins
+ * @Returns all volunteer documents of those who are not verified yet
  */
-app.get('/getUnverifiedVolunteers', async (req, res) => {
+app.get('/volunteer/unverified', (req, res) => {
     try{
         volunteer.find({$where: "userStatus =='unverified'"})
         .then((result) => {
@@ -129,20 +128,84 @@ app.get('/getUnverifiedVolunteers', async (req, res) => {
     }
 })
 
+app.get('/volunteer/byStatus/:status', (req, res) => {
+    try{
+        const status = req.params.status;
+        volunteer.find({status: status})
+            .then((result) => {
+                res.send(result);
+            })
+            .catch((err) => console.log(err));
+    } catch (error){
+        console.error('Error: while fetching volunteers by status', error);
+        res.status(500).send('Internal Server Error');
+    }
+
+})
+
 /**
  * Fetches volunteer by ID
  * @Params HTTP param {String} - userId
  */
-app.get('/find_vol_byID', (req, res) => {
-    volunteer.findById('65b730a40f9ea119f5d7b1e6')
+app.get('/volunteer/searchById/:id', (req, res) => {
+    const id = req.params.id;
+    volunteer.findById(id)
         .then((result) => {
             res.send(result);
         })
         .catch((err) => console.log(err));
 });
 
+/**
+ * Fetches volunteers by past Event Ids
+ * @Params {String} - eventId
+ * @Returns all volunteer objs which has participated in X event?
+ */
+app.get('/volunteer/byPastEvent/:id', (req, res) => {
+    try {
+        const eventId = req.params.id;
+        volunteer.find({
+            pastEnrolledServiceEvents: {$elemMatch: eventId}
+        })
+            .then((result) => {
+                res.send(result);
+            })
+            .catch((error) => 
+                console.log(error),
+                res.send(error)
+            )
+    } catch (error) {
+        console.error('Error: while trying to fetch volunteers by specific event', error);
+        res.status(500).send("Internal Server Error");
+    }
+})
 
-    
+/**
+ * Fetches volunteers by current Event Ids
+ * @Params {String} - eventId
+ * @Returns all volunteer objs which has participating in X event?
+ */
+app.get('/volunteer/byEvent/:id', (req, res) => {
+    try {
+        const eventId = req.params.id;
+        volunteer.find({
+            currentEnrolledServiceEvents: {$elemMatch: eventId}
+        })
+            .then((result) => {
+                res.send(result);
+            })
+            .catch((error) => 
+                console.log(error),
+                res.send(error)
+            )
+    } catch (error) {
+        console.error('Error: while trying to fetch volunteers by specific event', error);
+        res.status(500).send("Internal Server Error");
+    }
+})
+
+
+
 /**
  * @VolunteerPostMethods
  * Add new Volunteer through form submission
@@ -217,7 +280,7 @@ app.post('/loginAttempt',  (req, res) => {
  * @Params {String, String} - {uniqueID, status}, the id of the vol and the new status to update through a json file
  * @Returns either a successful update or a unsuccessful update to the database
  */
-app.put('/updateVolunteerStatus',  (req,res) => {
+app.put('/volunter/updateStatus',  (req,res) => {
     try{
         const {userID, newStatus} =  req.body;
         volunteer.updateOne({_id: userID}, {$set: {fieldToUpdate: newStatus} }, (err, result) => {
@@ -233,12 +296,12 @@ app.put('/updateVolunteerStatus',  (req,res) => {
     }
 })
 
-/**
+/**w
  * Delete method
  * @Params {String} - userID
  * @Returns either a successful deletion or unsuccessful. Removes document from database
  */
-app.delete('/removeVolunteer/:id',  (req, res) => {
+app.delete('/volunteer/remove/:id',  (req, res) => {
     try{
         const id = req.params.id;
         volunteer.deleteOne({_id: id})
@@ -267,11 +330,6 @@ app.delete('/removeVolunteer/:id',  (req, res) => {
  * @Params {Json} from front end, but takes in all neccessary elements to make a event document
  * Saves staright to the MongoDB
  */
-
-
-
-
-//Fetch methods below
 
 /**
  * Fetches all community service events 
@@ -373,7 +431,7 @@ app.get('/events/searchByName/:title',  (req, res) =>{
 })
 
 /**
- * Fetch blog page by id
+ * Fetch event page by id
  * @Params {String} - id, unique objectid for each event
  * @Returns the event page when user clicks on event
  */
@@ -410,7 +468,8 @@ app.post('/events/createNew', async (req, res) => {
             dateOfEvent,
             timeOfEvent,
             capacity,
-            typeOfService
+            typeOfService,
+            hours
         } = await req.body; 
 
         // create new object
@@ -424,7 +483,8 @@ app.post('/events/createNew', async (req, res) => {
             comunityProvider: comunityProvider,
             dateOfEvent: dateOfEvent,
             timeOfEvent: timeOfEvent,
-            capacity: capacity
+            capacity: capacity,
+            hours: hours
         });
         ev.save()
             .then(
@@ -531,7 +591,7 @@ app.put('/events/postComment', (req, res) => {
     }
 })
 /**
- * post a comment by a user
+ * delete a comment by a user
  * @Params {User, String, eventID} - custom user schema to encap data and a String of the comment they had and the eventID
  * @Returns a updated push into the events comment section.
  */
@@ -563,10 +623,10 @@ app.delete('/events/:eventId/delete/comment/:commentId', (req, res) => {
  * @Params {String, String} ID of user attempting to acces, title of the cEvent
  * @Returns If user is admin then return all feedback for X event.
  */
-app.post('/getFeedbakcForEvent', async (req, res) => {
+app.post('/events/feedback', async (req, res) => {
     try{
-        const{_Id, title} = await req.body; //eventID
-        const u = await volunteer.findOne({_Id}, {$where: "userRole == 'admin'"}); // most likely error
+        const{eventId, userId} = await req.body; //eventID
+        const u = await volunteer.findOne({userId}, {$where: "userRole == 'admin'"}); 
         if (u) {
             await cEvent.findOne({title})
                 .then((results) => 

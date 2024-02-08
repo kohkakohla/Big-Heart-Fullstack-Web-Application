@@ -4,15 +4,8 @@ import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
 import CardSample from "../components/CardLayout";
 import NavBar from "../components/NavBar";
-import SearchBar from "../components/SearchBar";
-import VolunteeringEvents from "../components/VolunteeringEvents";
-import SearchResultsList from "../components/SearchResultsList";
 
-interface CardsProps {}
-
-const Cards: React.FC<CardsProps> = () => {
-  const [results, setResults] = useState<any[]>([]);
-
+function Card() {
   return (
     <>
       <CssBaseline />
@@ -26,6 +19,6 @@ const Cards: React.FC<CardsProps> = () => {
       </Container>
     </>
   );
-};
+}
 
 export default Cards;
