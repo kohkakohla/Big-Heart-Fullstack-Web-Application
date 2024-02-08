@@ -14,61 +14,63 @@ function CardSample() {
 
   return (
     <>
-      <Grid
-        container
-        spacing={1}
-        columnSpacing={8}
-        rowSpacing={8}
-        className="main-content-grid"
-      >
-        <Grid item xs={12} sm={6} md={4}>
-          <MediaCard></MediaCard>
-        </Grid>
+      <div style={{ paddingLeft: "3rem" }}>
+        <Grid
+          container
+          spacing={1}
+          columnSpacing={8}
+          rowSpacing={8}
+          className="main-content-grid"
+        >
+          <Grid item xs={12} sm={6} md={4}>
+            <MediaCard></MediaCard>
+          </Grid>
 
-        <Grid item xs={12} sm={6} md={4}>
-          <MediaCard></MediaCard>
-        </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <MediaCard></MediaCard>
+          </Grid>
 
-        <Grid item xs={12} sm={6} md={4}>
-          <MediaCard></MediaCard>
-        </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <MediaCard></MediaCard>
+          </Grid>
 
-        <Grid item xs={12} sm={6} md={4}>
-          <MediaCard></MediaCard>
-        </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <MediaCard></MediaCard>
+          </Grid>
 
-        <Grid item xs={12} sm={6} md={4}>
-          <MediaCard></MediaCard>
-        </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <MediaCard></MediaCard>
+          </Grid>
 
-        <Grid item xs={12} sm={6} md={4}>
-          <MediaCard></MediaCard>
-        </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <MediaCard></MediaCard>
+          </Grid>
 
-        <Grid item xs={12} sm={6} md={4}>
-          <MediaCard></MediaCard>
-        </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <MediaCard></MediaCard>
+          </Grid>
 
-        <Grid item xs={12} sm={6} md={4}>
-          <MediaCard></MediaCard>
-        </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <MediaCard></MediaCard>
+          </Grid>
 
-        <Grid item xs={12} sm={6} md={4}>
-          <MediaCard></MediaCard>
-        </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <MediaCard></MediaCard>
+          </Grid>
 
-        <Grid item xs={12} sm={6} md={4}>
-          <MediaCard></MediaCard>
-        </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <MediaCard></MediaCard>
+          </Grid>
 
-        <Grid item xs={12} sm={6} md={4}>
-          <MediaCard></MediaCard>
-        </Grid>
+          <Grid item xs={12} sm={6} md={4}>
+            <MediaCard></MediaCard>
+          </Grid>
 
-        <Grid item xs={12} sm={6} md={4}>
-          <MediaCard></MediaCard>
+          <Grid item xs={12} sm={6} md={4}>
+            <MediaCard></MediaCard>
+          </Grid>
         </Grid>
-      </Grid>
+      </div>
     </>
   );
 }
