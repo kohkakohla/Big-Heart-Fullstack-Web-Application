@@ -73,14 +73,16 @@ export default function SignUp() {
     const form = event.currentTarget as HTMLFormElement;
     const data = new FormData(form);
     console.log({
+      firstName: data.get("firstName"),
+      lastName: data.get("lastName"),
       email: data.get("email"),
       password: data.get("password"),
-      phone: data.get("phone"),
-      birthday: value,
+      phoneNumber: data.get("phone"),
+      dateOfBirth: value,
       gender: gender,
       occupation: data.get("occupation"),
-      studying: studying.studying,
-      studyField: data.get("studyingField"),
+      educationStatus: studying.studying,
+      education: data.get("studyingField"),
       educationBackground: data.get("EducationBackground"),
       canDrive: canDrive.canDrive,
       ownVehicle: data.get("ownVehicle") == "on" ? true : false,
