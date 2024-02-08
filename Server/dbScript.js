@@ -482,6 +482,10 @@ app.post('/events/createNew', upload.single('image'), async (req, res) => {
         // Parse integer values
         const parsedCapacity = parseInt(capacity, 10);
         const parsedHours = parseInt(hours, 10);
+        street = String(street);
+        city = String(city);
+        houseNumber = String(houseNumber);
+        zipCode = String(zipCode);
         console.log(req.file);
         const imageBuffer = req.file.buffer; // translates this to binary
         console.log(req.body);
@@ -491,10 +495,10 @@ app.post('/events/createNew', upload.single('image'), async (req, res) => {
             snippet: snippet,
             body: body,
             address: {
-                street: "ur",
-                city: "ur",
-                zipCode: "10000",
-                houseNumber: "123"
+                street: street,
+                city: city,
+                zipCode: zipCode,
+                houseNumber: houseNumber
             },
             typeOfEvent: typeOfEvent,
             typeOfService: typeOfService,
