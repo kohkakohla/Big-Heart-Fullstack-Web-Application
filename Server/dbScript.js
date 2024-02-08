@@ -648,24 +648,20 @@ app.put('/events/postComment', (req, res) => {
  * @Body Contains the new update value
  * @Returns a updated push into the events comment section.
  */
-app.put('/events/:id/update/:param' , (req, res) =>{
-    try{ 
+app.put('/events/:id/update/:param', async (req, res) => {
+    try {
         const param = req.params.param;
         const eventId = req.params.id;
-        const updateValue = req.body;
-        cEvent.updateOne({_id: eventId}, {$set: {[param]: updateValue}} , (err, result) => {
-            if (err) {
-              console.error(err);
-            } else {
-              console.log('status update to: ', newStatus);
-            } 
-        });
-        
+        const {updateValue} = req.body;
+        const result = await cEvent.updateOne({ _id: eventId }, { $set: { [param]: updateValue } });
+
+        console.log('Event updated successfully:', result);
+        res.status(200).send("Event updated successfully");
     } catch (error) {
-        console.error("Error: While trying to update events by generic param: ", error);
+        console.error("Error while trying to update events by generic param:", error);
         res.status(500).send("Internal Server Error");
     }
-})
+});
 
 app.put('/events/:id/reset', (req, res) => { 
     try {
@@ -701,7 +697,13 @@ app.delete('/events/delete/:eventId', (req, res) => {
         const eventId = req.params.eventId;
         cEvent.deleteOne({_id: eventId})
             .then((result) => {
-                res.send("Deleted Event.")
+                if (result){
+                    res.send("no event")
+                }
+                else{
+                    res.send("Deleted Event.")
+                }
+                
             })
             .catch((err) => res.send(err));
     } catch (error) {
