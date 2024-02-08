@@ -7,6 +7,9 @@ import SignUp from "./pages/Signup";
 import SignIn from "./pages/SignIn";
 import CardTest from "./pages/Opportunities";
 import Details from "./pages/Details";
+import EventInfo from "./pages/EventInfo";
+import History from "./pages/History";
+import Profile from "./pages/Profile";
 function App() {
   return (
     <div>
@@ -20,6 +23,9 @@ function App() {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/cards" element={<CardTest />} />
           <Route path="/details" element={<Details />} />
+          <Route path="/cards/more-info" element={<EventInfo />} />
+          <Route path="/history" element={<History />} />
+          <Route path="/profile" element={<Profile />} />
         </Routes>
       </BrowserRouter>
     </div>
