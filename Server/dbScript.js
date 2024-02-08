@@ -425,7 +425,7 @@ app.get('/events/searchByType/event/:typeOfEvent',  (req, res) => {
  */
 app.get('/debug/events/names', (req, res) => {
     try {
-        cEvent.find({}, 'name')
+        cEvent.find({}, 'title')
             .then((result) => res.send(result))
             .catch((err) => res.send(err))
     } catch (error) {
