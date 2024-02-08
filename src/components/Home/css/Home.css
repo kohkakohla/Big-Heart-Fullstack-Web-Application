@@ -4,10 +4,10 @@
     box-sizing: border-box;
   }
   body{
-    background: #ff8585;
+    background: #FBE3E0;
   }
   .test {
-    background-color: pink;
+    background-color: #FBE3E0;
   }
   .slider {
     margin:0 20px;
@@ -26,8 +26,8 @@
   
   .custom-dot-list-style button{
   border: none;
-  background: rgb(255, 68, 68);
+  background: rgb(255, 255, 255);
   }
   .react-multi-carousel-dot.react-multi-carousel-dot--active button{
-  background: rgb(255, 68, 68) !important;
+  background: #E88273 !important;
   }

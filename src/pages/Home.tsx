@@ -1,13 +1,17 @@
-import NavBar from "../components/NavBar";
-import HomeCarousel from "../components/HomeCarousel";
-import Hero from "../components/Hero";
-import "./Home.css";
+import NavBar from "../components/Home/NavBar";
+import HomeCarousel from "../components/Home/HomeCarousel";
+import Hero from "../components/Home/Hero";
+import Who from "../components/Home/Who";
+import SignUpBottom from "../components/Home/SignUpBottom";
+import "./css/Home.css";
 export default function Home() {
   return (
     <div className="test">
       <NavBar></NavBar>
       <Hero></Hero>
       <HomeCarousel></HomeCarousel>
+      <Who></Who>
+      <SignUpBottom></SignUpBottom>
     </div>
   );
 }

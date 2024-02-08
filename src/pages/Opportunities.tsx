@@ -1,22 +1,36 @@
-import React from "react";
+import React, { useState } from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Container from "@mui/material/Container";
 import Box from "@mui/material/Box";
-import CardSample from "../components/CardLayout";
-import NavBar from "../components/NavBar";
+import CardSample from "../components/Volunteer/CardLayout";
+import NavBar from "../components/Home/NavBar";
+import SearchBar from "../components/Volunteer/SearchBar";
+import VolunteeringEvents from "../components/Volunteer/VolunteeringEvents";
+import SearchResultsList from "../components/Volunteer/SearchResultsList";
 
-function Card() {
+interface CardsProps {}
+
+const Cards: React.FC<CardsProps> = () => {
+  const [results, setResults] = useState<any[]>([]);
+
   return (
     <>
       <CssBaseline />
-      <NavBar></NavBar>
-      <Container sx={{ mt: 8 }}>
-        <Box sx={{ m: 2 }}>
-          <CardSample />
-        </Box>
-      </Container>
+      <NavBar />
+      <SearchBar setResults={setResults} />
+      {results && results.length > 0 && <SearchResultsList results={results} />}
+      <div style={{ backgroundColor: "#ffe9e5" }}>
+        <Container
+          maxWidth="xl" // Set maximum width to extra-large (xl)
+          sx={{ mt: 8, backgroundColor: "#ffe9e5", flexGrow: 1 }}
+        >
+          <Box sx={{ m: 2 }}>
+            <CardSample />
+          </Box>
+        </Container>
+      </div>
     </>
   );
-}
+};
 
-export default Card;
+export default Cards;
