@@ -6,6 +6,7 @@ import Dashboard from "./pages/Dashboard";
 import SignUp from "./pages/Signup";
 import SignIn from "./pages/SignIn";
 import CardTest from "./pages/Opportunities";
+import Details from "./pages/Details";
 function App() {
   return (
     <div>
@@ -18,6 +19,7 @@ function App() {
           <Route path="/signup" element={<SignUp />} />
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/cards" element={<CardTest />} />
+          <Route path="/details" element={<Details />} />
         </Routes>
       </BrowserRouter>
     </div>
