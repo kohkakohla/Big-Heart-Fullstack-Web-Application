@@ -9,10 +9,9 @@ const volunteer = require('./models/volunteers');
 const cEvent = require('./models/cEvents');
 var request = require('request');
 const { type } = require('os');
-const multer = require('multer');
-// multer storage to store image as memory as a buffer
-const storage = multer.memoryStorage();
-const upload = multer({ storage: storage });
+//read up on axios and cors to connect react app with express app
+const cors = require('cors');
+
 // express app
 const app = express();
 
