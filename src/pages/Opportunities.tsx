@@ -6,7 +6,7 @@ import CardSample from "../components/Volunteer/CardLayout";
 import NavBar from "../components/Home/NavBar";
 import SearchBar from "../components/Volunteer/SearchBar";
 import SearchResultsList from "../components/Volunteer/SearchResultsList";
-
+import "@fontsource/roboto";
 interface CardsProps {}
 
 const Cards: React.FC<CardsProps> = () => {

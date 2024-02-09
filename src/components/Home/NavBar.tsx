@@ -1,7 +1,7 @@
 import React from "react";
 import { Container, Nav, Navbar } from "react-bootstrap";
 import "./css/nav_style.css";
-
+import "@fontsource/roboto";
 export function CollapsibleExample() {
   return (
     <Navbar
@@ -12,12 +12,7 @@ export function CollapsibleExample() {
       data-bs-theme="light"
       sticky="top"
     >
-      <Container
-        sx={{
-          fontFamily:
-            "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif",
-        }}
-      >
+      <Container>
         <Navbar.Brand href="/home">
           <img
             src="src/assets/logo.webp"
