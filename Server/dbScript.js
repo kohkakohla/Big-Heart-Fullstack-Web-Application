@@ -651,8 +651,8 @@ app.post('/events/createNew', upload.single('image'), async (req, res) => {
 app.put('/events/addVolunteer', async (req, res) => {
     try{
         const {volID, eventID} = req.body;
-        await cEvent.updateOne({_id: eventID}, {$set: {current_volunteers: volID} });
-        await volunteer.updateOne({_id: volID}, {$set: {currentEnrolledServiceEvents: eventID} })
+        await cEvent.updateOne({_id: eventID}, {$push: {current_volunteers: volID} });
+        await volunteer.updateOne({_id: volID}, {$push: {currentEnrolledServiceEvents: eventID} })
             .then((result) => res.send('all good'));
         
     } catch (error) {
@@ -742,7 +742,11 @@ app.put('/events/:id/update/:param', async (req, res) => {
         res.status(500).send("Internal Server Error");
     }
 });
-
+/**
+ * Resets a regular timed event 
+ * @Params {string} - eventId
+ * @Returns a resetted event with empty current volunteers and a new date
+ */
 app.put('/events/:id/reset', (req, res) => { 
     try {
         const id = req.params.id;
@@ -771,7 +775,6 @@ app.put('/events/:id/attendance', async (req, res) => {
         const eventId = req.params.id;
         console.log(eventId);
         const {volAttendance} = req.body;
-        const hours = 0;
         const event = await cEvent.findById(eventId);
         volAttendance.forEach( async (v) => {
             console.log(event.hours),
