@@ -261,6 +261,26 @@ app.post('/volunteer/signup', (req, res) => {
             console.log(err)
         });
 })
+/**
+ * Updates a volunteer generic param
+ * @Params {String, String, String} - volunteer, param to update and the updateValue
+ * @Returns a successful update message or unsuccessful
+ */
+
+app.put('/volunteer/:id/update/:param', async (req, res) => {
+    try {
+        const param = req.params.param;
+        const vId = req.params.id;
+        const {updateValue} = req.body;
+        const result = await volunteer.updateOne({ _id: vId }, { $set: { [param]: updateValue } });
+
+        console.log('Volunteer updated successfully:', result);
+        res.status(200).send("Volunteer updated successfully");
+    } catch (error) {
+        console.error("Error while trying to update Volunteer by generic param:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
 
 /**
  * Post method which auth's login attempt through our system
