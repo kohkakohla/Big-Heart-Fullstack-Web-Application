@@ -12,7 +12,12 @@ export function CollapsibleExample() {
       data-bs-theme="light"
       sticky="top"
     >
-      <Container>
+      <Container
+        sx={{
+          fontFamily:
+            "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif",
+        }}
+      >
         <Navbar.Brand href="/home">
           <img
             src="src/assets/logo.webp"
@@ -30,13 +35,13 @@ export function CollapsibleExample() {
         >
           <Nav className="me-auto">
             <Nav.Link href="/dashboard" className="nav-text">
-              about
+              About
             </Nav.Link>
             <Nav.Link href="/cards" className="nav-text">
-              volunteer
+              Volunteer
             </Nav.Link>
             <Nav.Link href="/history" className="nav-text">
-              history
+              History
             </Nav.Link>
             <Nav.Link href="/profile" className="nav-text">
               Profile

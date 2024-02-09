@@ -12,7 +12,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
-
+import "./css/Hero.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 const defaultTheme = createTheme();
 export default function Hero() {
@@ -22,16 +22,55 @@ export default function Hero() {
       <main>
         {/* Hero unit */}
         <Box
+          className="hero"
           sx={{
-            bgcolor: "#FBE3E0",
-            pt: 45,
+            pt: 30,
             pb: 10,
-            backgroundImage: `url('https://scontent-xsp1-2.xx.fbcdn.net/v/t39.30808-6/424674074_874795108114458_7870620535896436307_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=783fdb&_nc_ohc=xGHYaq5CJUEAX8F7dwv&_nc_ht=scontent-xsp1-2.xx&oh=00_AfD0AoGrIdxpTkAWQ2g3FLDwCN0cY9B_24MFlPngTMV6dA&oe=65C7E6B1')`, // Replace 'https://example.com/background-image.jpg' with the URL of your background image
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            opacity: 0.3,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "center", // Center vertically
+            alignItems: "center", // Center horizontally
+            textAlign: "center", // Center text
           }}
-        ></Box>
+        >
+          <Container
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              position: "relative",
+              top: "-10rem", // Adjust the top position as needed to move the container up
+            }}
+          >
+            <Typography
+              sx={{
+                fontWeight: "900",
+                color: "black !important",
+                position: "relative",
+                fontSize: "xx-large",
+                fontFamily:
+                  "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif",
+              }}
+            >
+              Volunteer With Us
+            </Typography>
+            <Typography
+              sx={{
+                color: "black !important",
+                fontWeight: "600",
+                position: "relative",
+                fontSize: "x-large",
+                width: "40rem",
+                alignSelf: "center",
+              }}
+            >
+              Volunteering is an incredible way to give back to your community.
+              At Big at Heart, we believe in making it easy for you to find
+              meaningful volunteer opportunities while also connecting with new
+              people. Join us in making a difference and building connections
+              that last a lifetime.
+            </Typography>
+          </Container>
+        </Box>
       </main>
     </ThemeProvider>
   );
