@@ -13,6 +13,7 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Link from "@mui/material/Link";
 import "./css/Hero.css";
+import "@fontsource/roboto";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 const defaultTheme = createTheme();
 export default function Hero() {
@@ -47,11 +48,11 @@ export default function Hero() {
                 color: "black !important",
                 position: "relative",
                 fontSize: "xx-large",
-                fontFamily:
-                  "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif",
+                fontFamily: "Roboto",
               }}
             >
               Volunteer With Us
+              <img src="src/assets/redman.png" className="redman"></img>
             </Typography>
             <Typography
               sx={{
@@ -61,6 +62,7 @@ export default function Hero() {
                 fontSize: "x-large",
                 width: "40rem",
                 alignSelf: "center",
+                fontFamily: "Roboto",
               }}
             >
               Volunteering is an incredible way to give back to your community.

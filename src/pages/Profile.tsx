@@ -26,7 +26,11 @@ const Profile = () => {
     avatar: "https://i.imgur.com/YYZS3C6.png",
   };
 
-  const defaultTheme = createTheme();
+  const defaultTheme = createTheme({
+    typography: {
+      fontFamily: ["Roboto"].join(),
+    },
+  });
 
   return (
     <ThemeProvider theme={defaultTheme}>
