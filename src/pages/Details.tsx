@@ -9,12 +9,30 @@ import "./css/Details.css";
 const Details = () => {
   // Dummy data for the event details, replace it with your actual data
   const location = useLocation();
-  console.log(location.state.data);
+  function uint8ToBase64(u8Arr) {
+    const CHUNK_SIZE = 0x8000; // arbitrary number
+    let index = 0;
+    let length = u8Arr.length;
+    let result = "";
+    let slice;
+    while (index < length) {
+      slice = u8Arr.subarray(index, Math.min(index + CHUNK_SIZE, length));
+      result += String.fromCharCode.apply(null, slice);
+      index += CHUNK_SIZE;
+    }
+    return btoa(result);
+  }
+  const u8Arr = new Uint8Array(location.state.data.image.data.data);
+  const base64 = uint8ToBase64(u8Arr);
+  console.log(base64);
   const eventDetails = {
     title: location.state.data.title,
     tags: ["Tag1", "Tag2"],
     image: (
-      <img src={location.state.data.image} alt={location.state.data.title} />
+      <img
+        src={`data:image/jpeg;base64,${base64}`}
+        alt={location.state.data.title}
+      />
     ),
     description: location.state.data.body,
   };

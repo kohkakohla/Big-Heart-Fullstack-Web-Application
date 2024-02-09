@@ -4,3 +4,12 @@
 [0mPOST /events/createNew [32m200[0m 1114.054 ms - 16[0m
 [0mPOST /events/createNew [32m200[0m 1034.290 ms - 16[0m
 [0mGET /events/getAll [32m200[0m 10017.643 ms - 42452318[0m
+[0mGET /volunteer/searchById/5b730a40f9ea119f5d7b1e66 [32m200[0m 20.488 ms - 0[0m
+[0mGET /volunteer/searchById/5b730a40f9ea119f5d7b1e66 [36m304[0m 13.207 ms - -[0m
+[0mGET /events/getAll [32m200[0m 488.966 ms - 12758156[0m
+[0mGET /volunteer/searchById/5b730a40f9ea119f5d7b1e66 [36m304[0m 10.395 ms - -[0m
+[0mGET /volunteer/searchById/5b730a40f9ea119f5d7b1e66 [36m304[0m 10.728 ms - -[0m
+[0mGET /events/getAll [36m304[0m 516.445 ms - -[0m
+[0mGET /events/getAll [36m304[0m 458.581 ms - -[0m
+[0mGET /events/getAll [36m304[0m 476.270 ms - -[0m
+[0mGET /events/getAll [36m304[0m 544.275 ms - -[0m
