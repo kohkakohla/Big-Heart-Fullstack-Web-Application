@@ -725,10 +725,6 @@ app.put('/events/:id/reset', (req, res) => {
     try {
         const id = req.params.id;
         const newDate = req.body;
-        const event = cEvent.findById(id);
-        event.current_volunteers.forEach((v) => {
-            volunteer.updateOne({_id: v}, {$inc: {hours: event.hours}})
-        })
         cEvent.updateOne({_id: id}, {$set: {
             current_volunteers: [],
             dateOfEvent: newDate,
@@ -752,7 +748,7 @@ app.put('/events/:id/attendance', (req, res) => {
     try{
         const eventId = req.params.id;
         const {volAttendance} = req.body;
-        const event = cEvent.findById(id);
+        const event = cEvent.findById(eventId);
         volAttendance.forEach((v) => {
             volunteer.updateOne({_id: v}, 
                 {$inc: {
@@ -760,10 +756,10 @@ app.put('/events/:id/attendance', (req, res) => {
                     xp: event.hours * 175
                 }},
                 {$push: {
-                    pastEnrolledServiceEvents: event._id
+                    pastEnrolledServiceEvents: eventId
                 }},
                 {$pull: {
-                    currentEnrolledServiceEvents: event._id
+                    currentEnrolledServiceEvents: eventId
                 }}
             )
         })
