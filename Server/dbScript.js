@@ -147,6 +147,37 @@ app.get('/volunteer/all', (req, res) => {
         })
         .catch((err) => console.log(err))
 });
+/**
+ * Fetches the count of all volunteers regardless of status
+ * @Returns all json count of all volunteer documents in the system
+ */
+app.get('/volunteer/count', (req,res) => {
+    try{
+        volunteer.countDocuments({})
+            .then((count) => res.json({count}))
+
+    } catch (error) {
+        console.error("Error while handling counting vol documents ", error);
+        res.status(500).send("Internal Server Error");
+    }
+})
+/**
+ * Generic Fetch for volunteers under any param
+ * @Params {String, String} - Param and param value in the url query
+ * @Returns count of documents that fit the parameters
+ */
+app.get('/volunteer/count/:param/:paramValue', (req,res) => {
+    try{
+        const param = req.params.param;
+        const paramValue = req.params.paramValue;
+        volunteer.countDocuments({[param] : paramValue})
+            .then((count) => res.json({count}))
+
+    } catch (error) {
+        console.error("Error while handling counting vol documents ", error);
+        res.status(500).send("Internal Server Error");
+    }
+})
 
 /**
  * Get Method which returns unverfied volunteers for admins
