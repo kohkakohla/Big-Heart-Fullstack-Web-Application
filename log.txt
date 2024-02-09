@@ -87,3 +87,5 @@
 [0mGET /events/getAll [36m304[0m 399.753 ms - -[0m
 [0mGET /events/getAll [36m304[0m 478.392 ms - -[0m
 [0mGET /events/getAll [36m304[0m 411.095 ms - -[0m
+[0mGET /events/getAll [36m304[0m 463.280 ms - -[0m
+[0mGET /events/getAll [36m304[0m 419.967 ms - -[0m
