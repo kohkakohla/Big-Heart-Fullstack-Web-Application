@@ -108,6 +108,14 @@ const volunteerSchema =  new schema({
     hours: {
       type: Number,
       default: 0
+    },
+    xp: {
+      type: Number,
+      default: 0
+    },
+    achievements: {
+      type: [achievements],
+      required: false
     }
 
   });
