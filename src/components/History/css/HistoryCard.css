@@ -1,0 +1,17 @@
+.main-wrapper {
+    height: 100vh !important;
+    background-color: #FBE3E0;
+}
+
+.card-title {
+    background-color: #F6AAAA;
+}
+
+.date-dropdown {
+   
+}
+.select-date-box {
+    background-color: white;
+    width: 8rem;
+    border-radius: 15px;
+}
