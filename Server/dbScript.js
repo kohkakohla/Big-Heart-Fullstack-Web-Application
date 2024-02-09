@@ -752,7 +752,7 @@ app.put('/events/:id/attendance', (req, res) => {
     try{
         const eventId = req.params.id;
         const {volAttendance} = req.body;
-        cEvent.updateOne({_id: eventId}, {$set: {volAttendance}})
+        cEvent.updateOne({_id: eventId}, {$set: {current_volunteers: volAttendance}})
             .then((result) => {
                 res.send(result)
             })
