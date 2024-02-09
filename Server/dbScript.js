@@ -179,7 +179,7 @@ app.get('/volunteer/count/:param/:paramValue', (req,res) => {
     }
 })
 
-/**
+/** 
  * Get Method which returns unverfied volunteers for admins
  * @Returns all volunteer documents of those who are not verified yet
  */
@@ -651,24 +651,15 @@ app.post('/events/createNew', upload.single('image'), async (req, res) => {
 app.put('/events/addVolunteer', (req, res) => {
     try{
         const {volID, eventID} = req.body;
-        cEvent.updateOne({_id: eventID}, {$push: {current_volunteers: volID} })
-            .then((result) =>{
-                res.send(result);
-            })
-            .catch((err) => console.log(err));
-            
+        cEvent.updateOne({_id: eventID}, {$push: {current_volunteers: volID} });
+        volunteer.updateOne({_id: volID}, {$push: {currentEnrolledServiceEvents: eventID} })
+            .then((result) => res.send('all good'));
         
     } catch (error) {
         console.error('Error during update volunteer query: ', error);
         res.status(500).send('Internal Server Error');
     }
- volunteer.updateOne({_id: userID}, {$set: {fieldToUpdate: newStatus} }, (err, result) => {
-            if (err) {
-              console.error(err);
-            } else {
-              console.log('status update to: ', newStatus);
-            } }
-        );
+ 
 
 })
 
