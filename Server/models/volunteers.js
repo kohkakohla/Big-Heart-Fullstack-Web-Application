@@ -1,5 +1,6 @@
 
 const mongoose = require('mongoose');
+const achievements = require('./achievements').schema;
 const schema = mongoose.Schema;
 const addressSchema = new schema({
   city: String,
