@@ -1,39 +1,58 @@
-require('dotenv').config()
+// Mern stack import
 
+require('dotenv').config()
 global.bodyParser = require('body-parser');
 const express = require('express');
 const morgan = require('morgan');
-const socket = require('socket.io');
-const mongoose = require('mongoose');
 const rfs = require("rotating-file-stream");
+const mongoose = require('mongoose');
+
+// Importing schemas releveant 
+
 const volunteer = require('./models/volunteers');
 const cEvent = require('./models/cEvents');
+
+// Importing stuff for chatroom
+
+const socket = require('socket.io');
 var request = require('request');
 const { type } = require('os');
-const multer = require('multer');
+
+
 //read up on axios and cors to connect react app with express app
+
 const cors = require('cors');
 const { validateHeaderValue } = require('http');
 const schema = mongoose.Schema;
-const storage = multer.memoryStorage(); // Store the image in memory as a Buffer
+
+// importing multer for image processing
+
+const multer = require('multer');
+const storage = multer.memoryStorage(); 
 const upload = multer({ storage: storage });
 
 // express app
+
 const app = express();
 app.use(cors());
+
 // Socket setup
+
 var server = app.listen(4000, function(){
     console.log('listening to request on port 4000');
 })
+
 var io = socket(server);
 
 
 // on socket connection, passes thru function with socket
+
 io.on('connection', function(socket){ 
     console.log('made socket connection');
 });
 
 // Implementation of body parser
+
 app.use(bodyParser.urlencoded({
     extended: true,
     limit: '50mb',
@@ -45,9 +64,8 @@ app.use(bodyParser.json({
     parameterLimit: 10000
 }))
 
-
-
 // Database side URI connection to MONGO ATLAS
+
 const dbURI = 'mongodb+srv://hundin231:Tastigers231@cluster0.gjb0xxi.mongodb.net/?retryWrites=true&w=majority';
 mongoose.connect(dbURI)
     .then((result) => 
@@ -56,14 +74,13 @@ mongoose.connect(dbURI)
     }))
     .catch((error) => console.log(error))
 
-
 function queryFormatter( param,  reqObj,){
     return param + " == '" + String(reqObj) + "'";
 }
 
 
-
 // Morgan setup and creating a log stream
+
 const rfsStream = rfs.createStream("log.txt", {
     size: '10M', // rotate every 10MB
     interval: '1d', // rotate daily
@@ -71,31 +88,37 @@ const rfsStream = rfs.createStream("log.txt", {
 })
 
 // if log file defined then use rfs stream else print to console
+
 app.use(morgan(process.env.LOG_FORMAT || "dev", {
     stream: process.env.LOG_FILE ? rfsStream : process.stdout
  }));
  
  // if log file is defined then also show logs in console
  // else it will use the previous process.stdout to print to console
+
  if(process.env.LOG_FILE) {
     app.use(morgan(process.env.LOG_FORMAT || "dev"));    
  }
 
 // add log stream to moregan to save logs in file
+
 app.use(morgan("dev", {
     stream: rfsStream
 }));
 
 
 // register view engine
+
 app.set('view engine', 'ejs');
 
 // middleware and static fields
+
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true })); //what does this do ?
 app.use(morgan('dev'));
 
 // Setting up an address Schema parser
+
 const addressSchema = new schema({
     city: String,
     street: String,
@@ -222,7 +245,7 @@ app.get('/volunteer/byEvent/:id', (req, res) => {
 
 
 /**
- * @VolunteerPostMethods
+ * @VolunteerPostMethodsgit
  * Add new Volunteer through form submission
  * Login attempt by volunteers 
  * Update volunter information
