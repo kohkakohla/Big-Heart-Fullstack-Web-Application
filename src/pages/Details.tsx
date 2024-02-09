@@ -24,16 +24,10 @@ const Details = () => {
   }
   const u8Arr = new Uint8Array(location.state.data.image.data.data);
   const base64 = uint8ToBase64(u8Arr);
-  console.log(base64);
   const eventDetails = {
     title: location.state.data.title,
     tags: ["Tag1", "Tag2"],
-    image: (
-      <img
-        src={`data:image/jpeg;base64,${base64}`}
-        alt={location.state.data.title}
-      />
-    ),
+    image: `data:image/jpeg;base64,${base64}`,
     description: location.state.data.body,
   };
 
