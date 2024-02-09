@@ -58,7 +58,7 @@ const volunteerSchema =  new schema({
     },
 
     dateOfBirth: {
-      type: Date,
+      type: String,
       required: true
     },
 
@@ -114,7 +114,7 @@ const volunteerSchema =  new schema({
       type: Number,
       default: 0
     },
-    achievements: {
+    achievement: {
       type: [achievements],
       required: false
     }
