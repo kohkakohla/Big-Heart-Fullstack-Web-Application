@@ -51,8 +51,25 @@ const Profile = () => {
       fontFamily: ["Roboto"].join(),
     },
   });
-  console.log("gay");
-  console.log(profileData);
+  // console.log("gay");
+  // console.log(profileData);
+  console.log(!profileData.achievement);
+  if (!profileData.profileImage) {
+    profileData.profileImage = "https://i.imgur.com/YYZS3C6.png";
+  }
+  if (!profileData.avatar) {
+    profileData.avatar = "src/assets/redman.png";
+  }
+  if (profileData.achievement.length == 0) {
+    profileData.achievement = ["zaza", "badoink", "ahhh"];
+  }
+
+  if (!profileData.aboutMe) {
+    profileData.aboutMe = "Hi I love volunteering! and horses :)";
+  }
+  if (!profileData.expPercentage) {
+    profileData.expPercentage = 75;
+  }
   return (
     <ThemeProvider theme={defaultTheme}>
       <NavBar />
@@ -65,7 +82,7 @@ const Profile = () => {
                 <Grid item xs={12} md={6}>
                   <img
                     src={profileData.profileImage}
-                    alt="Profile"
+                    alt=""
                     className="profile-image"
                   />
                   <Typography variant="h6" component="h2" className="username">
@@ -95,6 +112,7 @@ const Profile = () => {
             </Container>
           </Grid>
           <Grid item xs={12}>
+            <Typography>XP Level: {profileData.expPercentage}%</Typography>
             <div className="exp-bar">
               <div
                 className="exp-progress"

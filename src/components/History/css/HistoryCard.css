@@ -1,6 +1,7 @@
 .main-wrapper {
     height: 100vh !important;
     background-color: #FBE3E0;
+    margin-top: -10rem
 }
 
 .card-title {
