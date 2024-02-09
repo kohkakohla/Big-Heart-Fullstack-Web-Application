@@ -752,13 +752,27 @@ app.put('/events/:id/attendance', (req, res) => {
     try{
         const eventId = req.params.id;
         const {volAttendance} = req.body;
-        cEvent.updateOne({_id: eventId}, {$set: {current_volunteers: volAttendance}})
-            .then((result) => {
-                res.send(result)
-            })
-            .catch((error) => {
-                res.send(error)
-            })
+        const event = cEvent.findById(id);
+        volAttendance.forEach((v) => {
+            volunteer.updateOne({_id: v}, 
+                {$inc: {
+                    hours: event.hours, 
+                    xp: event.hours * 175
+                }},
+                {$push: {
+                    pastEnrolledServiceEvents: event._id
+                }},
+                {$pull: {
+                    currentEnrolledServiceEvents: event._id
+                }}
+            )
+        })
+        .then((result) => {
+            res.send(result)
+        })
+        .catch((error) => {
+            res.send(error)
+        })
     } catch (error){
         console.error("Error occured while trying to mark attendance ", error);
         res.status(500).send(error);
