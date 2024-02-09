@@ -726,8 +726,8 @@ app.put('/events/:id/reset', (req, res) => {
         const id = req.params.id;
         const newDate = req.body;
         const event = cEvent.findById(id);
-        event.current_volunteers.forEach((volunteer) => {
-            volunteer.updateOne({_id: volunteer}, {$inc: {hours: event.hours}})
+        event.current_volunteers.forEach((v) => {
+            volunteer.updateOne({_id: v}, {$inc: {hours: event.hours}})
         })
         cEvent.updateOne({_id: id}, {$set: {
             current_volunteers: [],
@@ -743,8 +743,27 @@ app.put('/events/:id/reset', (req, res) => {
         res.status(500).send("Internal Server Error")
     }
 });
-// do tomo 
-app.put('/events/:id/attendance')
+/**
+ * Sends realized attendance for event
+ * @Params {[String]} - volunteer ID arrays from the list of people who are currently enrolled
+ * @Returns a commited attendance, and completion for all listed volunteers
+ */
+app.put('/events/:id/attendance', (req, res) => {
+    try{
+        const eventId = req.params.id;
+        const {volAttendance} = req.body;
+        cEvent.updateOne({_id: eventId}, {$set: {volAttendance}})
+            .then((result) => {
+                res.send(result)
+            })
+            .catch((error) => {
+                res.send(error)
+            })
+    } catch (error){
+        console.error("Error occured while trying to mark attendance ", error);
+        res.status(500).send(error);
+    }
+})
 /**
  * Deletes an event 
  * @Params {String} - eventId
