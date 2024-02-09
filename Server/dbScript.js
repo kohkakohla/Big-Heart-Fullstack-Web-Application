@@ -178,7 +178,9 @@ app.get('/volunteer/count/:param/:paramValue', (req,res) => {
         res.status(500).send("Internal Server Error");
     }
 })
-
+/**
+ * Implemented a leaderboard to show the xp rankings of volunteers
+ */
 app.get('/leaderboard', (req,res) => {
     try{
         volunteer.find({}, {xp: -1, hours: -1, lastName: 1, firstName: 1}).sort({xp: -1})
@@ -193,8 +195,38 @@ app.get('/leaderboard', (req,res) => {
         console.error("Error occured while trying to find by hours ", error);
         res.status(500).send("Internal Server Error");
     }
-        
 })
+
+/**
+ * request to sort volunteers based on x
+ */
+app.get('/volunteer/count/special/byEvent/:eventType' , async (req, res) => {
+    try{
+       
+        const eventType = req.params.eventType
+        var count = 0
+        const v = await volunteer.find()
+        await v.forEach(async (vol) => {
+
+            if(vol.pastEnrolledServiceEvents != undefined){
+                vol.pastEnrolledServiceEvents.forEach( async (event) => {
+                    console.log('p')
+                    const e = await cEvent.findById(event)
+                    if (e && e.typeOfService){
+                        if(e.typeOfService == eventType){count++}
+            }})
+            
+        }})
+        console.log(count)
+    } catch (error) {
+        console.error("Error while trying to get count of volunteers by event type ", error)
+        res.status(500).send("Internal Server Error")
+    }
+})
+
+/**
+ * Request to count volunteers 
+ */
 
 /** 
  * Get Method which returns unverfied volunteers for admins
@@ -799,15 +831,15 @@ app.put('/events/:id/attendance', async (req, res) => {
                 {$inc: {
                     hours: event.hours, 
                     xp: event.hours * 175
-                }},
-                {$push: {
+                }, $push: {
                     pastEnrolledServiceEvents: eventId
-                }},
-                {$pull: {
+                }, $pull: {
                     currentEnrolledServiceEvents: eventId
                 }}
             )
+            
         })
+        res.send("done")
 
         
     } catch (error){
