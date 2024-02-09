@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import CardContent from "@mui/material/CardContent";
@@ -11,8 +11,7 @@ interface CardListProps {
 }
 
 function CardList() {
-  let data;
-  let listItem;
+  const [listItems, setListItems] = useState([]);
 
   function uint8ToBase64(u8Arr) {
     const CHUNK_SIZE = 0x8000; // arbitrary number
@@ -28,41 +27,44 @@ function CardList() {
     return btoa(result);
   }
 
-  async function fetchData() {
-    try {
-      const response = await fetch("http://localhost:3000/events/getAll");
-      data = await response.json();
-      console.log(data);
-      listItem = data.map((item) => {
-        const u8Arr = new Uint8Array(item.image.data.data);
-        const base64 = uint8ToBase64(u8Arr);
-        return (
-          <Card sx={{ maxWidth: 345 }}>
-            <CardMedia
-              sx={{ height: 140 }}
-              image={`data:image/jpeg;base64,${base64}`}
-            />
-            <CardContent>
-              <Typography gutterBottom variant="h5" component="div">
-                {item.title}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                {item.snippet}
-              </Typography>
-            </CardContent>
-            <CardActions>
-              <Button size="small">Learn More</Button>
-            </CardActions>
-          </Card>
-        );
-      });
-    } catch (error) {
-      console.error("Error:", error);
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const response = await fetch("http://localhost:3000/events/getAll");
+        const data = await response.json();
+        console.log(data);
+        const listItems = data.map((item) => {
+          const u8Arr = new Uint8Array(item.image.data.data);
+          const base64 = uint8ToBase64(u8Arr);
+          return (
+            <Card sx={{ maxWidth: 345 }} key={item.id}>
+              <CardMedia
+                sx={{ height: 140 }}
+                image={`data:image/jpeg;base64,${base64}`}
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="div">
+                  {item.title}
+                </Typography>
+                <Typography variant="body2" color="text.secondary">
+                  {item.snippet}
+                </Typography>
+              </CardContent>
+              <CardActions>
+                <Button size="small">Learn More</Button>
+              </CardActions>
+            </Card>
+          );
+        });
+        setListItems(listItems);
+      } catch (error) {
+        console.error("Error:", error);
+      }
     }
-  }
-  fetchData();
+    fetchData();
+  }, []);
 
-  return <div>{listItem}</div>;
+  return <div>{listItems}</div>;
 }
 
 export default CardList;
