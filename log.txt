@@ -1,0 +1,6 @@
+[0mPOST /events/createNew [31m500[0m 17.455 ms - 21[0m
+[0mPOST /events/createNew [31m500[0m 23.975 ms - 21[0m
+[0mPOST /events/createNew [31m500[0m 21.406 ms - 21[0m
+[0mPOST /events/createNew [32m200[0m 1114.054 ms - 16[0m
+[0mPOST /events/createNew [32m200[0m 1034.290 ms - 16[0m
+[0mGET /events/getAll [32m200[0m 10017.643 ms - 42452318[0m

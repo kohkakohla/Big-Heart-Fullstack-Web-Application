@@ -1,3 +1,21 @@
-.test {
-    background-color: white;
+.hero::before {
+    content: "";
+    background-image: url('https://scontent-xsp1-2.xx.fbcdn.net/v/t39.30808-6/424674074_874795108114458_7870620535896436307_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=783fdb&_nc_ohc=xGHYaq5CJUEAX8F7dwv&_nc_ht=scontent-xsp1-2.xx&oh=00_AfD0AoGrIdxpTkAWQ2g3FLDwCN0cY9B_24MFlPngTMV6dA&oe=65C7E6B1');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.2;
+    background-color: #FBE3E0;
+    position: absolute;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    left: 0px;
+    height: 35rem;
+}
+
+.hero {
+    
+    display: flex;
+    align-items: center;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }

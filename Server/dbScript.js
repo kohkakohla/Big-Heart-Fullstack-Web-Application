@@ -1,39 +1,58 @@
-require('dotenv').config()
+// Mern stack import
 
+require('dotenv').config()
 global.bodyParser = require('body-parser');
 const express = require('express');
 const morgan = require('morgan');
-const socket = require('socket.io');
-const mongoose = require('mongoose');
 const rfs = require("rotating-file-stream");
+const mongoose = require('mongoose');
+
+// Importing schemas releveant 
+
 const volunteer = require('./models/volunteers');
 const cEvent = require('./models/cEvents');
+
+// Importing stuff for chatroom
+
+const socket = require('socket.io');
 var request = require('request');
 const { type } = require('os');
-const multer = require('multer');
+
+
 //read up on axios and cors to connect react app with express app
+
 const cors = require('cors');
 const { validateHeaderValue } = require('http');
 const schema = mongoose.Schema;
-const storage = multer.memoryStorage(); // Store the image in memory as a Buffer
+
+// importing multer for image processing
+
+const multer = require('multer');
+const storage = multer.memoryStorage(); 
 const upload = multer({ storage: storage });
 
 // express app
+
 const app = express();
 app.use(cors());
+
 // Socket setup
+
 var server = app.listen(4000, function(){
     console.log('listening to request on port 4000');
 })
+
 var io = socket(server);
 
 
 // on socket connection, passes thru function with socket
+
 io.on('connection', function(socket){ 
     console.log('made socket connection');
 });
 
 // Implementation of body parser
+
 app.use(bodyParser.urlencoded({
     extended: true,
     limit: '50mb',
@@ -45,9 +64,8 @@ app.use(bodyParser.json({
     parameterLimit: 10000
 }))
 
-
-
 // Database side URI connection to MONGO ATLAS
+
 const dbURI = 'mongodb+srv://hundin231:Tastigers231@cluster0.gjb0xxi.mongodb.net/?retryWrites=true&w=majority';
 mongoose.connect(dbURI)
     .then((result) => 
@@ -56,14 +74,13 @@ mongoose.connect(dbURI)
     }))
     .catch((error) => console.log(error))
 
-
 function queryFormatter( param,  reqObj,){
     return param + " == '" + String(reqObj) + "'";
 }
 
 
-
 // Morgan setup and creating a log stream
+
 const rfsStream = rfs.createStream("log.txt", {
     size: '10M', // rotate every 10MB
     interval: '1d', // rotate daily
@@ -71,31 +88,37 @@ const rfsStream = rfs.createStream("log.txt", {
 })
 
 // if log file defined then use rfs stream else print to console
+
 app.use(morgan(process.env.LOG_FORMAT || "dev", {
     stream: process.env.LOG_FILE ? rfsStream : process.stdout
  }));
  
  // if log file is defined then also show logs in console
  // else it will use the previous process.stdout to print to console
+
  if(process.env.LOG_FILE) {
     app.use(morgan(process.env.LOG_FORMAT || "dev"));    
  }
 
 // add log stream to moregan to save logs in file
+
 app.use(morgan("dev", {
     stream: rfsStream
 }));
 
 
 // register view engine
+
 app.set('view engine', 'ejs');
 
 // middleware and static fields
+
 app.use(express.static('public'));
 app.use(express.urlencoded({ extended: true })); //what does this do ?
 app.use(morgan('dev'));
 
 // Setting up an address Schema parser
+
 const addressSchema = new schema({
     city: String,
     street: String,
@@ -124,8 +147,39 @@ app.get('/volunteer/all', (req, res) => {
         })
         .catch((err) => console.log(err))
 });
-
 /**
+ * Fetches the count of all volunteers regardless of status
+ * @Returns all json count of all volunteer documents in the system
+ */
+app.get('/volunteer/count', (req,res) => {
+    try{
+        volunteer.countDocuments({})
+            .then((count) => res.json({count}))
+
+    } catch (error) {
+        console.error("Error while handling counting vol documents ", error);
+        res.status(500).send("Internal Server Error");
+    }
+})
+/**
+ * Generic Fetch for volunteers under any param
+ * @Params {String, String} - Param and param value in the url query
+ * @Returns count of documents that fit the parameters
+ */
+app.get('/volunteer/count/:param/:paramValue', (req,res) => {
+    try{
+        const param = req.params.param;
+        const paramValue = req.params.paramValue;
+        volunteer.countDocuments({[param] : paramValue})
+            .then((count) => res.json({count}))
+
+    } catch (error) {
+        console.error("Error while handling counting vol documents ", error);
+        res.status(500).send("Internal Server Error");
+    }
+})
+
+/** 
  * Get Method which returns unverfied volunteers for admins
  * @Returns all volunteer documents of those who are not verified yet
  */
@@ -222,7 +276,7 @@ app.get('/volunteer/byEvent/:id', (req, res) => {
 
 
 /**
- * @VolunteerPostMethods
+ * @VolunteerPostMethodsgit
  * Add new Volunteer through form submission
  * Login attempt by volunteers 
  * Update volunter information
@@ -261,6 +315,26 @@ app.post('/volunteer/signup', (req, res) => {
             console.log(err)
         });
 })
+/**
+ * Updates a volunteer generic param
+ * @Params {String, String, String} - volunteer, param to update and the updateValue
+ * @Returns a successful update message or unsuccessful
+ */
+
+app.put('/volunteer/:id/update/:param', async (req, res) => {
+    try {
+        const param = req.params.param;
+        const vId = req.params.id;
+        const {updateValue} = req.body;
+        const result = await volunteer.updateOne({ _id: vId }, { $set: { [param]: updateValue } });
+
+        console.log('Volunteer updated successfully:', result);
+        res.status(200).send("Volunteer updated successfully");
+    } catch (error) {
+        console.error("Error while trying to update Volunteer by generic param:", error);
+        res.status(500).send("Internal Server Error");
+    }
+});
 
 /**
  * Post method which auth's login attempt through our system
@@ -372,6 +446,17 @@ app.get('/events/getAll', (req, res) => {
     }
 })
 
+app.get('/events/fetchNoImage', (req,res) => {
+    try {
+        cEvent.find({}, '-image')
+            .then((result) => res.send(result))
+            .catch((err) => res.send(err))
+    } catch (error) {
+        console.error("Error: while trying to fetch everything with on image")
+        res.status(500).send("Internal Server Error");
+    }
+})
+
 /**
  * Fetches community service events based on Service Type
  * @Params {String} typeOfService - The indicated service field it is involved in
@@ -404,6 +489,21 @@ app.get('/events/searchByType/event/:typeOfEvent',  (req, res) => {
             .catch((err) => console.log(err))
     } catch(error) {
         console.error("Error when fetching all events: ", error);
+        res.status(500).send('Internal Server Error');
+    }
+})
+
+/**
+ *  Debugging purposes
+ *  @Returns all event names and nothing else
+ */
+app.get('/debug/events/names', (req, res) => {
+    try {
+        cEvent.find({}, 'title')
+            .then((result) => res.send(result))
+            .catch((err) => res.send(err))
+    } catch (error) {
+        console.error("Error: while trying to fetch event names", error);
         res.status(500).send('Internal Server Error');
     }
 })
@@ -548,27 +648,18 @@ app.post('/events/createNew', upload.single('image'), async (req, res) => {
  * @Params {String, String} - EventID, VolunteerID
  * @Returns a DB commit to adding new volunteer to current volunteers in the event
  */
-app.put('/events/addVolunteer', (req, res) => {
+app.put('/events/addVolunteer', async (req, res) => {
     try{
         const {volID, eventID} = req.body;
-        cEvent.updateOne({_id: eventID}, {$push: {current_volunteers: volID} })
-            .then((result) =>{
-                res.send(result);
-            })
-            .catch((err) => console.log(err));
-            
+        await cEvent.updateOne({_id: eventID}, {$push: {current_volunteers: volID} });
+        await volunteer.updateOne({_id: volID}, {$push: {currentEnrolledServiceEvents: eventID} })
+            .then((result) => res.send('all good'));
         
     } catch (error) {
         console.error('Error during update volunteer query: ', error);
         res.status(500).send('Internal Server Error');
     }
- volunteer.updateOne({_id: userID}, {$set: {fieldToUpdate: newStatus} }, (err, result) => {
-            if (err) {
-              console.error(err);
-            } else {
-              console.log('status update to: ', newStatus);
-            } }
-        );
+ 
 
 })
 
@@ -637,34 +728,30 @@ app.put('/events/postComment', (req, res) => {
  * @Body Contains the new update value
  * @Returns a updated push into the events comment section.
  */
-app.put('/events/:id/update/:param' , (req, res) =>{
-    try{ 
+app.put('/events/:id/update/:param', async (req, res) => {
+    try {
         const param = req.params.param;
         const eventId = req.params.id;
-        const updateValue = req.body;
-        cEvents.updateOne({_id: eventId}, {$set: {[param]: updateValue}} , (err, result) => {
-            if (err) {
-              console.error(err);
-            } else {
-              console.log('status update to: ', newStatus);
-            } 
-        });
-        
+        const {updateValue} = req.body;
+        const result = await cEvent.updateOne({ _id: eventId }, { $set: { [param]: updateValue } });
+
+        console.log('Event updated successfully:', result);
+        res.status(200).send("Event updated successfully");
     } catch (error) {
-        console.error("Error: While trying to update events by generic param: ", error);
+        console.error("Error while trying to update events by generic param:", error);
         res.status(500).send("Internal Server Error");
     }
-})
-
+});
+/**
+ * Resets a regular timed event 
+ * @Params {string} - eventId
+ * @Returns a resetted event with empty current volunteers and a new date
+ */
 app.put('/events/:id/reset', (req, res) => { 
     try {
         const id = req.params.id;
         const newDate = req.body;
-        const event = cEvents.findById(id);
-        event.current_volunteers.forEach((volunteer) => {
-            volunteer.updateOne({_id: volunteer}, {$inc: {hours: event.hours}})
-        })
-        cEvents.updateOne({_id: id}, {$set: {
+        cEvent.updateOne({_id: id}, {$set: {
             current_volunteers: [],
             dateOfEvent: newDate,
         }})
@@ -678,14 +765,61 @@ app.put('/events/:id/reset', (req, res) => {
         res.status(500).send("Internal Server Error")
     }
 });
-// do tomo 
-app.put('/events/:id/attendance')
+/**
+ * Sends realized attendance for event
+ * @Params {[String]} - volunteer ID arrays from the list of people who are currently enrolled
+ * @Returns a commited attendance, and completion for all listed volunteers
+ */
+app.put('/events/:id/attendance', async (req, res) => {
+    try{
+        const eventId = req.params.id;
+        console.log(eventId);
+        const {volAttendance} = req.body;
+        const event = await cEvent.findById(eventId);
+        volAttendance.forEach( async (v) => {
+            console.log(event.hours),
+            await volunteer.updateOne({_id: String(v)}, 
+                {$inc: {
+                    hours: event.hours, 
+                    xp: event.hours * 175
+                }},
+                {$push: {
+                    pastEnrolledServiceEvents: eventId
+                }},
+                {$pull: {
+                    currentEnrolledServiceEvents: eventId
+                }}
+            )
+        })
 
+        
+    } catch (error){
+        console.error("Error occured while trying to mark attendance ", error);
+        res.status(500).send(error);
+    }
+})
+/**
+ * Deletes an event 
+ * @Params {String} - eventId
+ * @Returns either an error or a sucessfull delete respponse
+ */
 app.delete('/events/delete/:eventId', (req, res) => {
     try {
-
+        const eventId = req.params.eventId;
+        cEvent.deleteOne({_id: eventId})
+            .then((result) => {
+                if (result){
+                    res.send("no event")
+                }
+                else{
+                    res.send("Deleted Event.")
+                }
+                
+            })
+            .catch((err) => res.send(err));
     } catch (error) {
-        
+        console.error('Error: while trying to delete ', error);
+        res.status(500).send('Internal Server Error');
     }
 })
 /**
@@ -698,7 +832,7 @@ app.delete('/events/:eventId/delete/comment/:commentId', (req, res) => {
         const eventId = req.params.eventId;
         const commentId = req.params.commentId;
         
-        cEvents.find({ 
+        cEvent.find({ 
             _id: eventId,
             "comments": {$elemMatch: {id: commentId}}
         })

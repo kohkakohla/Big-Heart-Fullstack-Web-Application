@@ -1,0 +1,39 @@
+.details-title {
+    font-weight: 700 !important;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+.main-wrapper {
+    height: 100vh !important;
+    background-color: #FBE3E0;
+    margin: 0;
+    width: 100%;
+    max-width: none !important;
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    padding-top: 2rem;
+    flex: 0 0 75% !important;
+}
+
+.tag {
+    background-color: #FBE3E0 !important;
+    margin-top: 0.25rem;
+    margin-bottom: 0.25rem;
+    margin-right: 0.8rem;
+    padding: 0.25rem;
+    border-radius: 10px;
+}
+
+.event-description {
+    width: 60%;
+    font-size: larger !important;
+}
+
+.partner-description {
+}
+
+.button-and-attendees-wrapper {
+    padding-right: 6rem !important;
+}

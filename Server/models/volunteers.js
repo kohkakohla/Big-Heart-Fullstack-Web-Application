@@ -1,5 +1,6 @@
 
 const mongoose = require('mongoose');
+const achievements = require('./achievements').schema;
 const schema = mongoose.Schema;
 const addressSchema = new schema({
   city: String,
@@ -57,7 +58,7 @@ const volunteerSchema =  new schema({
     },
 
     dateOfBirth: {
-      type: Date,
+      type: String,
       required: true
     },
 
@@ -108,6 +109,14 @@ const volunteerSchema =  new schema({
     hours: {
       type: Number,
       default: 0
+    },
+    xp: {
+      type: Number,
+      default: 0
+    },
+    achievement: {
+      type: [achievements],
+      required: false
     }
 
   });

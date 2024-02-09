@@ -1,9 +1,7 @@
-import Container from "react-bootstrap/Container";
-import Nav from "react-bootstrap/Nav";
-import Navbar from "react-bootstrap/Navbar";
-import NavDropdown from "react-bootstrap/NavDropdown";
-
+import React from "react";
+import { Container, Nav, Navbar } from "react-bootstrap";
 import "./css/nav_style.css";
+
 export function CollapsibleExample() {
   return (
     <Navbar
@@ -14,7 +12,12 @@ export function CollapsibleExample() {
       data-bs-theme="light"
       sticky="top"
     >
-      <Container>
+      <Container
+        sx={{
+          fontFamily:
+            "system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif",
+        }}
+      >
         <Navbar.Brand href="/home">
           <img
             src="src/assets/logo.webp"
@@ -31,14 +34,17 @@ export function CollapsibleExample() {
           className="justify-content-center"
         >
           <Nav className="me-auto">
-            <Nav.Link href="/login" className="nav-text">
-              ignore
-            </Nav.Link>
             <Nav.Link href="/dashboard" className="nav-text">
-              about
+              About
             </Nav.Link>
             <Nav.Link href="/cards" className="nav-text">
-              volunteer
+              Volunteer
+            </Nav.Link>
+            <Nav.Link href="/history" className="nav-text">
+              History
+            </Nav.Link>
+            <Nav.Link href="/profile" className="nav-text">
+              Profile
             </Nav.Link>
             {/* <NavDropdown title="Dropdown" id="collapsible-nav-dropdown">
               <NavDropdown.Item href="#action/3.1">goonette</NavDropdown.Item>
@@ -61,23 +67,6 @@ export function CollapsibleExample() {
         </Navbar.Collapse>
       </Container>
     </Navbar>
-  );
-}
-
-export function CustomColour() {
-  return (
-    <>
-      <Navbar className="custom-pink-navbar" data-bs-theme="light">
-        <Container>
-          <Navbar.Brand href="#home">Navbar</Navbar.Brand>
-          <Nav className="me-auto">
-            <Nav.Link href="#home">Home</Nav.Link>
-            <Nav.Link href="#features">Features</Nav.Link>
-            <Nav.Link href="#pricing">Pricing</Nav.Link>
-          </Nav>
-        </Container>
-      </Navbar>
-    </>
   );
 }
 
