@@ -6,6 +6,7 @@ import CardSample from "../components/Volunteer/CardLayout";
 import NavBar from "../components/Home/NavBar";
 import SearchBar from "../components/Volunteer/SearchBar";
 import SearchResultsList from "../components/Volunteer/SearchResultsList";
+import CardList from "../components/Volunteer/CardList";
 import "@fontsource/roboto";
 interface CardsProps {}
 
@@ -24,12 +25,12 @@ const Cards: React.FC<CardsProps> = () => {
           sx={{ mt: 8, backgroundColor: "#ffe9e5", flexGrow: 1 }}
         >
           <Box sx={{ m: 2 }}>
-            <CardSample />
+            <CardList />
           </Box>
         </Container>
       </div>
     </>
-  );
+  ); // cardsample used to be here
 };
 
 export default Cards;

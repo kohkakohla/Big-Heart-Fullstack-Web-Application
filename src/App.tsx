@@ -46,7 +46,6 @@ function App() {
             {/* <Route path="/cards/more-info" element={<EventInfo />} /> */}
             <Route path="/history" element={<History />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="cardlist" element={<Test />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>

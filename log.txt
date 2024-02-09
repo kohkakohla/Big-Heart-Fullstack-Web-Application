@@ -75,3 +75,13 @@
 [0mGET /events/getAll [36m304[0m 396.590 ms - -[0m
 [0mGET /events/getAll [36m304[0m 520.885 ms - -[0m
 [0mGET /events/getAll [36m304[0m 463.431 ms - -[0m
+[0mGET /events/getAll [36m304[0m 505.050 ms - -[0m
+[0mGET /events/getAll [36m304[0m 485.025 ms - -[0m
+[0mGET /events/getAll [36m304[0m 423.117 ms - -[0m
+[0mGET /events/getAll [36m304[0m 445.716 ms - -[0m
+[0mGET /events/getAll [36m304[0m 402.178 ms - -[0m
+[0mGET /events/getAll [36m304[0m 401.257 ms - -[0m
+[0mGET /events/getAll [36m304[0m 409.587 ms - -[0m
+[0mGET /events/getAll [36m304[0m 434.917 ms - -[0m
+[0mGET /events/getAll [36m304[0m 442.659 ms - -[0m
+[0mGET /events/getAll [36m304[0m 399.753 ms - -[0m
