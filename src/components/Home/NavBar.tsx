@@ -1,7 +1,6 @@
-import React from 'react';
-import { Container, Nav, Navbar } from 'react-bootstrap';
-import './css/nav_style.css';
-
+import React from "react";
+import { Container, Nav, Navbar } from "react-bootstrap";
+import "./css/nav_style.css";
 
 export function CollapsibleExample() {
   return (
@@ -30,17 +29,11 @@ export function CollapsibleExample() {
           className="justify-content-center"
         >
           <Nav className="me-auto">
-            <Nav.Link href="/login" className="nav-text">
-              ignore
-            </Nav.Link>
             <Nav.Link href="/dashboard" className="nav-text">
               about
             </Nav.Link>
             <Nav.Link href="/cards" className="nav-text">
               volunteer
-            </Nav.Link>
-            <Nav.Link href="/details" className="nav-text">
-              details
             </Nav.Link>
             <Nav.Link href="/history" className="nav-text">
               history
@@ -71,7 +64,5 @@ export function CollapsibleExample() {
     </Navbar>
   );
 }
-
-
 
 export default CollapsibleExample;
