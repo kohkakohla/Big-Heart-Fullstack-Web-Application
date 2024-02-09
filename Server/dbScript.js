@@ -199,28 +199,32 @@ app.get('/leaderboard', (req,res) => {
 })
 
 /**
- * request to sort volunteers based on x
+ * request to count the unique number of volunteers who has participated in X event Type
+ * @Params {String} - eventType
+ * @Returns integer json count variable with a Number attached.
  */
 
 app.get('/volunteer/count/special/byEvent/:eventType' , async (req, res) => {
     try {
         const eventType = req.params.eventType;
         let count = 0;
-    
+        let dup = false;
         const v = await volunteer.find();
     
         const promises = v.map(async (vol) => {
             console.log(vol.pastEnrolledServiceEvents);
-    
+            
             if (vol.pastEnrolledServiceEvents !== undefined) {
+                dup = false;
                 const eventPromises = vol.pastEnrolledServiceEvents.map(async (event) => {
                     console.log(event);
     
                     const e = await cEvent.findById(event);
     
-                    if (e.typeOfService === eventType) {
+                    if (e.typeOfService === eventType && !dup) {
                         console.log('real');
                         count++;
+                        dup = true;
                     }
                 });
     
@@ -235,9 +239,6 @@ app.get('/volunteer/count/special/byEvent/:eventType' , async (req, res) => {
     }
 })
 
-/**
- * Request to count volunteers 
- */
 
 /** 
  * Get Method which returns unverfied volunteers for admins
