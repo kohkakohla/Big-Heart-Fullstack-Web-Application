@@ -23,7 +23,7 @@ export default function Hero() {
         {/* Hero unit */}
         <Box
           sx={{
-            bgcolor: "pink",
+            bgcolor: "#FBE3E0",
             pt: 45,
             pb: 10,
             backgroundImage: `url('https://scontent-xsp1-2.xx.fbcdn.net/v/t39.30808-6/424674074_874795108114458_7870620535896436307_n.jpg?_nc_cat=110&ccb=1-7&_nc_sid=783fdb&_nc_ohc=xGHYaq5CJUEAX8F7dwv&_nc_ht=scontent-xsp1-2.xx&oh=00_AfD0AoGrIdxpTkAWQ2g3FLDwCN0cY9B_24MFlPngTMV6dA&oe=65C7E6B1')`, // Replace 'https://example.com/background-image.jpg' with the URL of your background image
