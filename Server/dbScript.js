@@ -648,11 +648,11 @@ app.post('/events/createNew', upload.single('image'), async (req, res) => {
  * @Params {String, String} - EventID, VolunteerID
  * @Returns a DB commit to adding new volunteer to current volunteers in the event
  */
-app.put('/events/addVolunteer', (req, res) => {
+app.put('/events/addVolunteer', async (req, res) => {
     try{
         const {volID, eventID} = req.body;
-        cEvent.updateOne({_id: eventID}, {$push: {current_volunteers: volID} });
-        volunteer.updateOne({_id: volID}, {$push: {currentEnrolledServiceEvents: eventID} })
+        await cEvent.updateOne({_id: eventID}, {$set: {current_volunteers: volID} });
+        await volunteer.updateOne({_id: volID}, {$set: {currentEnrolledServiceEvents: eventID} })
             .then((result) => res.send('all good'));
         
     } catch (error) {
@@ -766,13 +766,16 @@ app.put('/events/:id/reset', (req, res) => {
  * @Params {[String]} - volunteer ID arrays from the list of people who are currently enrolled
  * @Returns a commited attendance, and completion for all listed volunteers
  */
-app.put('/events/:id/attendance', (req, res) => {
+app.put('/events/:id/attendance', async (req, res) => {
     try{
         const eventId = req.params.id;
+        console.log(eventId);
         const {volAttendance} = req.body;
-        const event = cEvent.findById(eventId);
-        volAttendance.forEach((v) => {
-            volunteer.updateOne({_id: v}, 
+        const hours = 0;
+        const event = await cEvent.findById(eventId);
+        volAttendance.forEach( async (v) => {
+            console.log(event.hours),
+            await volunteer.updateOne({_id: String(v)}, 
                 {$inc: {
                     hours: event.hours, 
                     xp: event.hours * 175
@@ -785,12 +788,8 @@ app.put('/events/:id/attendance', (req, res) => {
                 }}
             )
         })
-        .then((result) => {
-            res.send(result)
-        })
-        .catch((error) => {
-            res.send(error)
-        })
+
+        
     } catch (error){
         console.error("Error occured while trying to mark attendance ", error);
         res.status(500).send(error);
