@@ -9,14 +9,26 @@ import "./css/Details.css";
 const Details = () => {
   // Dummy data for the event details, replace it with your actual data
   const location = useLocation();
-  console.log(location);
+  function uint8ToBase64(u8Arr) {
+    const CHUNK_SIZE = 0x8000; // arbitrary number
+    let index = 0;
+    let length = u8Arr.length;
+    let result = "";
+    let slice;
+    while (index < length) {
+      slice = u8Arr.subarray(index, Math.min(index + CHUNK_SIZE, length));
+      result += String.fromCharCode.apply(null, slice);
+      index += CHUNK_SIZE;
+    }
+    return btoa(result);
+  }
+  const u8Arr = new Uint8Array(location.state.data.image.data.data);
+  const base64 = uint8ToBase64(u8Arr);
   const eventDetails = {
     title: location.state.data.title,
     tags: ["Tag1", "Tag2"],
-    image:
-      "https://scontent-xsp1-1.xx.fbcdn.net/v/t39.30808-6/329209784_502472575373034_7479342537708593092_n.jpg?_nc_cat=105&ccb=1-7&_nc_sid=3635dc&_nc_ohc=cGkBYjeBeywAX-F_fNx&_nc_ht=scontent-xsp1-1.xx&oh=00_AfCgxUlCVwhIapBFmooz2sJTf4M0hmj29gxZuueVoEFFBA&oe=65C90332",
+    image: `data:image/jpeg;base64,${base64}`,
     description: location.state.data.body,
-    partner: "Partnering Company Name",
   };
 
   // Dummy data for attendees, replace it with your actual data
