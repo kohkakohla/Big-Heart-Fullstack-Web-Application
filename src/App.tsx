@@ -9,8 +9,6 @@ import Details from "./pages/Details";
 // import EventInfo from "./pages/EventInfo";
 import History from "./pages/History";
 import Profile from "./pages/Profile";
-import CardList from "./components/Volunteer/CardList";
-import Test from "./components/Volunteer/test";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
@@ -41,7 +39,7 @@ function App() {
             <Route path="/signin" element={<SignIn />} />
             <Route path="/signup" element={<SignUp />} />
             <Route path="/dashboard" element={<Dashboard />} />
-            <Route path="/cards" element={<CardTest />} />
+            <Route path="/volunteer" element={<CardTest />} />
             <Route path="/details" element={<Details />} />
             {/* <Route path="/cards/more-info" element={<EventInfo />} /> */}
             <Route path="/history" element={<History />} />
