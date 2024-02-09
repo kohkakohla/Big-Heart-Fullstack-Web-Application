@@ -1,37 +1,58 @@
+import React, { useState, useEffect } from "react";
 import Typography from "@mui/material/Typography";
 import { Container, Grid, ThemeProvider, createTheme } from "@mui/material";
 import "./css/Profile.css";
 import NavBar from "../components/Home/NavBar";
+
 const fetchData = (id: string) => {
-  fetch("http://localhost:3000/volunteer/searchById/" + id)
-    .then((response) => response.json())
-    .then((json: any[]) => {
-      const results = json;
-      return results;
+  return fetch(
+    `http://localhost:3000/volunteer/searchById/65b730a40f9ea119f5d7b1e6`
+  )
+    .then((response) => {
+      if (!response.ok) {
+        throw new Error("Network response was not ok");
+      }
+      return response.json();
+    })
+    .then((json) => {
+      return json;
+    })
+    .catch((error) => {
+      console.error("Error fetching data:", error);
     });
 };
+
 const Profile = () => {
-  // Dummy data for the user profile, replace it with your actual data
   const id = "5b730a40f9ea119f5d7b1e66";
 
-  const test = fetchData(id);
-  console.log(test);
-  const profileData = {
+  // State to hold the fetched data
+  const [profileData, setProfileData] = useState({
     profileImage: "https://i.imgur.com/YYZS3C6.png",
     username: "Your Username",
-    achievements: ["Achievement 1", "Achievement 2", "Achievement 3"],
+    achievement: ["Achievement 1", "Achievement 2", "Achievement 3"],
     aboutMe:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer quis felis nec nisi gravida aliquet eu ut mauris. Integer efficitur justo nec augue feugiat, vitae auctor neque tempor. Proin aliquet nisl a ex volutpat, ac cursus eros feugiat. Sed feugiat urna eget dictum congue.",
     expPercentage: 75,
     avatar: "https://i.imgur.com/YYZS3C6.png",
-  };
+  });
+
+  useEffect(() => {
+    fetchData(id)
+      .then((volunteer) => {
+        setProfileData(volunteer);
+      })
+      .catch((error) => {
+        console.error("error");
+      });
+  }, [id]); // Dependency array ensures useEffect runs when 'id' changes
 
   const defaultTheme = createTheme({
     typography: {
       fontFamily: ["Roboto"].join(),
     },
   });
-
+  console.log("gay");
+  console.log(profileData);
   return (
     <ThemeProvider theme={defaultTheme}>
       <NavBar />
@@ -53,7 +74,7 @@ const Profile = () => {
                 </Grid>
                 <Grid item xs={12} md={6}>
                   <Container className="achievements">
-                    {profileData.achievements.map((achievement, index) => (
+                    {profileData.achievement.map((achievement, index) => (
                       <Typography key={index} variant="body1" component="p">
                         {achievement}
                       </Typography>
