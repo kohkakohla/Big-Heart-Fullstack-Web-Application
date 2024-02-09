@@ -28,6 +28,7 @@ const schema = mongoose.Schema;
 // importing multer for image processing
 
 const multer = require('multer');
+const { EventEmitterAsyncResource } = require('events');
 const storage = multer.memoryStorage(); 
 const upload = multer({ storage: storage });
 
@@ -200,27 +201,37 @@ app.get('/leaderboard', (req,res) => {
 /**
  * request to sort volunteers based on x
  */
-app.get('/volunteer/count/special/byEvent/:eventType' , async (req, res) => {
-    try{
-       
-        const eventType = req.params.eventType
-        var count = 0
-        const v = await volunteer.find()
-        await v.forEach(async (vol) => {
 
-            if(vol.pastEnrolledServiceEvents != undefined){
-                vol.pastEnrolledServiceEvents.forEach( async (event) => {
-                    console.log('p')
-                    const e = await cEvent.findById(event)
-                    if (e && e.typeOfService){
-                        if(e.typeOfService == eventType){count++}
-            }})
-            
-        }})
-        console.log(count)
+app.get('/volunteer/count/special/byEvent/:eventType' , async (req, res) => {
+    try {
+        const eventType = req.params.eventType;
+        let count = 0;
+    
+        const v = await volunteer.find();
+    
+        const promises = v.map(async (vol) => {
+            console.log(vol.pastEnrolledServiceEvents);
+    
+            if (vol.pastEnrolledServiceEvents !== undefined) {
+                const eventPromises = vol.pastEnrolledServiceEvents.map(async (event) => {
+                    console.log(event);
+    
+                    const e = await cEvent.findById(event);
+    
+                    if (e.typeOfService === eventType) {
+                        console.log('real');
+                        count++;
+                    }
+                });
+    
+                await Promise.all(eventPromises);
+            }
+        });
+    
+        await Promise.all(promises);
+        res.json({count});
     } catch (error) {
-        console.error("Error while trying to get count of volunteers by event type ", error)
-        res.status(500).send("Internal Server Error")
+        console.error(error);
     }
 })
 
@@ -837,7 +848,7 @@ app.put('/events/:id/attendance', async (req, res) => {
                     currentEnrolledServiceEvents: eventId
                 }}
             )
-            
+
         })
         res.send("done")
 
