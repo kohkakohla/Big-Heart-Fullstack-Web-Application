@@ -22,9 +22,14 @@ const Cards: React.FC<CardsProps> = () => {
       <div style={{ backgroundColor: "#ffe9e5" }}>
         <Container
           maxWidth="xl" // Set maximum width to extra-large (xl)
-          sx={{ mt: 8, backgroundColor: "#ffe9e5", flexGrow: 1 }}
+          sx={{
+            pt: 8,
+            paddingLeft: "7% !important",
+            backgroundColor: "#ffe9e5",
+            flexGrow: 1,
+          }}
         >
-          <Box sx={{ m: 2 }}>
+          <Box sx={{ p: 2, backgroundColor: "#ffe9e5", height: "100vh" }}>
             <CardList />
           </Box>
         </Container>
