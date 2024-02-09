@@ -15,6 +15,10 @@ const achievements = new schema({
     type: Buffer,
     contentType: String,
     required: false
+  }, 
+  xp: {
+    type: Number,
+    required: true
   }
 }, {timeAchieved: true});
 const achivement = mongoose.model('achievements', achievements);
