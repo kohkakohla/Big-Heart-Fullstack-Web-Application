@@ -91,9 +91,7 @@ const Details = () => {
                 variant="body1"
                 component="p"
                 className="partner-description"
-              >
-                Partnering Company: {eventDetails.partner}
-              </Typography>
+              ></Typography>
             </Container>
           </Grid>
           <Grid item xs={2} className="button-and-attendees-wrapper">
