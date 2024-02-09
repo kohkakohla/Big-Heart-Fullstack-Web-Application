@@ -179,6 +179,23 @@ app.get('/volunteer/count/:param/:paramValue', (req,res) => {
     }
 })
 
+app.get('/leaderboard', (req,res) => {
+    try{
+        volunteer.find({}, {xp: -1, hours: -1, lastName: 1, firstName: 1}).sort({xp: -1})
+            .then((result) => {
+                console.log(result)
+                res.send(result);
+            })
+            .catch((error) => {
+                res.send(error)
+            })
+    } catch (error) {
+        console.error("Error occured while trying to find by hours ", error);
+        res.status(500).send("Internal Server Error");
+    }
+        
+})
+
 /** 
  * Get Method which returns unverfied volunteers for admins
  * @Returns all volunteer documents of those who are not verified yet
