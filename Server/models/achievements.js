@@ -1,7 +1,7 @@
-const { FamilyRestroomTwoTone } = require('@mui/icons-material');
-const { formLabelClasses } = require('@mui/material');
+
 const mongoose = require('mongoose');
 const schema = mongoose.Schema;
+
 const achievements = new schema({
   title: {
     type: String,
@@ -17,5 +17,5 @@ const achievements = new schema({
     required: false
   }
 }, {timeAchieved: true});
-const achieve = mongoose.model('achievements', achievements);
-module.exports = achieve;
+const achivement = mongoose.model('achievements', achievements);
+module.exports = achivement;
