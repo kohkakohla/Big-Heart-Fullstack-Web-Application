@@ -18,7 +18,7 @@ export default function HistoryCard() {
     <ThemeProvider theme={defaultTheme}>
       <CssBaseline />
       <main className="main-wrapper">
-        <Container sx={{ paddingTop: "4rem", backgroundColor: "#FBE3E0" }}>
+        <Container sx={{ paddingTop: "4rem`", backgroundColor: "#FBE3E0" }}>
           <Grid container justifyContent="center" spacing={2}>
             <Grid item xs={12}>
               <Card>
