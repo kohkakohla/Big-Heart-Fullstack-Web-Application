@@ -36,9 +36,10 @@ const upload = multer({ storage: storage });
 
 const app = express();
 app.use(cors());
-
+console.log('print')
+// github please work
 // Socket setup
-
+/*
 var server = app.listen(4000, function(){
     console.log('listening to request on port 4000');
 })
@@ -51,7 +52,7 @@ var io = socket(server);
 io.on('connection', function(socket){ 
     console.log('made socket connection');
 });
-
+*/
 // Implementation of body parser
 
 app.use(bodyParser.urlencoded({
