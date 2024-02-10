@@ -167,7 +167,7 @@ app.get('/volunteer/count', (req,res) => {
  * @Params {String, String} - Param and param value in the url query
  * @Returns count of documents that fit the parameters
  */
-app.get('/volunteer/count/:param/:paramValue', (req,res) => {
+app.get('/volunteer/count/a/:param/:paramValue', (req,res) => {
     try{
         const param = req.params.param;
         const paramValue = req.params.paramValue;
@@ -239,14 +239,28 @@ app.get('/volunteer/count/special/byEvent/:eventType' , async (req, res) => {
     }
 })
 
+app.get('/volunteer/count/pref/:pref', (req, res) => {
+    try{
+        const pref = req.params.pref;
+        volunteer.countDocuments({volunteerPreferences: {$in: pref}})
+            .then((count) => {
+                res.json({count})
+            })
+        
+            
+    } catch(error) {
+        console.error('Error while trying to count by pref', error )
+        res.send("Internal Server Error")
+    }
+})
 
 /** 
- * Get Method which returns unverfied volunteers for admins
+gi * Get Method which returns unverfied volunteers for admins
  * @Returns all volunteer documents of those who are not verified yet
  */
 app.get('/volunteer/unverified', (req, res) => {
     try{
-        volunteer.find({$where: "userStatus =='unverified'"})
+        volunteer.find({userStatus: 'unverified'})
         .then((result) => {
             res.send(result);
         })
@@ -344,7 +358,7 @@ app.get('/volunteer/byEvent/:id', (req, res) => {
  */
 
 app.post('/volunteer/signup', (req, res) => {
-    const { username, email, password, firstName, lastName, phoneNumber, gender, education, street, city, postalcode, dob, residentialStatus, skills, pastExperiences, volunteerPref, userRole} = req.body;
+    const { username, email, password, firstName, lastName, phoneNumber, gender, education, street, city, postalcode, dob, residentialStatus, skills, pastExperiences, volunteerPref, userRole, pastE, curE, xp, hours} = req.body;
     const v = new volunteer({
         username: username,
         email: email,
@@ -365,7 +379,11 @@ app.post('/volunteer/signup', (req, res) => {
         pastExperiences: pastExperiences,
         volunteerPreferences: volunteerPref,
         userRole: userRole,
-        userStatus: 'unverified'
+        userStatus: 'unverified',
+        pastEnrolledServiceEvents: pastE,
+        currentEnrolledServiceEvents: curE,
+        xp: xp,
+        hours: hours
          // 20% chance of being an admin
     });
     v.save() //Save and commit to the db the instance
