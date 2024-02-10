@@ -238,7 +238,11 @@ app.get('/volunteer/count/special/byEvent/:eventType' , async (req, res) => {
         console.error(error);
     }
 })
-
+/**
+ * Added a getter to count volunteer pref types
+ * @Params {String} - pref
+ * @Returns Number count
+ */
 app.get('/volunteer/count/pref/:pref', (req, res) => {
     try{
         const pref = req.params.pref;
@@ -272,7 +276,11 @@ app.get('/volunteer/unverified', (req, res) => {
     }
 })
 
-
+/**
+ * Gets users by their account status
+ * @Params {String} - status
+ * @return user documents
+ */
 app.get('/volunteer/byStatus/:status', (req, res) => {
     try{
         const status = req.params.status;
@@ -359,41 +367,50 @@ app.get('/volunteer/byEvent/:id', (req, res) => {
 
 app.post('/volunteer/signup', (req, res) => {
     const { username, email, password, firstName, lastName, phoneNumber, gender, education, street, city, postalcode, dob, residentialStatus, skills, pastExperiences, volunteerPref, userRole, pastE, curE, xp, hours} = req.body;
-    const v = new volunteer({
-        username: username,
-        email: email,
-        password: password,
-        firstName: firstName,
-        lastName: lastName,
-        phoneNumber: phoneNumber,
-        gender: gender,
-        education: education,
-        address: {
-            street: street,
-            city: city,
-            zipCode: postalcode,
-        },
-        dateOfBirth: dob, //kiv
-        residentialStatus: residentialStatus,
-        skills: skills,
-        pastExperiences: pastExperiences,
-        volunteerPreferences: volunteerPref,
-        userRole: userRole,
-        userStatus: 'unverified',
-        pastEnrolledServiceEvents: pastE,
-        currentEnrolledServiceEvents: curE,
-        xp: xp,
-        hours: hours
-         // 20% chance of being an admin
-    });
-    v.save() //Save and commit to the db the instance
-        .then(
-            res.send("Registered") 
-        )
-        .catch((err) => {
-            console.log(err)
+    const unique = volunteer.find({username: username})
+    const emailUnique = volunteer.find({email: email})
+    if(!unique && !emailUnique){
+        const v = new volunteer({
+            username: username,
+            email: email,
+            password: password,
+            firstName: firstName,
+            lastName: lastName,
+            phoneNumber: phoneNumber,
+            gender: gender,
+            education: education,
+            address: {
+                street: street,
+                city: city,
+                zipCode: postalcode,
+            },
+            dateOfBirth: dob, //kiv
+            residentialStatus: residentialStatus,
+            skills: skills,
+            pastExperiences: pastExperiences,
+            volunteerPreferences: volunteerPref,
+            userRole: userRole,
+            userStatus: 'unverified',
+            pastEnrolledServiceEvents: pastE,
+            currentEnrolledServiceEvents: curE,
+            xp: xp,
+            hours: hours
+            // 20% chance of being an admin
         });
+        v.save() //Save and commit to the db the instance
+            .then(
+                res.send("Registered") 
+            )
+            .catch((err) => {
+                console.log(err)
+            });
+   
+    } else{
+        res.send("username or email is already taken")
+    }
+    
 })
+
 /**
  * Updates a volunteer generic param
  * @Params {String, String, String} - volunteer, param to update and the updateValue
