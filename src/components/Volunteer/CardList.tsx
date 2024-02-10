@@ -7,8 +7,11 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import { styled } from "@mui/system";
 import { CardActions } from "@mui/material";
+import { useNavigate } from "react-router-dom";
+
 function CardList() {
   const [listItems, setListItems] = useState([]);
+  const navigate = useNavigate();
 
   function uint8ToBase64(u8Arr) {
     const CHUNK_SIZE = 0x8000; // arbitrary number
@@ -23,6 +26,10 @@ function CardList() {
     }
     return btoa(result);
   }
+
+  const handleLearnMore = (item) => {
+    navigate("/details", { state: { data: item } });
+  };
 
   useEffect(() => {
     async function fetchData() {
@@ -49,7 +56,9 @@ function CardList() {
                   </Typography>
                 </CardContent>
                 <CardActions>
-                  <Button size="small">Learn More</Button>
+                  <Button size="small" onClick={() => handleLearnMore(item)}>
+                    Learn More
+                  </Button>
                 </CardActions>
               </Card>
             </Grid>

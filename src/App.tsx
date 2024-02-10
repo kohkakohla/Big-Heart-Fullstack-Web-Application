@@ -6,6 +6,7 @@ import SignUp from "./pages/Signup";
 import SignIn from "./pages/SignIn";
 import CardTest from "./pages/Opportunities";
 import Details from "./pages/Details";
+import Ignore from "./pages/ignore";
 // import EventInfo from "./pages/EventInfo";
 import History from "./pages/History";
 import Profile from "./pages/Profile";
@@ -43,6 +44,7 @@ function App() {
             {/* <Route path="/cards/more-info" element={<EventInfo />} /> */}
             <Route path="/history" element={<History />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/error" element={<Ignore />} />
           </Routes>
         </BrowserRouter>
       </ThemeProvider>
