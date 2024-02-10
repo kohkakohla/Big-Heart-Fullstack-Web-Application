@@ -51,9 +51,9 @@ function Volunteers() {
           }
         });
         await Promise.all(promises);
-        console.log(eventDetails);
+        // console.log(eventDetails);
         setEvents(eventDetails);
-        console.log("success");
+        // console.log("success");
       } catch (error) {
         console.error("Error fetching volunteer details:", error);
       }

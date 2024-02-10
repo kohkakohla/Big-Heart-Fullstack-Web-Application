@@ -63,7 +63,6 @@ const Profile = () => {
   if (profileData.achievement.length == 0) {
     profileData.achievement = ["zaza", "badoink", "ahhh"];
   }
-
   if (!profileData.aboutMe) {
     profileData.aboutMe = "Hi I love volunteering! and horses :)";
   }

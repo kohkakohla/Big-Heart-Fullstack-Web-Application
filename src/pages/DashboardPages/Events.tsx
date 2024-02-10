@@ -58,7 +58,7 @@ function Events() {
   }, []);
 
   const defaultTheme = createTheme();
-  console.log(volunteers);
+  //   console.log(volunteers);
   return (
     <ThemeProvider theme={defaultTheme}>
       <Button
