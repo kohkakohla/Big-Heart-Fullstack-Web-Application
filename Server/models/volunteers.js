@@ -14,11 +14,13 @@ const volunteerSchema =  new schema({
     // if isAdmin then will have access to admin pages
     username: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     },
     email: {
       type: String,
-      required: true
+      required: true,
+      unique: true
     },
     password: {
       type: String,
@@ -89,7 +91,7 @@ const volunteerSchema =  new schema({
         enum: ['unverified', 'active', 'inactive', 'banned', 'deleted'],
         required: true
     },
-    PersonalityResult: {
+    personalityResult: {
       type: String,
       enum: ["Selfless Skid", "Social Siloca", "Natural Aurten", "Hands-on Dhan", "Admirable Lamina"],
       required: false
