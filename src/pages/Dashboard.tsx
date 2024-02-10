@@ -50,6 +50,22 @@ interface AppBarProps extends MuiAppBarProps {
   open?: boolean;
 }
 
+// Create a theme with the specified color scheme
+const customTheme = createTheme({
+  palette: {
+    primary: {
+      main: '#F47C7C',
+    },
+    secondary: {
+      main: '#EF9F9F',
+    },
+    background: {
+      default: '#FFF2F2', // Lightest color as main background
+      paper: '#FAD4D4',
+    },
+  },
+});
+
 const AppBar = styled(MuiAppBar, {
   shouldForwardProp: (prop) => prop !== "open",
 })<AppBarProps>(({ theme, open }) => ({
@@ -58,6 +74,7 @@ const AppBar = styled(MuiAppBar, {
     easing: theme.transitions.easing.sharp,
     duration: theme.transitions.duration.leavingScreen,
   }),
+  backgroundColor: theme.palette.primary.main, // Setting the background color to primary color
   ...(open && {
     marginLeft: drawerWidth,
     width: `calc(100% - ${drawerWidth}px)`,
@@ -80,6 +97,7 @@ const Drawer = styled(MuiDrawer, {
       duration: theme.transitions.duration.enteringScreen,
     }),
     boxSizing: "border-box",
+    backgroundColor: theme.palette.background.paper, // Setting the background color to paper color
     ...(!open && {
       overflowX: "hidden",
       transition: theme.transitions.create("width", {
@@ -94,9 +112,6 @@ const Drawer = styled(MuiDrawer, {
   },
 }));
 
-// TODO remove, this demo shouldn't need to reset the theme.
-const defaultTheme = createTheme();
-
 export default function Dashboard() {
   const [open, setOpen] = React.useState(true);
   const toggleDrawer = () => {
@@ -104,7 +119,7 @@ export default function Dashboard() {
   };
 
   return (
-    <ThemeProvider theme={defaultTheme}>
+    <ThemeProvider theme={customTheme}>
       <NavBar></NavBar>
       <Box sx={{ display: "flex" }}>
         <CssBaseline />
