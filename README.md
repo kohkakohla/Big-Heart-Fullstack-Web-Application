@@ -43,7 +43,7 @@ This project is a full-stack volunteer management website developed for BigAtHea
 - MongoDB
 - Express.js
 - Mongoose
-- WebSocket.io
+- WebSocket.io ( soon to be implemented )
 
 ## Features
 
