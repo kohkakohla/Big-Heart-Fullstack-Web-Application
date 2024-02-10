@@ -117,6 +117,10 @@ const volunteerSchema =  new schema({
     achievement: {
       type: [achievements],
       required: false
+    },
+    image: {
+      data: Buffer,
+      contentType: String
     }
 
   });
