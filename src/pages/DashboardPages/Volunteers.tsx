@@ -53,7 +53,7 @@ function Volunteers() {
         await Promise.all(promises);
         // console.log(eventDetails);
         setEvents(eventDetails);
-        // console.log("success");
+        console.log("success");
       } catch (error) {
         console.error("Error fetching volunteer details:", error);
       }
@@ -61,6 +61,8 @@ function Volunteers() {
 
     fetchData();
   }, []);
+  // console.log(volunteers[3]?.pastEnrolledServiceEvents);
+  // console.log(volunteers[0].id);
   const defaultTheme = createTheme();
   return (
     <ThemeProvider theme={defaultTheme}>
@@ -88,9 +90,9 @@ function Volunteers() {
                   </Typography>
                   <Typography>Past enrolled events:</Typography>
                   <ul>
-                    {volunteer.pastEnrolledServiceEvents.map(
+                    {volunteer?.pastEnrolledServiceEvents.map(
                       (eventID: string, index: number) => (
-                        <li key={index}>{events[eventID].title}</li>
+                        <li key={index}>{events[eventID]?.title}</li>
                       )
                     )}
                   </ul>

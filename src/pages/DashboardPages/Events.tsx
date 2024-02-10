@@ -41,11 +41,20 @@ function Events() {
       const volunteerDetails: { [key: string]: Volunteer } = {};
       try {
         const promises = volunteerIds.map(async (id) => {
-          const response = await fetch(
-            `http://localhost:3000/volunteer/searchById/${id}`
-          );
-          const volunteer = await response.json();
-          volunteerDetails[id] = volunteer;
+          try {
+            const response = await fetch(
+              `http://localhost:3000/volunteer/searchById/${id}`
+            );
+            const volunteer = await response.json();
+            volunteerDetails[id] = volunteer;
+          } catch (error) {
+            console.error(`Error fetching volunteer with ID ${id}:`, error);
+            // Handle the error gracefully, e.g., set a default value
+            volunteerDetails[id] = {
+              firstName: "Unknown",
+              lastName: "Volunteer",
+            };
+          }
         });
         await Promise.all(promises);
         setVolunteers(volunteerDetails);
@@ -53,7 +62,6 @@ function Events() {
         console.error("Error fetching volunteer details:", error);
       }
     }
-
     fetchEvents();
   }, []);
 
