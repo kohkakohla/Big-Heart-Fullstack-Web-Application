@@ -31,9 +31,7 @@ export function MainListItems() {
         <ListItemText primary="Volunteers" />
       </ListItemButton>
       <ListItemButton
-        onClick={() =>
-          (window.location.href = "http://localhost:3000/events/fetchNoImage")
-        }
+        onClick={() => (window.location.href = "/dashboard/events")}
       >
         <ListItemIcon>
           <PeopleIcon />

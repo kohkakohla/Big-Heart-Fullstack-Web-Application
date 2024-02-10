@@ -30,7 +30,7 @@ export function CollapsibleExample() {
         >
           <Nav className="me-auto">
             <Nav.Link href="/dashboard" className="nav-text">
-              About
+              Dashboard
             </Nav.Link>
             <Nav.Link href="/volunteer" className="nav-text">
               Volunteer

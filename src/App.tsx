@@ -11,6 +11,7 @@ import Ignore from "./pages/ignore";
 import History from "./pages/History";
 import Profile from "./pages/Profile";
 import Volunteers from "./pages/DashboardPages/Volunteers";
+import Events from "./pages/DashboardPages/Events";
 import "@fontsource/roboto/300.css";
 import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
@@ -41,6 +42,7 @@ function App() {
             <Route path="/signup" element={<SignUp />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/dashboard/volunteers" element={<Volunteers />} />
+            <Route path="/dashboard/events" element={<Events />} />
             <Route path="/volunteer" element={<CardTest />} />
             <Route path="/details" element={<Details />} />
             {/* <Route path="/cards/more-info" element={<EventInfo />} /> */}
