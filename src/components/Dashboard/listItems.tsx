@@ -23,9 +23,7 @@ export function MainListItems() {
         <ListItemText primary="Dashboard" />
       </ListItemButton>
       <ListItemButton
-        onClick={() =>
-          (window.location.href = "http://localhost:3000/volunteer/all")
-        }
+        onClick={() => (window.location.href = "/dashboard/volunteers")}
       >
         <ListItemIcon>
           <ShoppingCartIcon />
@@ -34,7 +32,7 @@ export function MainListItems() {
       </ListItemButton>
       <ListItemButton
         onClick={() =>
-          (window.location.href = "http://localhost:3000/events/getAll")
+          (window.location.href = "http://localhost:3000/events/fetchNoImage")
         }
       >
         <ListItemIcon>

@@ -31,7 +31,8 @@
     font-size: larger !important;
 }
 
-.partner-description {
+.details-container {
+    padding:10rem;
 }
 
 .button-and-attendees-wrapper {
