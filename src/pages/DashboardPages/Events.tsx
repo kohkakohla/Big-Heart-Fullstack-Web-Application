@@ -6,29 +6,39 @@ import Typography from "@mui/material/Typography";
 import { useNavigate } from "react-router-dom";
 import { Button, ThemeProvider, createTheme } from "@mui/material";
 
+interface Volunteer {
+  _id: string;
+  firstName: string;
+  lastName: string;
+  // Add other properties if needed
+}
+
 function Events() {
-  const [events, setEvents] = useState([]);
-  const [volunteers, setVolunteers] = useState({});
+  const [events, setEvents] = useState<any[]>([]);
+  const [volunteers, setVolunteers] = useState<{ [key: string]: Volunteer }>(
+    {}
+  );
   const navigate = useNavigate();
 
   useEffect(() => {
-    async function fetchData() {
+    async function fetchEvents() {
       try {
         const response = await fetch(
           "http://localhost:3000/events/fetchNoImage"
         );
         const data = await response.json();
         setEvents(data);
+        fetchVolunteers(data);
       } catch (error) {
-        console.error("Error:", error);
+        console.error("Error fetching events:", error);
       }
     }
 
-    async function fetchVolunteers(eventsData) {
+    async function fetchVolunteers(eventsData: any[]) {
       const volunteerIds = eventsData.flatMap(
         (event) => event.current_volunteers
       );
-      const volunteerDetails = {};
+      const volunteerDetails: { [key: string]: Volunteer } = {};
       try {
         const promises = volunteerIds.map(async (id) => {
           const response = await fetch(
@@ -44,12 +54,11 @@ function Events() {
       }
     }
 
-    fetchData();
-    fetchVolunteers(events);
+    fetchEvents();
   }, []);
 
   const defaultTheme = createTheme();
-
+  console.log(volunteers);
   return (
     <ThemeProvider theme={defaultTheme}>
       <Button
@@ -76,12 +85,14 @@ function Events() {
                 <Typography variant="body2" color="text.secondary">
                   {event.current_volunteers.length > 0 && (
                     <ul>
-                      {event.current_volunteers.map((volunteerId, index) => (
-                        <li key={index}>
-                          {volunteers[volunteerId]?.firstName}{" "}
-                          {volunteers[volunteerId]?.lastName}
-                        </li>
-                      ))}
+                      {event.current_volunteers.map(
+                        (volunteerId: string, index: number) => (
+                          <li key={index}>
+                            {volunteers[volunteerId]?.firstName}{" "}
+                            {volunteers[volunteerId]?.lastName}
+                          </li>
+                        )
+                      )}
                     </ul>
                   )}
                 </Typography>
