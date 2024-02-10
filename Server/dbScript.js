@@ -36,7 +36,6 @@ const upload = multer({ storage: storage });
 
 const app = express();
 app.use(cors());
-console.log('print')
 // github please work
 // Socket setup
 /*
@@ -260,7 +259,7 @@ app.get('/volunteer/count/pref/:pref', (req, res) => {
 })
 
 /** 
-gi * Get Method which returns unverfied volunteers for admins
+* Get Method which returns unverfied volunteers for admins
  * @Returns all volunteer documents of those who are not verified yet
  */
 app.get('/volunteer/unverified', (req, res) => {
@@ -366,11 +365,23 @@ app.get('/volunteer/byEvent/:id', (req, res) => {
  * Update volunter information
  */
 
-app.post('/volunteer/signup', (req, res) => {
-    const { username, email, password, firstName, lastName, phoneNumber, gender, education, street, city, postalcode, dob, residentialStatus, skills, pastExperiences, volunteerPref, userRole, pastE, curE, xp, hours} = req.body;
-    const unique = volunteer.find({username: username})
-    const emailUnique = volunteer.find({email: email})
-    if(!unique && !emailUnique){
+app.post('/volunteer/signup', upload.single('image'),  async (req, res) => {
+    try{
+        var { username, email, password, firstName, lastName, phoneNumber, houseNumber, gender, education, street, city, postalcode, dob, residentialStatus, skills, pastExperiences, volunteerPref, userRole, } = req.body;
+        hours = parseInt(hours, 10);
+        street = String(street);
+        city = String(city);
+        houseNumber = String(houseNumber);
+        postalcode = String(postalcode);
+        volunteerPref = JSON.parse(volunteerPref)
+        const imageBuffer = req.file.buffer; // translates this to binary
+        /*
+        try{
+            const imageBuffer = req.file.buffer;
+        } catch {
+            const imageBuffer = null;
+        }
+        */
         const v = new volunteer({
             username: username,
             email: email,
@@ -383,7 +394,8 @@ app.post('/volunteer/signup', (req, res) => {
             address: {
                 street: street,
                 city: city,
-                zipCode: postalcode,
+                postal_code: postalcode,
+                houseNumber: houseNumber
             },
             dateOfBirth: dob, //kiv
             residentialStatus: residentialStatus,
@@ -392,24 +404,30 @@ app.post('/volunteer/signup', (req, res) => {
             volunteerPreferences: volunteerPref,
             userRole: userRole,
             userStatus: 'unverified',
-            pastEnrolledServiceEvents: pastE,
-            currentEnrolledServiceEvents: curE,
-            xp: xp,
-            hours: hours
-            // 20% chance of being an admin
-        });
-        v.save() //Save and commit to the db the instance
-            .then(
-                res.send("Registered") 
-            )
-            .catch((err) => {
-                console.log(err)
+            xp: 0,
+            hours: 0,
+            personalityResult: pResult,
+
             });
-   
-    } else{
-        res.send("username or email is already taken")
+            v.save() //Save and commit to the db the instance
+                .then(
+                    res.send("Registered") 
+                )
+                .catch((err) => {
+                    console.log(err)
+                });
+    
+        }  catch (err) {
+        console.error("Error while trying to sign up a new volunteer", err);
+        res.status(500).send(err)
     }
     
+})
+
+app.delete('/delete/all', (req,res) => {
+    volunteer.deleteMany({})
+    .then(res.send('its beend one'))
+    .catch((err) => res.send(err))
 })
 
 /**
@@ -642,6 +660,8 @@ app.get('/events/searchByName/:title',  (req, res) =>{
     }
 })
 
+
+
 /**
  * Fetch event page by id
  * @Params {String} - id, unique objectid for each event
@@ -656,6 +676,8 @@ app.get('/events/:id', (req, res) => {
         })
         .catch((err) => console.log(err));
 })
+
+
 
 /**
  * @cEvent functions for posting
@@ -693,9 +715,7 @@ app.post('/events/createNew', upload.single('image'), async (req, res) => {
         city = String(city);
         houseNumber = String(houseNumber);
         zipCode = String(zipCode);
-        console.log(req.file);
         const imageBuffer = req.file.buffer; // translates this to binary
-        console.log(req.body);
         // create new object
         
         const ev = new cEvent({ 
@@ -748,10 +768,10 @@ app.post('/events/createNew', upload.single('image'), async (req, res) => {
 app.put('/events/addVolunteer', async (req, res) => {
     try{
         const {volID, eventID} = req.body;
-        await cEvent.updateOne({_id: eventID}, {$push: {current_volunteers: volID} });
+        await cEvent.updateOne({_id: eventID}, {$push: {current_volunteers: volID} })
         await volunteer.updateOne({_id: volID}, {$push: {currentEnrolledServiceEvents: eventID} })
-            .then((result) => res.send('all good'));
-        
+           .then((result) => res.send('all good'));
+            
     } catch (error) {
         console.error('Error during update volunteer query: ', error);
         res.status(500).send('Internal Server Error');
@@ -765,10 +785,11 @@ app.put('/events/addVolunteer', async (req, res) => {
  * @Params {String, String} - EventID, volunteerID
  * @Returns a DB commit to removing said volunteer
  */
-app.put('/events/removeVolunteer', (req, res) => {
+app.put('/events/removeVolunteer', async (req, res) => {
     try{
         const {eventID, volID} = req.body;
-        cEvent.updateOne({_id: eventID}, {$pull: {current_volunteers: volID}})
+        await cEvent.updateOne({_id: eventID}, {$pull: {current_volunteers: volID}});
+        await volunteer.updateOne({_id: volID}, {$pull: {currentEnrolledServiceEvents: eventID}})
             .then((result) => {
                 res.send(result)
             })
@@ -945,6 +966,7 @@ app.delete('/events/:eventId/delete/comment/:commentId', (req, res) => {
         res.send(error);
     }
 });
+
 
 /**
  * @feedback getting feedback for event
